@@ -67,3 +67,17 @@ background: #ccc;
         border: 1px solid #ccc;  
     }
 }
+
+#mainContent {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.anItem {
+    vertical-align: top;
+    display: inline-block;
+    width: 100px;
+    max-width: 100%;
+    margin: 10px;
+    white-space: pre;
+}

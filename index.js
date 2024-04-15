@@ -36,3 +36,10 @@ class Item {
         $('#mainContent').append(elemDiv);
     }
 }
+
+window.onload = (event) => {
+    for (var i = 1; i <= 20; i++) {
+        const myItem = new Item("Book"+i, "John", "Downtown", "book.jpg");
+        myItem.displayItem();
+    }
+};
