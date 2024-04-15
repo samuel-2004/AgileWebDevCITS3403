@@ -25,21 +25,35 @@
       </div>
     </div>
     
+    <br>
     <!-- The following form was derived from https://getbootstrap.com/docs/4.0/components/forms/? -->
     <!-- To be updated shortly -->
     <div class="container">
       <form>
         <div class="form-group row">
-          <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="staticEmail" value="email@example.com">
+          <label for="nameSearch" class="col-sm-3 col-form-label">What are you looking for?</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="nameSearch" placeholder="Search for anything">
           </div>
         </div>
         <div class="form-group row">
-          <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-          <div class="col-sm-10">
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+          <label for="maxDistance" class="col-sm-3 col-form-label">Max distance</label>
+          <div class="col-sm-8">
+            <input type="range" id="maxDistance" class="form-control" value="5" min="1" max="25" oninput="this.parentElement.nextElementSibling.childNodes[0].value = this.value + 'km'">
           </div>
+          <div class="col-sm-1" id="maxDistanceDisplay"><output>5km</output></div>
+        </div>
+        <div class="form-group row">
+          <label for="sortOrder" class="col-sm-3 col-form-label">Sort</label>
+          <div class="col-sm-9">
+            <select id="sortOrder" class="form-control">
+              <option selected>Choose...</option>
+              <option>...</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-2">Search</button>
         </div>
       </form>
     </div>
@@ -50,7 +64,7 @@
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <p class="col-md-4 mb-0 text-muted">&copy; 2024 Company, Inc</p>
 
-        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
         </a>
 
