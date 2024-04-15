@@ -16,7 +16,7 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
       <a href="login.html">Login</a>
-      <a class="active" href="#login">Search</a>
+      <a class="active" href="search.html">Search</a>
       <div class="search-container">
           <form action="/action_page.php">
           <input type="text" placeholder="Search.." name="search">
@@ -44,11 +44,14 @@
           <div class="col-sm-1" id="maxDistanceDisplay"><output>5km</output></div>
         </div>
         <div class="form-group row">
-          <label for="sortOrder" class="col-sm-3 col-form-label">Sort</label>
+          <label for="sortOrder" class="col-sm-3 col-form-label">Sort by</label>
           <div class="col-sm-9">
             <select id="sortOrder" class="form-control">
               <option selected>Choose...</option>
-              <option>...</option>
+              <option>Newest</option>
+              <option>Oldest</option>
+              <option>Closest</option>
+              <option>Vendor rating</option>
             </select>
           </div>
         </div>
