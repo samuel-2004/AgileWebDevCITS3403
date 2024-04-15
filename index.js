@@ -38,8 +38,17 @@ class Item {
 }
 
 window.onload = (event) => {
+    //The following code is temporary and used for debugging
+    //Create a generic list of items
+    //this will need to change to GET information from server
+    const itemsList = [];
     for (var i = 1; i <= 20; i++) {
-        const myItem = new Item("Book"+i, "John", "Downtown", "book.jpg");
-        myItem.displayItem();
+        itemsList.push(new Item("Book"+i, "John", "Downtown", "book.jpg"));
     }
+
+    //If home page: display all
+    //If search page: only display items that fit the search criteria
+    $.each(itemsList, function( index, item ) {
+        item.displayItem();
+    });
 };
