@@ -17,7 +17,11 @@ class Item {
 
         // Create an image element
         const img = document.createElement("img");
-        img.src = this.imageref;
+        if (this.imageref != "") {
+            img.src = this.imageref;
+        } else {
+            img.src = "book.jpg";
+        }
 
         // Create paragraph elements for name, suburb, and who
         const text = document.createElement("p");
