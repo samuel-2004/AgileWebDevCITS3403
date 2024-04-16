@@ -4,6 +4,7 @@ class Item {
         this.who = who;
         this.suburb = suburb;
         this.imageref = ref;
+        this.timestamp = timestamp;
     }
     displayItem() {
         // Create a div element
@@ -42,8 +43,10 @@ window.onload = (event) => {
     //Create a generic list of items
     //this will need to change to GET information from server
     const itemsList = [];
-    for (var i = 1; i <= 20; i++) {
-        itemsList.push(new Item("Book"+i, "John", "Downtown", "book.jpg"));
+    for (var i = 0; i < 20; i++) {
+        console.log(i);
+        console.log(li[i]);
+        itemsList.push(new Item(li[i].name, li[i].who, li[i].suburb, li[i].imageref, li[i].timestamp));
     }
 
     //If home page: display all
