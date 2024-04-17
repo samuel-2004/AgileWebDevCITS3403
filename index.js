@@ -1,5 +1,6 @@
 class Item {
-    constructor(name, who, suburb, ref, timestamp) {
+    constructor(idNumber, name, who, suburb, ref, timestamp) {
+        this.idNumber = idNumber;
         this.name = name;
         this.who = who;
         this.suburb = suburb;
@@ -29,6 +30,11 @@ class Item {
         } else {
             img.src = "book.jpg"; //default
         }
+
+        //Add a link to go to the item's page
+        elemDiv.addEventListener('click', function() {
+            window.location.href = "./item?"+this.idNumber;
+        });
 
         // Create paragraph elements for name, suburb, and who
         const text = document.createElement("p");
@@ -82,18 +88,21 @@ function sortItems(itemsList, order) {
 }
 
 window.onload = (event) => {
+    //Get page name
+    var path = window.location.pathname;
+    var page = path.split("/").pop();
+
+    //var where=document.getElementById("where").value
+
     //The following code is temporary and used for debugging
     //Create a generic list of items
     //this will need to change to GET information from server
     const itemsList = [];
     for (var i = 0; i < 20; i++) {
-        itemsList.push(new Item(li[i].name, li[i].who, li[i].suburb, li[i].imageref, li[i].timestamp));
+        itemsList.push(new Item(li[i].id, li[i].name, li[i].who, li[i].suburb, li[i].imageref, li[i].timestamp));
     }
 
     //Sort the list
-    var path = window.location.pathname;
-    var page = path.split("/").pop();
-    console.log(page);
     var order = "newest"
     if (page == "index.html") {
         order = "newest";
