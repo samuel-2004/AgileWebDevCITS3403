@@ -1,6 +1,6 @@
 This web application is designed to do blank. This readme will be updated later.
 
-Student Number | Student Name
+Student Number | Student Name | GitHub Username
 --- | --- | --- 
 23361516 | Matthew Pfleger | MattPfleger
 23366527 | Samuel Lewis  | samuel-2004
