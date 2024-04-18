@@ -1,16 +1,26 @@
-This web application is designed to do blank. This readme will be updated later.
+# Buy Nothing (rename)
+This web application for a "Buy Nothing" page. 
+Users can submit items they wish to give away to others.
+They can also see what items others have posted to the website and make a request for them.
+This readme will be updated later.
 
-Student Number | Student Name
---- | --- 
-23361516 | Matthew Pfleger
-23366527 | Samuel Lewis 
-23403302 | Johnson Che
-23409801 | Joel Brooker
+# Team Members
+Student Number | Student Name | GitHub Username
+--- | --- | --- 
+23361516 | Matthew Pfleger | MattPfleger
+23366527 | Samuel Lewis  | samuel-2004
+23403302 | Johnson Che | Johnny-2003
+23409801 | Joel Brooker | j-brkr
 
+# Summary
 Here will be a brief summary of the architecture of the application.
 
-Here will be instructions for how to launch the application.
+# How to launch
+To launch the application, perform the following steps:
+1. Download the application `https://github.com/samuel-2004/AgileWebDevCITS3403/archive/refs/heads/main.zip`
+2. Unzip the application
+3. Ensure that flask is installed with `pip show flask`
+4. Run the following command `flask --app app run`
 
+# Testing Instructions
 Here will be instructions for how to run the tests for the application.
-
-Hello world!
