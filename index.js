@@ -1,6 +1,15 @@
 /*
-File descriptor
+This JavaScript code defines a class called Item, which represents items on offer.
+These items are retreieved with a get request from the server.
+The JSON provided by the server is parsed into these objects for easier manipulation.
+The class method `displayItem` creates an HTML element to be displayed.
 
+Also contained in this file is a method to sort the items based on an input order.
+This saves the server from doing this, reducing the load.
+
+The code also includes a window onload event listener that displays the items onto the page.
+
+Note: The code uses jQuery for DOM manipulation.
 */
 
 class Item {
