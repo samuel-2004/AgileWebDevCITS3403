@@ -37,10 +37,13 @@ class Item {
         }
 
         //Add a link to go to the item's page
-        elemDiv.addEventListener('click', function() {
-            var x = "./item.html?"+this.nID;
-            console.log(x);
-            window.location.href = x;
+        elemDiv.addEventListener('click', (e) => {
+            var ref = "./item.html?" + this.nID;
+            if(e.ctrlKey || e.metaKey){
+                window.open(ref, "_blank");
+            } else {
+                location.href = ref;   
+            }
         });
 
         // Create paragraph elements for name, suburb, and who
