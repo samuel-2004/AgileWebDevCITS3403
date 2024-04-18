@@ -1,6 +1,11 @@
+/*
+File descriptor
+
+*/
+
 class Item {
-    constructor(idNumber, name, who, suburb, ref, timestamp) {
-        this.idNumber = idNumber;
+    constructor(nID, name, who, suburb, ref, timestamp) {
+        this.nID = nID;
         this.name = name;
         this.who = who;
         this.suburb = suburb;
@@ -33,7 +38,9 @@ class Item {
 
         //Add a link to go to the item's page
         elemDiv.addEventListener('click', function() {
-            window.location.href = "./item?"+this.idNumber;
+            var x = "./item.html?"+this.nID;
+            console.log(x);
+            window.location.href = x;
         });
 
         // Create paragraph elements for name, suburb, and who
@@ -98,8 +105,9 @@ window.onload = (event) => {
     //Create a generic list of items
     //this will need to change to GET information from server
     const itemsList = [];
+    li = JSON.parse('[{"nID":87241,"name":"Rice Cooker","who":"John Smith","suburb":"Downtown","imageref":"","timestamp":1679776345},{"nID":52379,"name":"Smartphone","who":"Emily Johnson","suburb":"Midtown","imageref":"","timestamp":1679818345},{"nID":10294,"name":"Laptop","who":"Michael Brown","suburb":"Uptown","imageref":"","timestamp":1679762345},{"nID":40957,"name":"Bicycle","who":"Sarah Davis","suburb":"Eastside","imageref":"","timestamp":1679790345},{"nID":78526,"name":"Television","who":"DavnID Wilson","suburb":"Westside","imageref":"","timestamp":1679720345},{"nID":63081,"name":"Coffee Maker","who":"Jessica Martinez","suburb":"Downtown","imageref":"","timestamp":1679804345},{"nID":21789,"name":"Headphones","who":"Christopher Lee","suburb":"Midtown","imageref":"","timestamp":1679748345},{"nID":95873,"name":"Backpack","who":"Jennifer Thompson","suburb":"Uptown","imageref":"","timestamp":1679734345},{"nID":37402,"name":"Digital Camera","who":"Daniel Garcia","suburb":"Eastside","imageref":"","timestamp":1679822345},{"nID":69023,"name":"Printer","who":"Olivia Hernandez","suburb":"Westside","imageref":"","timestamp":1679706345},{"nID":18396,"name":"Blender","who":"William Rodriguez","suburb":"Downtown","imageref":"","timestamp":1679692345},{"nID":54127,"name":"Smart Watch","who":"Ava Wilson","suburb":"Midtown","imageref":"","timestamp":1679678345},{"nID":76258,"name":"Gaming Console","who":"Ethan Moore","suburb":"Uptown","imageref":"","timestamp":1679664345},{"nID":89501,"name":"Tablet","who":"Sophia Anderson","suburb":"Eastside","imageref":"","timestamp":1679650345},{"nID":32095,"name":"Microwave Oven","who":"James Taylor","suburb":"Westside","imageref":"","timestamp":1679636345},{"nID":61478,"name":"Fitness Tracker","who":"Mia Thomas","suburb":"Downtown","imageref":"","timestamp":1679622345},{"nID":94602,"name":"Portable Speaker","who":"Benjamin White","suburb":"Midtown","imageref":"","timestamp":1679608345},{"nID":25814,"name":"Vacuum Cleaner","who":"Isabella Martinez","suburb":"Uptown","imageref":"","timestamp":1679594345},{"nID":70183,"name":"Kitchen Scale","who":"Alexander Johnson","suburb":"Eastside","imageref":"","timestamp":1679580345},{"nID":18347,"name":"Digital Watch","who":"Charlotte Brown","suburb":"Westside","imageref":"","timestamp":1679566345}]');
     for (var i = 0; i < 20; i++) {
-        itemsList.push(new Item(li[i].id, li[i].name, li[i].who, li[i].suburb, li[i].imageref, li[i].timestamp));
+        itemsList.push(new Item(li[i].nID, li[i].name, li[i].who, li[i].suburb, li[i].imageref, li[i].timestamp));
     }
 
     //Sort the list
