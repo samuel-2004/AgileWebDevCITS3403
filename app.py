@@ -5,9 +5,9 @@ from os.path import join as os_join, dirname as os_dirname, exists as os_pathexi
 
 app = Flask(__name__)
 
-@app.route('/', methods=('GET'))
-@app.route('/index', methods=('GET'))
-@app.route('/index.html', methods=('GET'))
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
+@app.route('/index.html', methods=['GET'])
 def index():
     return render_template('index.html')
 
@@ -16,8 +16,8 @@ def index():
 def advancedSearch():
     return render_template('advancedsearch.html')
 
-@app.route('/search', methods=('GET'))
-@app.route('/search.html', methods=('GET'))
+@app.route('/search', methods=['GET'])
+@app.route('/search.html', methods=['GET'])
 def search():
     return render_template('search.html')
 
