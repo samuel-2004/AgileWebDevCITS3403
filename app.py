@@ -1,11 +1,13 @@
 from flask import Flask, render_template, send_from_directory
+import sqlite3
+#Since we are using os, avoid importing as much as possible
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
 app = Flask(__name__)
 
-@app.route('/')
-@app.route('/index')
-@app.route('/index.html')
+@app.route('/', methods=('GET'))
+@app.route('/index', methods=('GET'))
+@app.route('/index.html', methods=('GET'))
 def index():
     return render_template('index.html')
 
@@ -14,12 +16,12 @@ def index():
 def advancedSearch():
     return render_template('advancedsearch.html')
 
-@app.route('/search')
-@app.route('/search.html')
+@app.route('/search', methods=('GET'))
+@app.route('/search.html', methods=('GET'))
 def search():
     return render_template('search.html')
 
-# Try the main directory that
+# Try the main directory if a file is not found in the root branch
 @app.route('/<path:filename>')
 def get_file(filename):
     # Check if the file exists in the original directory
@@ -35,6 +37,31 @@ def get_file(filename):
 
     # If the file is not found in either location, return a 404 error
     return "File not found", 404
+
+'''
+con = sqlite3.connect("tutorial.db")
+cur = con.cursor()
+cur.execute("CREATE TABLE movie(title, year, score)")
+command = ""
+cur.execute(command)
+#if insert:
+con.commit()
+con.close() #finish with this
+
+for row in cur.execute("SELECT year, title FROM movie ORDER BY year"):
+    print(row)
+
+data = [
+    ("Monty Python Live at the Hollywood Bowl", 1982, 7.9),
+    ("Monty Python's The Meaning of Life", 1983, 7.5),
+    ("Monty Python's Life of Brian", 1979, 8.0),
+]
+cur.executemany("INSERT INTO movie VALUES(?, ?, ?)", data)
+#dont forget con.commit
+'''
+
+
+
 '''
 @app.route('/create', methods=('GET', 'POST'))
 def create():
