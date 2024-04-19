@@ -1,33 +1,32 @@
-from flask import Flask, render_template, send_from_directory
+from flask import render_template, send_from_directory
+from app import flaskApp
 import sqlite3
 #Since we are using os, avoid importing as much as possible
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
-app = Flask(__name__)
-
-@app.route('/', methods=['GET'])
-@app.route('/index', methods=['GET'])
-@app.route('/index.html', methods=['GET'])
+@flaskApp.route('/', methods=['GET'])
+@flaskApp.route('/index', methods=['GET'])
+@flaskApp.route('/index.html', methods=['GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/advancedsearch') #, methods=('GET', 'POST') # put that after '/create' and before )
-@app.route('/advancedsearch.html')
+@flaskApp.route('/advancedsearch') #, methods=('GET', 'POST') # put that after '/create' and before )
+@flaskApp.route('/advancedsearch.html')
 def advancedSearch():
     return render_template('advancedsearch.html')
 
-@app.route('/search', methods=['GET'])
-@app.route('/search.html', methods=['GET'])
+@flaskApp.route('/search', methods=['GET'])
+@flaskApp.route('/search.html', methods=['GET'])
 def search():
     return render_template('search.html')
 
 # Try the main directory if a file is not found in the root branch
-@app.route('/<path:filename>')
+@flaskApp.route('/<path:filename>')
 def get_file(filename):
     # Check if the file exists in the original directory
-    original_path = os_join(app.static_folder, filename)
+    original_path = os_join(flaskApp.static_folder, filename)
     if os_pathexists(original_path):
-        return send_from_directory(app.static_folder, filename)
+        return send_from_directory(flaskApp.static_folder, filename)
 
     # If not found, try to locate the file in the directory of the Flask app
     app_directory_path = os_dirname(os_abspath(__file__))
