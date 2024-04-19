@@ -11,6 +11,7 @@
     </head>
 
     <body>
+        {{ pageElements["navbar"] | safe }}
         <!-- content for the item image and information -->
         <img src="book.jpg" alt="Item Image" id="item-image">
         <div class="item-info" id="item-info">
@@ -20,6 +21,6 @@
         </div>
 
         <script src="items.js"></script>
-
+        {{ pageElements["footer"] | safe }}
     </body>
 </html>

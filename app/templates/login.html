@@ -4,6 +4,7 @@
         <title>Buy Nothing: Log in</title>
     </head>
     <body>
+        {{ pageElements["navbar"] | safe }}
         <h1>Log In</h1>
         <form>
             <label for="username">Username:</label>
@@ -15,5 +16,6 @@
             <input type="submit" value="Login" method="post">
         </form>
         <!-- TODO: Forgot my password button/link -->
+        {{ pageElements["footer"] | safe }}
     </body>
 </html>
