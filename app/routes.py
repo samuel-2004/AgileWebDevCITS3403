@@ -4,33 +4,73 @@ import sqlite3
 #Since we are using os, avoid importing as much as possible
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
+navbar = """
+    <div class="topnav" id="topnav">
+      <img src="logodefault.jpg" style="width:400px;height:100px;" alt>
+      <a class="active" href="/">Home</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a href="login">Login</a>
+      <a href="advancedsearch">Search</a>
+      <div class="search-container">
+        <form action="search" accept-charset="UTF-8" method="get">
+          <input type="text" placeholder="Search.." name="q" maxlength="1024" >
+          <button type="submit"><i class="bi bi-search"></i></button>
+        </form>
+      </div>
+    </div>
+    """
+
+footer = """
+<div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-muted">&copy; 2024 Company, Inc</p>
+
+        <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+        </a>
+
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+        </ul>
+      </footer>
+    </div>
+"""
+
+pageElements = {"navbar": navbar, "footer": footer}
+
+
 @flaskApp.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('index.html', pageElements=pageElements)
 
 @flaskApp.route('/advancedsearch') #, methods=('GET', 'POST') # put that after '/create' and before )
 def advancedSearch():
-    return render_template('advancedsearch.html')
+    return render_template('advancedsearch.html', pageElements=pageElements)
 
 @flaskApp.route('/search', methods=['GET'])
 def search():
-    return render_template('search.html')
+    return render_template('search.html', pageElements=pageElements)
 
 @flaskApp.route('/account')
 def account():
-    return render_template('account.html')
+    return render_template('account.html', pageElements=pageElements)
 
 @flaskApp.route('/item?<int:itemID>')
 def item(itemID):
-    return render_template('items.html?' + itemID)
+    return render_template('items.html?' + itemID, pageElements=pageElements)
 
 @flaskApp.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('login.html', pageElements=pageElements)
 
 @flaskApp.route('/upload')
 def upload():
-    return render_template('upload.html')
+    return render_template('upload.html', pageElements=pageElements)
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
@@ -48,12 +88,6 @@ def get_file(filename):
 
     # If the file is not found in either location, return a 404 error
     return "File not found", 404
-
-
-
-
-
-
 
 '''
 con = sqlite3.connect("tutorial.db")

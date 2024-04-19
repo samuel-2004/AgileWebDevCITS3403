@@ -12,20 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
   <body>
-    <div class="topnav" id="topnav">
-      <img src="logodefault.jpg" style="width:400px;height:100px;" alt>
-      <a href="/">Home</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="login">Login</a>
-      <a class="active" href="advancedsearch">Search</a>
-      <div class="search-container">
-        <form action="search" accept-charset="UTF-8" method="get">
-          <input type="text" placeholder="Search.." name="q" maxlength="1024">
-          <button type="submit"><i class="bi bi-search"></i></button>
-        </form>
-      </div>
-    </div>
+    {{ pageElements["navbar"] | safe }}
     
     <br>
     <!-- The following form was derived from https://getbootstrap.com/docs/4.0/components/forms/? -->
@@ -82,5 +69,6 @@
         </ul>
       </footer>
     </div>
+    {{ pageElements["footer"] | safe }}
   </body>
 </html>
