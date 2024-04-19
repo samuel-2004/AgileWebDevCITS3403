@@ -27,7 +27,7 @@ def get_file(filename):
     original_path = os_join(flaskApp.static_folder, filename)
     if os_pathexists(original_path):
         return send_from_directory(flaskApp.static_folder, filename)
-
+    
     # If not found, try to locate the file in the directory of the Flask app
     app_directory_path = os_dirname(os_abspath(__file__))
     app_file_path = os_join(app_directory_path, filename)
