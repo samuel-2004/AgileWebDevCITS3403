@@ -5,18 +5,14 @@ import sqlite3
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
 @flaskApp.route('/', methods=['GET'])
-@flaskApp.route('/index', methods=['GET'])
-@flaskApp.route('/index.html', methods=['GET'])
 def index():
     return render_template('index.html')
 
 @flaskApp.route('/advancedsearch') #, methods=('GET', 'POST') # put that after '/create' and before )
-@flaskApp.route('/advancedsearch.html')
 def advancedSearch():
     return render_template('advancedsearch.html')
 
 @flaskApp.route('/search', methods=['GET'])
-@flaskApp.route('/search.html', methods=['GET'])
 def search():
     return render_template('search.html')
 
