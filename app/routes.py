@@ -16,6 +16,22 @@ def advancedSearch():
 def search():
     return render_template('search.html')
 
+@flaskApp.route('/account')
+def account():
+    return render_template('account.html')
+
+@flaskApp.route('/item?<int:itemID>')
+def item(itemID):
+    return render_template('items.html?' + itemID)
+
+@flaskApp.route('/login')
+def login():
+    return render_template('login.html')
+
+@flaskApp.route('/upload')
+def upload():
+    return render_template('upload.html')
+
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
 def get_file(filename):
@@ -32,6 +48,12 @@ def get_file(filename):
 
     # If the file is not found in either location, return a 404 error
     return "File not found", 404
+
+
+
+
+
+
 
 '''
 con = sqlite3.connect("tutorial.db")
