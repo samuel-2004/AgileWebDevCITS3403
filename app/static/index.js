@@ -30,7 +30,6 @@ class Item {
     displayItem() {
         // Create a div element
         var elemDiv = document.createElement("div");
-        elemDiv.id = "someid";
         elemDiv.classList.add("anItem");
         elemDiv.classList.add("col-lg-2");
         elemDiv.classList.add("col-md-3");
