@@ -1,55 +1,38 @@
 <!-- An advanced search page which will redirect you to search.html once form is submitted -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>[search thing]'s Available</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="index.js"></script>
-    <script src="search.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  </head>
-  <body>
-    {{ pageElements["navbar"] | safe }}
-    
-    <br>
-    <!-- The following form was derived from https://getbootstrap.com/docs/4.0/components/forms/? -->
-    <!-- To be updated shortly -->
-    <div class="container">
-      <form action="./search.html" accept-charset="UTF-8" method="get">
+{% extends "base.html" %}
+{% block title %}Advanced Search{% endblock %}
+{% block content %}
+<!-- The following form was derived from https://getbootstrap.com/docs/4.0/components/forms/? -->
+<div class="container">
+    <form action="./search.html" accept-charset="UTF-8" method="get">
         <div class="form-group row">
-          <label for="nameSearch" class="col-sm-3 col-form-label">What are you looking for?</label>
-          <div class="col-sm-9">
-            <input type="text" class="form-control" id="nameSearch" placeholder="Search for anything" name="q" maxlength="1024">
-          </div>
+            <label for="nameSearch" class="col-sm-3 col-form-label">What are you looking for?</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" id="nameSearch" placeholder="Search for anything" name="q" maxlength="1024">
+            </div>
         </div>
         <div class="form-group row">
-          <label for="maxDistance" class="col-sm-3 col-form-label">Max distance</label>
-          <div class="col-sm-8">
-            <input name="md" type="range" id="maxDistance" class="form-control" value="5" min="1" max="25" oninput="this.parentElement.nextElementSibling.childNodes[0].value = this.value + 'km'">
-          </div>
-          <div class="col-sm-1" id="maxDistanceDisplay"><output>5km</output></div>
+            <label for="maxDistance" class="col-sm-3 col-form-label">Max distance</label>
+            <div class="col-sm-8">
+                <input name="md" type="range" id="maxDistance" class="form-control" value="5" min="1" max="25" oninput="this.parentElement.nextElementSibling.childNodes[0].value = this.value + 'km'">
+            </div>
+            <div class="col-sm-1" id="maxDistanceDisplay"><output>5km</output></div>
         </div>
         <div class="form-group row">
-          <label for="sortOrder" class="col-sm-3 col-form-label">Sort by</label>
-          <div class="col-sm-9">
-            <select name="order" id="sortOrder" class="form-control">
-              <option selected>Choose...</option>
-              <option>Newest</option>
-              <option>Oldest</option>
-              <option>Closest</option>
-              <option>Vendor rating</option>
-            </select>
-          </div>
+            <label for="sortOrder" class="col-sm-3 col-form-label">Sort by</label>
+            <div class="col-sm-9">
+                <select name="order" id="sortOrder" class="form-control">
+                    <option selected>Choose...</option>
+                    <option>Newest</option>
+                    <option>Oldest</option>
+                    <option>Closest</option>
+                    <option>Vendor rating</option>
+                </select>
+            </div>
         </div>
         <div class="col-auto">
-          <button type="submit" class="btn btn-primary mb-2">Search</button>
+            <button type="submit" class="btn btn-primary mb-2">Search</button>
         </div>
-      </form>
-    </div>
-
-    {{ pageElements["footer"] | safe }}
-  </body>
-</html>
+    </form>
+</div>
+{% endblock %}

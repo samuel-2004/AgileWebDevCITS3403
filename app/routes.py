@@ -8,7 +8,7 @@ from os.path import join as os_join, dirname as os_dirname, exists as os_pathexi
 def index():
     return render_template('index.html')
 
-@flaskApp.route('/advancedsearch') #, methods=('GET', 'POST') # put that after '/create' and before )
+@flaskApp.route('/advancedsearch')
 def advancedSearch():
     return render_template('advancedsearch.html')
 
