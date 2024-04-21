@@ -21,6 +21,7 @@ navbar = """
     </div>
     """
 
+#<!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
 footer = """
 <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
