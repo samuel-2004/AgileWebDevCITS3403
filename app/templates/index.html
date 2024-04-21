@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-  <div class="row d-flex justify-content-center" id="mainContent"></div>
+    <script>
+        function openItemPage(event, nID) {
+            var ref = "./item?" + nID;
+            //window.location.href = ref;   
+            if(event.ctrlKey || event.metaKey){
+                window.open(ref, "_blank");
+            } else {
+                window.location.href = ref;   
+            }
+        }
+    </script>
+    <div class="row d-flex justify-content-center" id="mainContent">
+        {% for item in items %}
+        <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
+            <img src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
+            <p>Name: {{item.name}}&#10;&#13;Suburb: {{item.suburb}}&#10;&#13;Who: {{item.who}}</p></div>
+        {% endfor %}
+    </div>
 {% endblock %}
