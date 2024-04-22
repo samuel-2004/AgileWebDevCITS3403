@@ -1,76 +1,38 @@
 from flask import render_template, send_from_directory
+from json import loads
+import buynothing
 from app import flaskApp
-import sqlite3
 #Since we are using os, avoid importing as much as possible
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
-navbar = """
-    <div class="topnav" id="topnav">
-      <img src="logodefault.jpg" style="width:400px;height:100px;" alt>
-      <a class="active" href="/">Home</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <a href="login">Login</a>
-      <a href="advancedsearch">Search</a>
-      <div class="search-container">
-        <form action="search" accept-charset="UTF-8" method="get">
-          <input type="text" placeholder="Search.." name="q" maxlength="1024" >
-          <button type="submit"><i class="bi bi-search"></i></button>
-        </form>
-      </div>
-    </div>
-    """
-
-footer = """
-<div class="container">
-      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-muted">&copy; 2024 Company, Inc</p>
-
-        <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-        </a>
-
-        <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-        </ul>
-      </footer>
-    </div>
-"""
-
-pageElements = {"navbar": navbar, "footer": footer}
-
-
 @flaskApp.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', pageElements=pageElements)
+    items = loads('[{"nID":87241,"name":"Rice Cooker","who":"John Smith","suburb":"Downtown","imageref":"","timestamp":1679776345},{"nID":52379,"name":"Smartphone","who":"Emily Johnson","suburb":"Midtown","imageref":"","timestamp":1679818345},{"nID":10294,"name":"Laptop","who":"Michael Brown","suburb":"Uptown","imageref":"","timestamp":1679762345},{"nID":40957,"name":"Bicycle","who":"Sarah Davis","suburb":"Eastside","imageref":"","timestamp":1679790345},{"nID":78526,"name":"Television","who":"DavnID Wilson","suburb":"Westside","imageref":"","timestamp":1679720345},{"nID":63081,"name":"Coffee Maker","who":"Jessica Martinez","suburb":"Downtown","imageref":"","timestamp":1679804345},{"nID":21789,"name":"Headphones","who":"Christopher Lee","suburb":"Midtown","imageref":"","timestamp":1679748345},{"nID":95873,"name":"Backpack","who":"Jennifer Thompson","suburb":"Uptown","imageref":"","timestamp":1679734345},{"nID":37402,"name":"Digital Camera","who":"Daniel Garcia","suburb":"Eastside","imageref":"","timestamp":1679822345},{"nID":69023,"name":"Printer","who":"Olivia Hernandez","suburb":"Westside","imageref":"","timestamp":1679706345},{"nID":18396,"name":"Blender","who":"William Rodriguez","suburb":"Downtown","imageref":"","timestamp":1679692345},{"nID":54127,"name":"Smart Watch","who":"Ava Wilson","suburb":"Midtown","imageref":"","timestamp":1679678345},{"nID":76258,"name":"Gaming Console","who":"Ethan Moore","suburb":"Uptown","imageref":"","timestamp":1679664345},{"nID":89501,"name":"Tablet","who":"Sophia Anderson","suburb":"Eastside","imageref":"","timestamp":1679650345},{"nID":32095,"name":"Microwave Oven","who":"James Taylor","suburb":"Westside","imageref":"","timestamp":1679636345},{"nID":61478,"name":"Fitness Tracker","who":"Mia Thomas","suburb":"Downtown","imageref":"","timestamp":1679622345},{"nID":94602,"name":"Portable Speaker","who":"Benjamin White","suburb":"Midtown","imageref":"","timestamp":1679608345},{"nID":25814,"name":"Vacuum Cleaner","who":"Isabella Martinez","suburb":"Uptown","imageref":"","timestamp":1679594345},{"nID":70183,"name":"Kitchen Scale","who":"Alexander Johnson","suburb":"Eastside","imageref":"","timestamp":1679580345},{"nID":18347,"name":"Digital Watch","who":"Charlotte Brown","suburb":"Westside","imageref":"","timestamp":1679566345}]')
+    return render_template('index.html', items=items, defaultimage='book.jpg', active_link='/')
 
-@flaskApp.route('/advancedsearch') #, methods=('GET', 'POST') # put that after '/create' and before )
+@flaskApp.route('/advancedsearch')
 def advancedSearch():
-    return render_template('advancedsearch.html', pageElements=pageElements)
+    return render_template('advancedsearch.html', active_link='/advancedsearch')
 
 @flaskApp.route('/search', methods=['GET'])
 def search():
-    return render_template('search.html', pageElements=pageElements)
+    return render_template('search.html')
 
 @flaskApp.route('/account')
 def account():
-    return render_template('account.html', pageElements=pageElements)
+    return render_template('account.html')
 
-@flaskApp.route('/item?<int:itemID>')
+@flaskApp.route('/item/<int:itemID>')
 def item(itemID):
-    return render_template('items.html?' + itemID, pageElements=pageElements)
+    return render_template('items.html', itemID=itemID)
 
 @flaskApp.route('/login')
 def login():
-    return render_template('login.html', pageElements=pageElements)
+    return render_template('login.html', active_link='/login')
 
 @flaskApp.route('/upload')
 def upload():
-    return render_template('upload.html', pageElements=pageElements)
+    return render_template('upload.html')
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
@@ -88,69 +50,3 @@ def get_file(filename):
 
     # If the file is not found in either location, return a 404 error
     return "File not found", 404
-
-'''
-con = sqlite3.connect("tutorial.db")
-cur = con.cursor()
-cur.execute("CREATE TABLE movie(title, year, score)")
-command = ""
-cur.execute(command)
-#if insert:
-con.commit()
-con.close() #finish with this
-
-for row in cur.execute("SELECT year, title FROM movie ORDER BY year"):
-    print(row)
-
-data = [
-    ("Monty Python Live at the Hollywood Bowl", 1982, 7.9),
-    ("Monty Python's The Meaning of Life", 1983, 7.5),
-    ("Monty Python's Life of Brian", 1979, 8.0),
-]
-cur.executemany("INSERT INTO movie VALUES(?, ?, ?)", data)
-#dont forget con.commit
-'''
-
-
-
-'''
-@app.route('/create', methods=('GET', 'POST'))
-def create():
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-
-        if not title:
-            flash('Title is required!')
-        else:
-            conn = get_db_connection()
-            conn.execute('INSERT INTO posts (title, content) VALUES (?, ?)',
-                         (title, content))
-            conn.commit()
-            conn.close()
-            return redirect(url_for('index'))
-
-    return render_template('create.html')
-
-    
-@app.route('/<int:id>/edit', methods=('GET', 'POST'))
-def edit(id):
-    post = get_post(id)
-
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-
-        if not title:
-            flash('Title is required!')
-        else:
-            conn = get_db_connection()
-            conn.execute('UPDATE posts SET title = ?, content = ?'
-                         ' WHERE id = ?',
-                         (title, content, id))
-            conn.commit()
-            conn.close()
-            return redirect(url_for('index'))
-
-    return render_template('edit.html', post=post)    
-'''

@@ -1,40 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <script src="index.js"></script>
-    <script src="search.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  </head>
-  <body>
-    <!-- Top Nav bar -->
-    {{ pageElements["navbar"] | safe }}
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <!-- Add onclick method that redirects user to the item's page -->
+    <!-- This may be used on the search results page, so may add to a js file later -->
+    <script>
+        function openItemPage(event, nID) {
+            var ref = "./item/" + nID;
+            if(event.ctrlKey || event.metaKey){
+                window.open(ref, "_blank");
+            } else {
+                window.location.href = ref;   
+            }
+        }
+    </script>
 
-    <!-- This wrapper contains the items -->
-    <div class="row d-flex justify-content-center" id="mainContent"></div>
-
-    <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
-    <div class="container">
-      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-muted">&copy; 2024 Company, Inc</p>
-
-        <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-        </a>
-
-        <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-        </ul>
-      </footer>
+    <!-- Render each item to the page -->
+    <div class="row d-flex justify-content-center" id="mainContent">
+        {% for item in items %}
+        <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
+            <!-- If the image wasn't passed, render the default -->
+            <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
+            <p style="white-space: pre;">Name: {{item.name}}&#10;&#13;Suburb: {{item.suburb}}&#10;&#13;Who: {{item.who}}</p></div>
+        {% endfor %}
     </div>
-    {{ pageElements["footer"] | safe }}
-  </body>
-</html>
+{% endblock %}
