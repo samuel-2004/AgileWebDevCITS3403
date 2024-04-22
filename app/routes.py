@@ -24,7 +24,7 @@ def account():
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
-    return render_template('items.html?' + itemID)
+    return render_template('items.html', itemID=itemID)
 
 @flaskApp.route('/login')
 def login():
