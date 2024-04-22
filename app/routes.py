@@ -22,7 +22,7 @@ def search():
 def account():
     return render_template('account.html')
 
-@flaskApp.route('/item?<int:itemID>')
+@flaskApp.route('/item/<int:itemID>')
 def item(itemID):
     return render_template('items.html?' + itemID)
 
