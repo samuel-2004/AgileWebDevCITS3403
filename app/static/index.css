@@ -29,6 +29,14 @@ This CSS file contains the style information for the navbar.
     color: white;
 }
 
+.topnav .home{
+    padding: 2px;
+}
+
+.topnav a.active.home{
+    background-color: #BBDEFB;
+}
+
 .topnav .search-container {
     margin-left: auto;
 }
