@@ -14,12 +14,12 @@
 <body>
     <!-- Header derived from w3schools -->
     <div class="topnav" id="topnav">
-        <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %} home" href="/"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
+        <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %} home" href="{{ url_for('index') }}"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
         <a class="d-none d-lg-block {% if active_link == '/about' %}active{% endif %}" href="about">About</a>
         <a class="d-none d-lg-block {% if active_link == '/contact' %}active{% endif %}" href="contact">Contact</a>
-        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="login">Login</a>
-        <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="advancedsearch">Search</a>
-        <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="upload">Post</a>
+        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+        <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="{{ url_for('advancedSearch') }}">Search</a>
+        <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">Post</a>
         <div class="search-container">
             <form action="search" accept-charset="UTF-8" method="get">
                 <input type="text" placeholder="Search.." name="q" maxlength="1024" >
@@ -27,7 +27,18 @@
             </form>
         </div>
     </div>
-
+    <div>
+      <!--Login form testing-->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+    {% endwith %}
     <div id="content">{% block content %}{% endblock %}</div>
 
     <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
