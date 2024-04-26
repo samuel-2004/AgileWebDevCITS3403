@@ -3,7 +3,7 @@
 <head>
     {% block head %}
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+    <title>{% block title %}{% endblock %} - New Home</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -14,8 +14,7 @@
 <body>
     <!-- Header derived from w3schools -->
     <div class="topnav" id="topnav">
-        <img src="logodefault.jpg" style="width:330px;height:100px;" alt>
-        <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %}" href="/">Home</a>
+        <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %} home" href="/"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
         <a class="d-none d-lg-block {% if active_link == '/about' %}active{% endif %}" href="about">About</a>
         <a class="d-none d-lg-block {% if active_link == '/contact' %}active{% endif %}" href="contact">Contact</a>
         <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="login">Login</a>
@@ -34,7 +33,7 @@
     <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-          <p class="col-md-4 mb-0 text-muted">&copy; 2024 Company, Inc</p>
+          <p class="col-md-4 mb-0 text-muted">&copy; 2024 NewHome, Inc</p>
   
           <a class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
             <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
