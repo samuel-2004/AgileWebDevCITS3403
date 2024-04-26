@@ -1,5 +1,5 @@
-# Buy Nothing (rename)
-This web application for a "Buy Nothing" page. 
+# New Home
+This web application for a "buy nothing" page. 
 Users can submit items they wish to give away to others.
 They can also see what items others have posted to the website and make a request for them.
 This readme will be updated later.
