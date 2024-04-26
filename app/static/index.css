@@ -106,3 +106,7 @@ body {
     flex-shrink: 0;
     height: 100px;
 }
+
+.footer .nav-item *:hover {
+    text-decoration: underline;
+}
