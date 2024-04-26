@@ -1,6 +1,12 @@
-from app import flaskApp
+from app import flaskApp, db
+import sqlalchemy as sa
+from app.models import User, Post
+import sqlalchemy.orm as so
 import sqlite3
 
+@flaskApp.shell_context_processor
+def make_shell_context():
+    return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post}
 
 '''
 con = sqlite3.connect("tutorial.db")
