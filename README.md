@@ -1,8 +1,7 @@
-# New Home
-This web application for a "buy nothing" page. 
+# NewHome
+This is a web application for a "buy nothing" page. 
 Users can submit items they wish to give away to others.
 They can also see what items others have posted to the website and make a request for them.
-This readme will be updated later.
 
 # Team Members
 Student Number | Student Name | GitHub Username
