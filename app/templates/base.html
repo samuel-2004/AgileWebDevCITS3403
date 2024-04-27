@@ -17,7 +17,11 @@
         <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %} home" href="{{ url_for('index') }}"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
         <a class="d-none d-lg-block {% if active_link == '/about' %}active{% endif %}" href="about">About</a>
         <a class="d-none d-lg-block {% if active_link == '/contact' %}active{% endif %}" href="contact">Contact</a>
+        {% if current_user.is_anonymous %}
         <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+        {% else %}
+        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
         <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="{{ url_for('advancedSearch') }}">Search</a>
         <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">Post</a>
         <div class="search-container">

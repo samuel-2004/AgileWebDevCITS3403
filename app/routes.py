@@ -1,8 +1,11 @@
 from flask import render_template, send_from_directory, flash, redirect, url_for
+from flask_login import current_user, login_user, logout_user
 from json import loads
 import buynothing
-from app import flaskApp
+import sqlalchemy as sa
+from app import flaskApp, db
 from app.forms import LoginForm
+from app.models import User
 #Since we are using os, avoid importing as much as possible
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
@@ -30,12 +33,25 @@ def item(itemID):
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        flash('Login requested for user {}, remember_me={}'.format(
-            form.username.data, form.remember_me.data))
+        user = db.session.scalar(
+            sa.select(User).where(User.username == form.username.data))
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        #flash('Login requested for user {}, remember_me={}'.format(
+        #    form.username.data, form.remember_me.data))
         return redirect(url_for('index'))
     return render_template('login.html', active_link='/login', form=form)
+
+@flaskApp.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @flaskApp.route('/upload')
 def upload():
