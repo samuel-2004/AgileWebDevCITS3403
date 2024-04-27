@@ -38,14 +38,16 @@
         <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="login">Login</a>
         <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="advancedsearch">Search</a>
         <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="upload">Post</a>
-        <div class="dropdown">
+        <div class="dropdown d-lg-none" style="margin-left:7px;">
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-              Dropdown button
+                <i class="bi bi-caret-down-full"></i>
             </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Link 1</a></li>
-              <li><a class="dropdown-item" href="#">Link 2</a></li>
-              <li><a class="dropdown-item" href="#">Link 3</a></li>
+            <ul class="dropdown-menu text-left">
+                <li><a class="dropdown-item d-md-none text-left" href="login">Login</a></li>
+                <li><a class="dropdown-item text-left" href="about">About</a></li>
+                <li><a class="dropdown-item text-left" href="contact">Contact</a></li>
+                <li><a class="dropdown-item text-left" href="advancedsearch">Advanced Search</a></li>
+                <li><a class="dropdown-item d-md-none text-left" href="upload">Post</a></li>
             </ul>
           </div>
         <div class="search-container">
