@@ -1,11 +1,12 @@
-from flask import render_template, send_from_directory, flash, redirect, url_for
-from flask_login import current_user, login_user, logout_user
+from flask import render_template, send_from_directory, flash, redirect, url_for, request
+from flask_login import current_user, login_user, logout_user, login_required
 from json import loads
+from urllib.parse import urlsplit, urlparse, parse_qs
 import buynothing
 import sqlalchemy as sa
 from app import flaskApp, db
 from app.forms import LoginForm
-from app.models import User
+from app.models import User, Post
 #Since we are using os, avoid importing as much as possible
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
@@ -45,7 +46,10 @@ def login():
         login_user(user, remember=form.remember_me.data)
         #flash('Login requested for user {}, remember_me={}'.format(
         #    form.username.data, form.remember_me.data))
-        return redirect(url_for('index'))
+        next_page = request.args.get('next')
+        if not next_page or urlsplit(next_page).netloc != '':
+            next_page = url_for('index')
+        return redirect(next_page)
     return render_template('login.html', active_link='/login', form=form)
 
 @flaskApp.route('/logout')
@@ -54,8 +58,22 @@ def logout():
     return redirect(url_for('index'))
 
 @flaskApp.route('/upload')
+@login_required
 def upload():
-    return render_template('upload.html')
+    return render_template('upload.html', active_link='/upload')
+
+@flaskApp.route('/user')
+@login_required
+def user():
+    username = request.args.get('username')
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    query = user.posts.select().order_by(Post.timestamp.desc())
+    posts = db.session.scalars(query)
+    #posts = [
+    #    {'author': user, 'item_name': 'Test post #1'},
+    #    {'author': user, 'item_name': 'Test post #2'}
+    #]
+    return render_template('user.html', user=user, posts=posts, active_link='/user')
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
