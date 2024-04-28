@@ -1,13 +1,16 @@
 from flask import render_template, send_from_directory, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 from json import loads
+from datetime import datetime, timezone
 from urllib.parse import urlsplit, urlparse, parse_qs
 import buynothing
 import sqlalchemy as sa
 from app import flaskApp, db
-from app.forms import LoginForm
+from app.forms import LoginForm, uploadForm
 from app.models import User, Post
+from werkzeug.utils import secure_filename
 #Since we are using os, avoid importing as much as possible
+import os
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
 @flaskApp.route('/', methods=['GET'])
@@ -57,10 +60,19 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@flaskApp.route('/upload')
+@flaskApp.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
-    return render_template('upload.html', active_link='/upload')
+    form = uploadForm()
+    if form.validate_on_submit():
+        image = form.image.data
+        filename = secure_filename(image.filename)
+        flash("User: {} Post Type={} Item Name={} Desc: {} File: {}"
+              .format(current_user.username, form.post_type.data, form.item_name.data,form.desc.data, filename))
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        image.save(os_join(basedir + '/static/data/photos/',str(datetime.now(timezone.utc).strftime("%H:%M:%S")) + '_'+ filename))
+        return redirect(url_for('index'))
+    return render_template('upload.html', active_link='/upload', form=form)
 
 @flaskApp.route('/user')
 @login_required

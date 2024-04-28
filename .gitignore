@@ -3,4 +3,5 @@ env/
 /app/__pycache__
 *.db
 *.pyc
+/app/static/data/photos
 
