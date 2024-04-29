@@ -65,6 +65,10 @@ def logout():
 def upload():
     form = uploadForm()
     if form.validate_on_submit():
+        post = Post(post_type = form.post_type.data, item_name = form.item_name.data, 
+                    desc = form.desc.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
         image = form.image.data
         filename = secure_filename(image.filename)
         flash("User: {} Post Type={} Item Name={} Desc: {} File: {}"

@@ -37,6 +37,7 @@ def load_user(id):
 
 class Post(db.Model):
   id: so.Mapped[int] = so.mapped_column(primary_key=True)
+  post_type: so.Mapped[str] = so.mapped_column(sa.String(8))
   item_name: so.Mapped[str] = so.mapped_column(sa.String(32))
   desc: so.Mapped[str] = so.mapped_column(sa.String(256))
   timestamp: so.Mapped[datetime] = so.mapped_column(
@@ -45,6 +46,7 @@ class Post(db.Model):
 
   author: so.Mapped[User] = so.relationship(back_populates='posts')
 
-  # Post type still needs to be added
   def __repr__(self) -> str:
     return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
+  
+  # Next table will be images
