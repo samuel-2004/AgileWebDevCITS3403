@@ -45,8 +45,18 @@ class Post(db.Model):
   user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
 
   author: so.Mapped[User] = so.relationship(back_populates='posts')
+  images: so.Mapped['Image'] = so.relationship(back_populates='post')
 
   def __repr__(self) -> str:
     return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
   
-  # Next table will be images
+  
+class Image(db.Model):
+  id: so.Mapped[int] = so.mapped_column(primary_key=True)
+  src: so.Mapped[str] = so.mapped_column(sa.String(256))
+  post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id), index=True)
+  
+  post: so.Mapped[Post] = so.relationship(back_populates='images')
+  
+  def __repr__(self) -> str:
+    return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'

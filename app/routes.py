@@ -7,7 +7,7 @@ import buynothing
 import sqlalchemy as sa
 from app import flaskApp, db
 from app.forms import LoginForm, uploadForm
-from app.models import User, Post
+from app.models import User, Post, Image
 from werkzeug.utils import secure_filename
 #Since we are using os, avoid importing as much as possible
 import os
@@ -68,13 +68,19 @@ def upload():
         post = Post(post_type = form.post_type.data, item_name = form.item_name.data, 
                     desc = form.desc.data, author=current_user)
         db.session.add(post)
-        db.session.commit()
+        #db.session.commit()
         image = form.image.data
         filename = secure_filename(image.filename)
-        flash("User: {} Post Type={} Item Name={} Desc: {} File: {}"
-              .format(current_user.username, form.post_type.data, form.item_name.data,form.desc.data, filename))
+        """ flash("User: {} Post Type={} Item Name={} Desc: {} File: {}"
+              .format(current_user.username, form.post_type.data, form.item_name.data,form.desc.data, filename)) """
         basedir = os.path.abspath(os.path.dirname(__file__))
-        image.save(os_join(basedir + '/static/data/photos/',str(datetime.now(timezone.utc).strftime("%H:%M:%S")) + '_'+ filename))
+        new_name = str(datetime.now(timezone.utc).strftime("%H:%M:%S")) + '_'+ filename
+        path = '/static/data/photos/' + new_name
+        image.save(os_join(basedir + '/static/data/photos/',new_name))
+        
+        image = Image(src = path, post = post)
+        db.session.add(image)
+        db.session.commit()
         return redirect(url_for('index'))
     return render_template('upload.html', active_link='/upload', form=form)
 
