@@ -19,8 +19,10 @@ Here will be a brief summary of the architecture of the application.
 To launch the application, perform the following steps:
 1. Download the application `https://github.com/samuel-2004/AgileWebDevCITS3403/archive/refs/heads/main.zip`
 2. Unzip the application
-3. Ensure that flask is installed with `pip show flask`
-4. Run the following command `flask run`
+3. Install the required packages into a virtual environment using `pip install -r requirements.txt`
+4. Create the database using `flask db upgrade`
+5. Set the secret key with `export SECRET_KEY = '<secret key>'`
+6. Run the following command `flask run`
 
 # Testing Instructions
 Here will be instructions for how to run the tests for the application.
