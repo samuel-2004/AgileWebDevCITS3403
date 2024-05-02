@@ -15,16 +15,17 @@
 
 <script>
     // Enlarges the image when clicked
-    function enlargeImage(clickedImage) {
-            var pics = document.querySelectorAll(".small-image");
+    function enlargeImage(clickedImg) {
+            var img = document.querySelectorAll(".small-image");
             // Loop through all images to revert them back to original size
             pics.forEach(function(image) {
-                if (pics !== clickedImage && pics.classList.contains("large-image")) {
-                    pics.classList.remove("large-image");
+                if (img !== clickedImg && pics.classList.contains("large-image")) {
+                    img.classList.remove("large-image");
                 }
             });
             // Toggle the class to switch between small and large image for the clicked image
-            clickedImage.classList.toggle("large-image");
+            clickedImg.classList.toggle("large-image");
         }
 </script>
+
 {% endblock %}
