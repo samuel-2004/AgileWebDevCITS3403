@@ -17,7 +17,6 @@
         <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %} home" href="/"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
         <a class="d-none d-lg-block {% if active_link == '/about' %}active{% endif %}" href="about">About</a>
         <a class="d-none d-lg-block {% if active_link == '/contact' %}active{% endif %}" href="contact">Contact</a>
-        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="login">Login</a>
         <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="advancedsearch">Search</a>
         <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="upload">Post</a>
         <div class="search-container">
@@ -26,8 +25,8 @@
                 <button type="submit"><i class="bi bi-search"></i></button>
             </form>
         </div>
+        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="login">Login</a>
     </div>
-
     <div id="content">{% block content %}{% endblock %}</div>
 
     <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
