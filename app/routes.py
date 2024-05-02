@@ -30,6 +30,10 @@ def item(itemID):
 def login():
     return render_template('login.html', active_link='/login')
 
+@flaskApp.route('/signup')
+def signup():
+    return render_template('signup.html', active_link='/signup')
+
 @flaskApp.route('/upload')
 def upload():
     return render_template('upload.html')
