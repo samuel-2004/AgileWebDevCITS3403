@@ -1,3 +1,4 @@
+/*
 // show item information when image is clicked
 document.getElementById('item-image').addEventListener('click', function() {
     var itemInfo = document.getElementById('item-info');
@@ -7,3 +8,4 @@ document.getElementById('item-image').addEventListener('click', function() {
         itemInfo.style.display = 'none';
     }
 });
+*/
