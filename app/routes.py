@@ -20,7 +20,7 @@ def search():
 
 @flaskApp.route('/account')
 def account():
-    return render_template('account.html', username="jimmy_lee")
+    return render_template('account.html', active_link='/account', username="jimmy_lee")
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
