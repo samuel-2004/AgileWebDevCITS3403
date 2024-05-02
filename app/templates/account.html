@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Buy Nothing: Account</title>
-    </head>
-    <body>
+{% extends "base.html" %}
+{% block title %}My Account{% endblock %}
+{% block content %}
         <h1>My Account</h1>
         <h2>Details</h2>
         <span>Username: jimmy_lee89</span><br>
@@ -22,5 +19,4 @@
             <img class="badge" width=100px height=100px src="assets/badges/give-bronze.png"><br>
             <span>BRONZE GIVER</span>
         </div>
-    </body>
-</html>
+{% endblock %}
