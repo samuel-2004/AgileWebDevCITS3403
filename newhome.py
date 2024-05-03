@@ -8,6 +8,10 @@ import sqlite3
 def make_shell_context():
     return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post, 'Image': Image}
 
+from app import flaskApp
+import sqlite3
+
+
 '''
 con = sqlite3.connect("tutorial.db")
 cur = con.cursor()
