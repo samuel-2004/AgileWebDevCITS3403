@@ -4,8 +4,8 @@
 <head>
     <style>
         .small-image {
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             padding: 10px;
         }
         .item-information {
@@ -16,7 +16,7 @@
 
 <div class="item-container">
     <!-- Image now displayed on the left -->
-    <img src="book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
+    <img src="/static/book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
 
     <!-- Item information now displayed on the right -->
     <div class="item-information" id="item-info">
@@ -28,14 +28,12 @@
 <script>
     // Enlarges the image when clicked
     function enlargeImage(itemId) {
+        img = document.getElementById(itemId);
             // Loop through all images to revert them back to original size
-            alert(id)
-            /*
-            img.style.width = "60%";
-            img.style.height = "auto";
-            img.style.transition = "width 0.5s ease";
-            */
-            document.getElementById("item-image").addEventListener("click", enlargeImage("item-image"));
+        img.style.width = "40%";
+        img.style.height = "auto";
+        img.style.transition = "width 0.5s ease";
+
     }
 </script>
 {% endblock %}
