@@ -51,7 +51,18 @@
             </form>
         </div>
     </div>
-    
+    <div style="margin-top:60px">
+      <!--Flashes error/informational messages for user-->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+      {% endwith %}
+    </div>
     <div class="content" id="content">{% block content %}{% endblock %}</div>
 
     <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
