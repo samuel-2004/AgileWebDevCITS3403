@@ -31,26 +31,27 @@
     {% endblock %}
 </head> 
 <body>
+    <!-- Header derived from w3schools -->
     <div class="topnav" id="topnav">
-        <a class="home" href="/"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
+        <a class="d-none d-md-block {% if active_link == '/' %}active{% endif %} home" href="{{ url_for('index') }}"><img src="NewHomeLogo.png" style="height:50px;" alt="New Home Logo"></a>
         <a class="d-none d-lg-block {% if active_link == '/about' %}active{% endif %}" href="about">About</a>
         <a class="d-none d-lg-block {% if active_link == '/contact' %}active{% endif %}" href="contact">Contact</a>
-        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="login">Login</a>
-        <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="advancedsearch">Search</a>
-        <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="upload">Post</a>
-        <div class="dropdown d-lg-none" style="margin-left:7px;">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="bi bi-caret-down-full"></i>
-            </button>
-            <ul class="dropdown-menu text-left">
-                <li><a class="dropdown-item d-md-none text-left" href="login">Login</a></li>
-                <li><a class="dropdown-item text-left" href="about">About</a></li>
-                <li><a class="dropdown-item text-left" href="contact">Contact</a></li>
-                <li><a class="dropdown-item text-left" href="advancedsearch">Advanced Search</a></li>
-                <li><a class="dropdown-item d-md-none text-left" href="upload">Post</a></li>
-            </ul>
+        {% if current_user.is_anonymous %}
+        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+        {% else %}
+        <a class="d-none d-md-block {% if active_link == '/login' %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
+        <a class="d-none d-md-block {% if active_link == '/upload' %}active{% endif %}" href="{{ url_for('upload') }}">Post</a>
+        <a class="d-none d-md-block {% if active_link == '/user' %}active{% endif %}" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+        {% endif %}
+        <a class="d-none d-lg-block {% if active_link == '/advancedsearch' %}active{% endif %}" href="{{ url_for('advancedSearch') }}">Search</a>
+        <div class="search-container">
+            <form action="search" accept-charset="UTF-8" method="get">
+                <input type="text" placeholder="Search.." name="q" maxlength="1024" >
+                <button type="submit"><i class="bi bi-search"></i></button>
+            </form>
         </div>
     </div>
+    
     <div class="content" id="content">{% block content %}{% endblock %}</div>
 
     <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
