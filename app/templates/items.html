@@ -1,31 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Item Information - New Home{% endblock %}
 {% block content %}
+<head>
+    <style>
+        .small-image {
+            width: 40px;
+            height: 40px;
+            padding: 10px;
+        }
+        .item-information {
+            float: right;
+        }
+    </style>
+</head>
+
 <div class="item-container">
     <!-- Image now displayed on the left -->
-    <img src="book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage()">
-    
+    <img src="book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
+
     <!-- Item information now displayed on the right -->
-    <div class="item-info" id="item-info">
+    <div class="item-information" id="item-info">
         <h2>Item Information</h2>
         <p><strong>Name:</strong> Item Name</p>
         <p><strong>Description:</strong> Item Description</p>
     </div>
 </div>
-
 <script>
     // Enlarges the image when clicked
-    function enlargeImage(clickedImg) {
-            var img = document.querySelectorAll(".small-image");
+    function enlargeImage(itemId) {
             // Loop through all images to revert them back to original size
-            pics.forEach(function(image) {
-                if (img !== clickedImg && pics.classList.contains("large-image")) {
-                    img.classList.remove("large-image");
-                }
-            });
-            // Toggle the class to switch between small and large image for the clicked image
-            clickedImg.classList.toggle("large-image");
-        }
+            alert(id)
+            /*
+            img.style.width = "60%";
+            img.style.height = "auto";
+            img.style.transition = "width 0.5s ease";
+            */
+            document.getElementById("item-image").addEventListener("click", enlargeImage("item-image"));
+    }
 </script>
-
 {% endblock %}
