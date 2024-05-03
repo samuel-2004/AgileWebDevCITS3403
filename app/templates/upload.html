@@ -1,41 +1,75 @@
 {% extends "base.html" %}
 {% block title %}Upload{% endblock %}
 {% block content %}
-    <div class="container">
-      <form accept-charset="UTF-8">
-        <!--Dropdown to select post type-->
-        <div class="form-group row">
-          <label for="postType" class="col-sm-3 col-form-label">Post Type</label>
-          <div class="col-sm-9">
-            <select class="custom-select" id="postType" name="postType" required>
-              <option disabled selected value>Choose...</option>
-              <option value="give">Give</option>
-              <option value="request">Request</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="item" class="col-sm-3 col-form-label">Item Name</label>
-          <div class="form-group col-sm-9">
-            <input type="text" id="item" name="item" class="form-control" rows="3" placeholder="The item is..." required></textarea>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="item" class="col-sm-3 col-form-label">Description</label>
-          <div class="form-group col-sm-9">
-            <textarea id="description" name="description" class="form-control" rows="3" placeholder="This item has..." required></textarea>
-          </div>
-        </div>
-        <!--Allow user to upload images for post-->
-        <div class="form-group row">
-          <label for="imgs" class="col-sm-3 col-form-label">Select Images</label>
-          <div class="col-sm-9">
-            <input type="file" id="imgs" name="imgs" accept="image/*" multiple>
-          </div>
-        </div>
-        <div>
-          <button type="submit" class="btn btn-primary mb-2">Submit</button>
-        </div>
-      </form>
-  </div>
+<div class="container">
+  <form accept-charset="UTF-8" method="post" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.post_type.label }}<br>
+      {{ form.post_type }}
+      {% for error in form.post_type.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.item_name.label }}<br>
+      {{ form.item_name }}
+      {% for error in form.item_name.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.desc.label }}<br>
+      {{ form.desc(cols="60", rows="5") }}
+      {% for error in form.desc.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.image.label }}<br>
+      {{ form.image }}
+      {% for error in form.image.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>{{ form.submit() }}</p>
+    <!--Dropdown to select post type-->
+    <!--
+    <div class="form-group row">
+      <label for="postType" class="col-sm-3 col-form-label">Post Type</label>
+      <div class="col-sm-9">
+        <select class="custom-select" id="post_type" name="post_type" required>
+          <option disabled selected value>Choose...</option>
+          <option value="OFFER">Give</option>
+          <option value="REQUEST">Request</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="item" class="col-sm-3 col-form-label">Item Name</label>
+      <div class="form-group col-sm-9">
+        <input type="text" id="item" name="item" class="form-control" rows="3" placeholder="The item is..." required></textarea>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="item" class="col-sm-3 col-form-label">Description</label>
+      <div class="form-group col-sm-9">
+        <textarea id="description" name="description" class="form-control" rows="3" placeholder="This item has..." required></textarea>
+      </div>
+    </div>
+    -->
+    <!--Allow user to upload images for post-->
+    <!--
+    <div class="form-group row">
+      <label for="imgs" class="col-sm-3 col-form-label">Select Images</label>
+      <div class="col-sm-9">
+        <input type="file" id="imgs" name="imgs" accept="image/*" multiple>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </div>
+    -->
+  </form>
+</div>
 {% endblock %}
