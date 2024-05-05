@@ -9,6 +9,10 @@
     margin-right: auto;
     max-width: 50%;
 }
+.row {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -22,7 +26,7 @@
                     {{ form.name.label }}
                 </div><br>
                 <div class="col-md-9">
-                    {{ form.name(placeholder='Your name') }}
+                    {{ form.name(placeholder='Your name', class_="form-control") }}
                 </div>
             </div>
             <!-- email forms -->
@@ -31,7 +35,7 @@
                     {{ form.email.label }}
                 </div><br>
                 <div class="col-md-9">
-                    {{ form.email(placeholder='Your e-mail ...') }}
+                    {{ form.email(placeholder='Your e-mail ...', class_="form-control") }}
                 </div>
             </div>
             <!-- Subject of your request -->
@@ -40,20 +44,17 @@
                     {{ form.subject.label }}
                 </div><br>
                 <div class="col-md-9">
-                    {{ form.subject(placeholder='Subject ...') }}
+                    {{ form.subject(placeholder='Subject ...', class_="form-control") }}
                 </div>
             </div>
             <!-- Content of your request -->
             <div class="row">
-                <div class="col-md-3">
-                    {{ form.message.label }}
-                </div><br>
-                <div class="col-md-9">
-                    {{ form.message(placeholder='Write your request ...') }}
+                <div class="col-md-12">
+                    {{ form.message(placeholder='Write your request ...', class_="form-control") }}
                 </div>
             </div>
             <!-- Submit button -->
-            <div class="row">
+            <div class="row" style="padding-top:1rem; padding-right:20px; float:right;">
                 {{ form.submit }}
             </div>
         </div>
