@@ -1,15 +1,56 @@
 {% extends "base.html" %}
 {% block title %}About{% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+.aboutimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50%;
+}
+.section {
+    padding-top:25px;
+    padding-bottom:25px;
+}
+.text {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 30%;
+    word-wrap: break-word;
+}
+
+</style>
+{% endblock %}
 {% block content %}
-<h2>Our Vision</h2>
-<p>Lorem ipsum</p>
-<img href="https://www.wannapik.com/media/W1siZiIsIjIwMTYvMDgvMjQvNHFuaTBvY3huZl8xMDUzcjBmZ2RvX3ZjMDY2MDIzLnBuZyJdXQ/9f0f4aeb58cedfa3/1053r0fgdo_vc066023.png"/>
-<h2>Our Story</h2>
-<p>Lorem ipsum</p>
-<img href="https://www.wannapik.com/media/W1siZiIsIjIwMTYvMDgvMjQvNHFuaTBvY3huZl8xMDUzcjBmZ2RvX3ZjMDY2MDIzLnBuZyJdXQ/9f0f4aeb58cedfa3/1053r0fgdo_vc066023.png"/>
-<h2>What we offer</h2>
-<p>Lorem ipsum</p>
-<img href="https://www.wannapik.com/media/W1siZiIsIjIwMTYvMDgvMjQvNHFuaTBvY3huZl8xMDUzcjBmZ2RvX3ZjMDY2MDIzLnBuZyJdXQ/9f0f4aeb58cedfa3/1053r0fgdo_vc066023.png"/>
+<div class="row section">
+    <div class="text col-md-6">
+        <h2>Our Vision</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget nisl vitae metus molestie fermentum non vel est. Integer massa ligula, euismod quis mauris sed, mollis sodales libero. Vestibulum maximus a est in faucibus. Sed purus lectus, consectetur ut lobortis quis, consectetur ac metus. Integer placerat feugiat enim ut pretium. Donec posuere lacus sed arcu scelerisque, et placerat sem auctor. Cras et ex sem.</p>
+    </div>
+    <div class="col-md-6">
+        <img class="aboutimg" src="/static/assets/aboutgraphic.png"/>
+    </div>
+</div>
 
+<div class="row section">
+    <div class="col-md-6">
+        <img class="aboutimg" src="/static/assets/aboutgraphic.png"/>
+    </div>
+    <div class="text col-md-6 order-first order-md-1">
+        <h2>Our Story</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget nisl vitae metus molestie fermentum non vel est. Integer massa ligula, euismod quis mauris sed, mollis sodales libero. Vestibulum maximus a est in faucibus. Sed purus lectus, consectetur ut lobortis quis, consectetur ac metus. Integer placerat feugiat enim ut pretium. Donec posuere lacus sed arcu scelerisque, et placerat sem auctor. Cras et ex sem.</p>
+    </div>
+</div>
 
+<div class="row section">
+    <div class="text col-md-6">
+        <h2>What we offer</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget nisl vitae metus molestie fermentum non vel est. Integer massa ligula, euismod quis mauris sed, mollis sodales libero. Vestibulum maximus a est in faucibus. Sed purus lectus, consectetur ut lobortis quis, consectetur ac metus. Integer placerat feugiat enim ut pretium. Donec posuere lacus sed arcu scelerisque, et placerat sem auctor. Cras et ex sem.</p>
+    </div>
+    <div class="col-md-6">
+        <img class="aboutimg" src="/static/assets/aboutgraphic.png"/>
+    </div>
+</div>
 {% endblock %}
