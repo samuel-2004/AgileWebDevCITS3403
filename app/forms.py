@@ -18,8 +18,8 @@ class uploadForm(FlaskForm):
     submit = SubmitField('Post')
     
 class ContactForm(FlaskForm):
-    name = StringField("Name")
-    email = StringField("Email")
-    subject = StringField("Subject")
-    message = TextAreaField("Message")
-    submit = SubmitField("Send")
+    name = StringField('Name')
+    email = StringField('Email', validators=[FileRequired()])
+    subject = StringField('Subject', validators=[FileRequired()])
+    message = TextAreaField('Message', validators=[FileRequired()])
+    submit = SubmitField('Send')
