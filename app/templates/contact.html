@@ -17,29 +17,45 @@
     <form action="{{ url_for('contact') }}" method=post>
         <div>
             <!-- name forms -->
-            <p>
-                {{ form.name.label }} <br>
-                {{ form.name(placeholder='Your name') }}
-            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.name.label }}
+                </div><br>
+                <div class="col-md-9">
+                    {{ form.name(placeholder='Your name') }}
+                </div>
+            </div>
             <!-- email forms -->
-            <p>
-                {{ form.email.label }} <br>
-                {{ form.email(placeholder='Your e-mail ...') }}
-            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.email.label }}
+                </div><br>
+                <div class="col-md-9">
+                    {{ form.email(placeholder='Your e-mail ...') }}
+                </div>
+            </div>
             <!-- Subject of your request -->
-            <p>
-                {{ form.subject.label }}<br>
-                {{form.subject(placeholder='Subject ...')}}
-            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.subject.label }}
+                </div><br>
+                <div class="col-md-9">
+                    {{ form.subject(placeholder='Subject ...') }}
+                </div>
+            </div>
             <!-- Content of your request -->
-            <p>
-                {{ form.message.label }}<br>
-                {{ form.message(placeholder='Write your request ...') }}
-            </p>
+            <div class="row">
+                <div class="col-md-3">
+                    {{ form.message.label }}
+                </div><br>
+                <div class="col-md-9">
+                    {{ form.message(placeholder='Write your request ...') }}
+                </div>
+            </div>
             <!-- Submit button -->
-            <p>
+            <div class="row">
                 {{ form.submit }}
-            </p>
+            </div>
         </div>
     </form>
 </div>
