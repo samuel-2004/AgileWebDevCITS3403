@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from urllib.parse import urlsplit, urlparse, parse_qs
 import sqlalchemy as sa
 from app import flaskApp, db
-from app.forms import LoginForm, uploadForm
+from app.forms import LoginForm, uploadForm, ContactForm
 from app.models import User, Post, Image
 from werkzeug.utils import secure_filename
 import newhome
@@ -37,10 +37,19 @@ def account():
 def about():
     return render_template('about.html')
 
-@flaskApp.route('/contact')
-@flaskApp.route('/contact-us')
+@flaskApp.route('/contact', methods=['GET','POST'])
+@flaskApp.route('/contact-us', methods=['GET','POST'])
 def contact():
-    return render_template('contactus.html')
+    form = ContactForm()
+    if request.method == 'POST':
+        name = request.form["name"]
+        email = request.form["email"]
+        subject = request.form["subject"]
+        message = request.form["message"]
+        print({'name': name, 'email': email, 'subject': subject, 'message': message})
+        return redirect(url_for('contact'))
+    else:
+        return render_template('contact.html', form=form)
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):

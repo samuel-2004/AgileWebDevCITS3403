@@ -16,3 +16,10 @@ class uploadForm(FlaskForm):
     image = FileField('Image File', validators=[FileRequired()])
 
     submit = SubmitField('Post')
+    
+class ContactForm(FlaskForm):
+    name = StringField("Name")
+    email = StringField("Email")
+    subject = StringField("Subject")
+    message = TextAreaField("Message")
+    submit = SubmitField("Send")
