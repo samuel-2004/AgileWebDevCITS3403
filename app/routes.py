@@ -33,6 +33,15 @@ def search():
 def account():
     return render_template('account.html')
 
+@flaskApp.route('/about')
+def about():
+    return render_template('about.html')
+
+@flaskApp.route('/contact')
+@flaskApp.route('/contact-us')
+def contact():
+    return render_template('contactus.html')
+
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
     return render_template('items.html', itemID=itemID)
