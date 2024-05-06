@@ -111,3 +111,15 @@ body {
 .footer .nav-item *:hover {
     text-decoration: underline;
 }
+
+.profile_post_img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+}
+
+.profile_post {
+    border: #2196F3;
+    border-style: solid;
+    padding: 1%;
+}

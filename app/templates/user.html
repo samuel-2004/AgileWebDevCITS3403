@@ -4,11 +4,15 @@
 <div class="container">
   <h1>User: {{ user.username }}</h1>
   <hr>
-  {% for post in posts %}
-  <p>
-  {{ post.author.username }} posted: <b>{{ post.item_name }}</b> at {{ post.timestamp }}
-  <img src="{{ post.images.src }}">
-  </p>
-  {% endfor %}
+  <div class="row d-flex justify-content-center">
+    {% for post in posts %}
+    <div class="profile_post">
+      <p>
+        {{ post.author.username }} posted: <b>{{ post.item_name }}</b> at {{ post.timestamp }}
+      </p>
+      <img class="profile_post_img" src="{{ post.images.src }}">
+    </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

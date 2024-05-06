@@ -60,3 +60,12 @@ class Image(db.Model):
   
   def __repr__(self) -> str:
     return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
+
+
+class Address(db.Model):
+  id: so.Mapped[int] = so.mapped_column(primary_key=True)
+  number:so.Mapped[int] = so.mapped_column()
+  street: so.Mapped[str] = so.mapped_column(sa.String(128))
+  city: so.Mapped[str] = so.mapped_column(sa.String(128))
+  state: so.Mapped[str] = so.mapped_column(sa.String(128))
+  country: so.Mapped[str] = so.mapped_column(sa.String(128))
