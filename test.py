@@ -24,6 +24,21 @@ class BasicTests(unittest.TestCase):
         self.assertTrue(u.check_password("bubbles"))
         self.assertFalse(u.check_password("rumbles"))
 
+localHost = "http://localhost:5000"
+class SeleniumTests(TestCase):
+    def setUp(self):
+        self.testApp = create_app(TestConfig)
+        self.app_context = self.testApp.app_context()
+        self.app_context.push()
+        db.create_all()
+        add_test_data_to_db()
+
+        self.server_thread = multiprocessing.Process(target = self.testApp.run)
+        self.server_thread.start()
+
+        self.driver = webdriver.Chrome()
+        self.driver.get(localHost)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

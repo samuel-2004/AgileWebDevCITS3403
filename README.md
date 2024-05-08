@@ -25,3 +25,5 @@ To launch the application, perform the following steps:
 
 # Testing Instructions
 Here will be instructions for how to run the tests for the application.
+
+Run: python -m unittest test.py
