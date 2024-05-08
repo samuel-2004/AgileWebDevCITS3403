@@ -24,10 +24,11 @@ class BasicTests(unittest.TestCase):
         self.assertTrue(u.check_password("bubbles"))
         self.assertFalse(u.check_password("rumbles"))
 
+import selenium
 from selenium import webdriver
 
 localHost = "http://localhost:5000"
-class SeleniumTests(TestCase):
+class SeleniumTests(selenium.TestCase):
     def setUp(self):
         self.testApp = create_app(TestConfig)
         self.app_context = self.testApp.app_context()
@@ -38,7 +39,11 @@ class SeleniumTests(TestCase):
         self.server_thread = multiprocessing.Process(target = self.testApp.run)
         self.server_thread.start()
 
-        self.driver = webdriver.Chrome()
+        # Make test run without rendering web page
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        self.driver = webdriver.Chrome(options = options)
+
         self.driver.get(localHost)
         
     def tearDown(self):
