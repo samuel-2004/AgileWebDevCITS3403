@@ -1,24 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <!--set encoding to UTF-8-->
-        <meta charset="UTF-8">
-        <!--webpage settings, how web page is seen-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--link to layout of webpage in style.css-->
-        <link rel="stylesheet" type="text/css" href="./style.css">
-        <title>Item Information</title>
-    </head>
+{% extends "base.html" %}
+{% block title %}Item Information - New Home{% endblock %}
+{% block content %}
+<head>
+    <style>
+        .small-image {
+            width: 80px;
+            height: 80px;
+            padding: 10px;
+        }
+        .item-information {
+            float: right;
+        }
+    </style>
+</head>
 
-    <body>
-        <!-- content for the item image and information -->
-        <img src="book.jpg" alt="Item Image" id="item-image">
-        <div class="item-info" id="item-info">
-            <h2>Item Information</h2>
-            <p><strong>Name:</strong> Item Name</p>
-            <p><strong>Description:</strong> Item Description</p>
-        </div>
+<div class="item-container">
+    <!-- Image now displayed on the left -->
+    <img src="/static/book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
 
-        <script src="items.js"></script>
-    </body>
-</html>
+    <!-- Item information now displayed on the right -->
+    <div class="item-information" id="item-info">
+        <h2>Item Information</h2>
+        <p><strong>Name:</strong> Item Name</p>
+        <p><strong>Description:</strong> Item Description</p>
+    </div>
+</div>
+<script>
+    // Enlarges the image when clicked
+    function enlargeImage(itemId) {
+        img = document.getElementById(itemId);
+            // Loop through all images to revert them back to original size
+        img.style.width = "40%";
+        img.style.height = "auto";
+        img.style.transition = "width 0.5s ease";
+
+    }
+</script>
+{% endblock %}
