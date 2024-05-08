@@ -22,4 +22,7 @@ def create_app(config):
 
     db.init_app(flaskApp)
     # initialises routes
+
+    from app.blueprints import main
+    flaskApp.register_blueprint(main)
     return flaskApp
