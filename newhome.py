@@ -12,6 +12,15 @@ from app import flaskApp
 import sqlite3
 
 
+# Testing Purposes
+from app import create_app, db
+from app.config import DeploymentConfig
+
+flaskApp = create_app(DeploymentConfig)
+migrate = Migrate(db, flaskApp)
+
+
+
 '''
 con = sqlite3.connect("tutorial.db")
 cur = con.cursor()
