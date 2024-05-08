@@ -24,6 +24,8 @@ class BasicTests(unittest.TestCase):
         self.assertTrue(u.check_password("bubbles"))
         self.assertFalse(u.check_password("rumbles"))
 
+from selenium import webdriver
+
 localHost = "http://localhost:5000"
 class SeleniumTests(TestCase):
     def setUp(self):
@@ -38,6 +40,13 @@ class SeleniumTests(TestCase):
 
         self.driver = webdriver.Chrome()
         self.driver.get(localHost)
+        
+    def tearDown(self):
+        self.server_thread.terminate()
+        self.driver.close()
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
 
 
 if __name__ == '__main__':
