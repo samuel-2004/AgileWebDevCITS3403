@@ -11,3 +11,15 @@ flaskApp.config.from_object(Config)
 db = SQLAlchemy(flaskApp)
 migrate = Migrate(flaskApp, db)
 from app import routes, models
+
+
+# Testing Purposes
+db = SQLAlchemy()
+
+def create_app(config):
+    flaskApp = Flask(__name__)
+    flaskApp.config.from_object(config)
+
+    db.init_app(flaskApp)
+    # initialises routes
+    return flaskApp
