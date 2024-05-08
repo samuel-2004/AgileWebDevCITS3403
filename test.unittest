@@ -1,3 +1,5 @@
+# python -m unittest tests.unittest
+import unittest
 from app import create_app, db
 from app.config import TestConfig
 
@@ -14,4 +16,9 @@ def tearDown(self):
     db.drop_all()
     self.app_context.pop()
 
-    
+def test_password_hashing(self):
+    u = Users.query.get("1")
+    u.set_password("bubbles")
+    self.assertTrue(u.check_password("bubbles"))
+    self.assertFalse(u.check_password("rumbles"))
+
