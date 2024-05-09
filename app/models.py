@@ -6,6 +6,19 @@ import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db, login
 
+class Address(db.Model):
+  id: so.Mapped[int] = so.mapped_column(primary_key=True)
+  number:so.Mapped[str] = so.mapped_column(sa.String(8)) # Can have letters, eg. 47A
+  street: so.Mapped[str] = so.mapped_column(sa.String(128))
+  city: so.Mapped[str] = so.mapped_column(sa.String(32))
+  postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
+  state: so.Mapped[str] = so.mapped_column(sa.String(32))
+  country: so.Mapped[str] = so.mapped_column(sa.String(128))
+  
+  resident: so.Mapped['User'] = so.relationship(back_populates='address')
+  
+  def __repr__(self) -> str:
+    return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
 class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,unique=True)
@@ -18,9 +31,13 @@ class User(UserMixin, db.Model):
     points: so.Mapped[int] = so.mapped_column(default=0)
     given: so.Mapped[int] = so.mapped_column(default=0)
     requested: so.Mapped[int] = so.mapped_column(default=0)
+    address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id), index=True, unique=True) # Each user should have only one address
 
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
       back_populates='author')
+    
+    address: so.Mapped[Address] = so.relationship(
+      back_populates='resident')
 
     def __repr__(self) -> str:
       return f'<User {self.username} {self.email}>'
@@ -61,11 +78,3 @@ class Image(db.Model):
   def __repr__(self) -> str:
     return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
 
-
-class Address(db.Model):
-  id: so.Mapped[int] = so.mapped_column(primary_key=True)
-  number:so.Mapped[int] = so.mapped_column()
-  street: so.Mapped[str] = so.mapped_column(sa.String(128))
-  city: so.Mapped[str] = so.mapped_column(sa.String(128))
-  state: so.Mapped[str] = so.mapped_column(sa.String(128))
-  country: so.Mapped[str] = so.mapped_column(sa.String(128))
