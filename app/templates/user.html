@@ -13,7 +13,9 @@
       <p>
         {{ post.author.username }} posted: <b>{{ post.item_name }}</b> at {{ post.timestamp }}
       </p>
+      {% if post.images %}
       <img class="profile_post_img" src="{{ post.images.src }}">
+      {% endif %}
     </div>
     {% endfor %}
   </div>

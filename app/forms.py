@@ -13,6 +13,6 @@ class uploadForm(FlaskForm):
     post_type = SelectField('Post Type', choices=[('OFFER','Give'),('REQUEST','Request')])
     item_name = StringField('Item Name', validators=[DataRequired(), Length(max=32)])
     desc = TextAreaField('Description', validators=[DataRequired(), Length(max=200)])
-    image = FileField('Image File', validators=[FileRequired()])
+    image = FileField('Image File')#, validators=[FileRequired()])
 
     submit = SubmitField('Post')
