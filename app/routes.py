@@ -6,7 +6,7 @@ from urllib.parse import urlsplit, urlparse, parse_qs
 import sqlalchemy as sa
 from app import flaskApp, db
 from app.forms import LoginForm, uploadForm
-from app.models import User, Post, Image
+from app.models import *
 from werkzeug.utils import secure_filename
 import newhome
 

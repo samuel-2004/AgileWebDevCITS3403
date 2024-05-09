@@ -19,6 +19,8 @@ class Address(db.Model):
   
   def __repr__(self) -> str:
     return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
+  
+
 class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,unique=True)
@@ -31,7 +33,7 @@ class User(UserMixin, db.Model):
     points: so.Mapped[int] = so.mapped_column(default=0)
     given: so.Mapped[int] = so.mapped_column(default=0)
     requested: so.Mapped[int] = so.mapped_column(default=0)
-    address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id), index=True, unique=True) # Each user should have only one address
+    address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id), index=True)
 
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
       back_populates='author')
