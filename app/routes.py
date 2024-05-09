@@ -9,7 +9,6 @@ from app.forms import LoginForm, uploadForm
 from app.models import User, Post, Image
 from werkzeug.utils import secure_filename
 import newhome
-from app import flaskApp
 
 #Since we are using os, avoid importing as much as possible
 import os
