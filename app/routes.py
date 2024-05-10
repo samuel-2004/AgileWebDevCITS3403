@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from urllib.parse import urlsplit, urlparse, parse_qs
 import sqlalchemy as sa
 from app import flaskApp, db
-from app.forms import LoginForm, uploadForm, ContactForm
+from app.forms import *
 from app.models import User, Post, Image
 from werkzeug.utils import secure_filename
 import newhome
