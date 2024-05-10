@@ -36,3 +36,7 @@ class SeleniumTests(selenium.TestCase):
     def test_index_page(self):
         time.sleep(10)
         self.assertTrue(True)
+
+    def test_login_page(self):
+        loginElement = self.driver.find_element(By.Username, "login")
+        loginElement.send_keys("test")
