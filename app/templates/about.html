@@ -3,26 +3,14 @@
 {% block head %}
 {{ super() }}
 <style>
-.aboutimg {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-@media (max-width: 576px) {
-    .aboutimg {
-        max-width: 75%;
-    }
-}
-@media (min-width: 576px) {
-    .aboutimg {
-        max-width: 50%;
-    }
-}
 .section {
     padding-top:25px;
     padding-bottom:25px;
+}
+
+
+.aboutimg {
+    display: block;
 }
 .text {
     display: block;
@@ -30,14 +18,26 @@
     margin-right: auto;
     word-wrap: break-word;
 }
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     .text {
         max-width: 75%;
     }
+    .aboutimg {
+        max-width: 75%;
+        margin: auto;
+    }
 }
-@media (min-width: 576px) {
+@media (min-width: 768px) {
     .text {
         max-width: 30%;
+    }
+    .aboutimg {
+        max-width: 50%;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 </style>
@@ -57,13 +57,13 @@
         <p>We envision a world where every item has value and every act of giving strengthens bonds within neighbourhoods, reduces waste, promotes environmental stewardship, and cultivates a sense of belonging.</p>
     </div>
     <div class="col-md-6">
-        <img class="aboutimg" src="/static/assets/aboutgraphic.png"/>
+        <img class="aboutimg float-end" src="/static/assets/aboutgraphic1.png"/>
     </div>
 </div>
 
 <div class="row section">
     <div class="col-md-6">
-        <img class="aboutimg" src="/static/assets/aboutgraphic.png"/>
+        <img class="aboutimg float-end" src="/static/assets/aboutgraphic2.png"/>
     </div>
     <div class="text col-md-6 order-first order-md-1">
         <h2>Our Story</h2>
@@ -82,7 +82,7 @@
         <p>Whether you're in search of a specific item, or looking to give back, <a style="color: rgb(33,150,243); font-weight: bold;">NewHome</a> creates a welcoming and inclusive environment for all. Come join us in creating a better world.</p>
     </div>
     <div class="col-md-6">
-        <img class="aboutimg" src="/static/assets/aboutgraphic.png"/>
+        <img class="aboutimg float-end" src="/static/assets/aboutgraphic3.png"/>
     </div>
 </div>
 {% endblock %}
