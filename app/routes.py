@@ -35,7 +35,7 @@ def account():
 
 @flaskApp.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', active_link='/about')
 
 @flaskApp.route('/contact', methods=['GET','POST'])
 @flaskApp.route('/contact-us', methods=['GET','POST'])
@@ -49,7 +49,7 @@ def contact():
         print({'name': name, 'email': email, 'subject': subject, 'message': message})
         return redirect(url_for('contact'))
     else:
-        return render_template('contact.html', form=form)
+        return render_template('contact.html', form=form, active_link='/contact')
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
@@ -85,6 +85,7 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 @flaskApp.route('/upload', methods=['GET', 'POST'])
 @login_required
