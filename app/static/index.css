@@ -166,3 +166,8 @@ body {
         transform: translate(-50%, -50%);
     }
 }
+
+.newhometext {
+    color: rgb(33,150,243); 
+    font-weight: bold;
+}
