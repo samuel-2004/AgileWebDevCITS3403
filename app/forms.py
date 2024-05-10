@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from flask_wtf.file import FileField, FileRequired
-from wtforms.validators import DataRequired, Length, Optional, Regexp
+from wtforms.validators import DataRequired, Length, Optional, Regexp, Email
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -19,7 +19,7 @@ class uploadForm(FlaskForm):
     
 class ContactForm(FlaskForm):
     name = StringField('Name')
-    email = StringField('Email', validators=[FileRequired()])
-    subject = StringField('Subject', validators=[FileRequired()])
-    message = TextAreaField('Message', validators=[FileRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email("This field requires a valid email address")])
+    subject = StringField('Subject', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Send')

@@ -14,11 +14,22 @@
     padding-bottom: 0.25rem;
 }
 </style>
+<script>
+function validateEmail() {
+    let email_input = document.forms["contactform"]["email"].value;
+    if (/([^\.\s]+\.)*[^\.\s]+@[^\.\s][^\.\s]*(\.[^\.\s]*)*/.test(email_input))
+    {
+        return (true)
+    }
+    alert("You have entered an invalid email address!")
+    return (false)
+}
+</script>
 {% endblock %}
 {% block content %}
 <div class="contact">
     <h3>Contact us</h3>
-    <form action="{{ url_for('contact') }}" method=post>
+    <form id="contactform" action="{{ url_for('contact') }}" onsubmit="return validateEmail()" method=post>
         <div>
             <!-- name forms -->
             <div class="row">
