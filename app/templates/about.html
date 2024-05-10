@@ -1,50 +1,8 @@
 {% extends "base.html" %}
 {% block title %}About{% endblock %}
-{% block head %}
-{{ super() }}
-<style>
-.section {
-    padding-top:25px;
-    padding-bottom:25px;
-}
-
-
-.aboutimg {
-    display: block;
-}
-.text {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    word-wrap: break-word;
-}
-@media (max-width: 768px) {
-    .text {
-        max-width: 75%;
-    }
-    .aboutimg {
-        max-width: 75%;
-        margin: auto;
-    }
-}
-@media (min-width: 768px) {
-    .text {
-        max-width: 30%;
-    }
-    .aboutimg {
-        max-width: 50%;
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-}
-</style>
-{% endblock %}
 {% block content %}
-<div class="row section">
-    <div class="text col-md-6">
+<div class="row aboutsection">
+    <div class="abouttext col-md-6">
         <h2>Our Vision</h2>
         <p>We aim to create a community-driven platform where individuals are able to</p>
         <ul>
@@ -61,11 +19,11 @@
     </div>
 </div>
 
-<div class="row section">
+<div class="row aboutsection">
     <div class="col-md-6">
         <img class="aboutimg float-end" src="/static/assets/aboutgraphic2.png"/>
     </div>
-    <div class="text col-md-6 order-first order-md-1">
+    <div class="abouttext col-md-6 order-first order-md-1">
         <h2>Our Story</h2>
         <p>At <a style="color: rgb(33,150,243); font-weight: bold;">NewHome</a>, our story began with a simple idea: to build a platform to enable users worldwide an easy way to rehome unwanted items.</p>
         <p>Here, we define how consumption, ownership, and community are viewed. Fueled by a desire to challenge excessive consumerism and promote sustainable ways of living, we embarked on a journey to create a space where individuals could freely give and receive and create a sense of community.</p>
@@ -74,8 +32,8 @@
     </div>
 </div>
 
-<div class="row section">
-    <div class="text col-md-6">
+<div class="row aboutsection">
+    <div class="abouttext col-md-6">
         <h2>What we offer</h2>
         <p>At <a style="color: rgb(33,150,243); font-weight: bold;">NewHome</a>, we offer a user-friendly platform where users can give and receive freely, and foster community relations. Members can easily connect with others to find and offer items ranging from household goods to electronics to clothing. Anything given a new home is a reduction of our joint carbon footprint.</p>
         <p>Our website provides a place for acts of kindness, where members can declutter their homes, but also help others in finding items of use to them. We empower communities to embrace a conscious effort to reduce waste and promote sustainability.</p>

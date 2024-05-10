@@ -127,3 +127,42 @@ body {
     padding-right:20px; 
     float:right;
 }
+
+
+.aboutsection {
+    padding-top:25px;
+    padding-bottom:25px;
+}
+
+
+.aboutimg {
+    display: block;
+}
+.abouttext {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+}
+@media (max-width: 768px) {
+    .abouttext {
+        max-width: 75%;
+    }
+    .aboutimg {
+        max-width: 75%;
+        margin: auto;
+    }
+}
+@media (min-width: 768px) {
+    .abouttext {
+        max-width: 30%;
+    }
+    .aboutimg {
+        max-width: 50%;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
