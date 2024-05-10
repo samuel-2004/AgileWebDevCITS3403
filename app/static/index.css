@@ -112,6 +112,18 @@ body {
     text-decoration: underline;
 }
 
+
+.profile_post_img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+}
+
+.profile_post {
+    border: #2196F3;
+    border-style: solid;
+    padding: 1%;
+
 .contactformmain {
     display: block;
     margin-left: auto;
@@ -127,7 +139,6 @@ body {
     padding-right:20px; 
     float:right;
 }
-
 
 .aboutsection {
     padding-top:25px;
@@ -170,4 +181,4 @@ body {
 .newhometext {
     color: rgb(33,150,243); 
     font-weight: bold;
-}
+  }
