@@ -13,7 +13,11 @@
         }
     </style>
 </head>
-
+<!--
+<div class="item-container">
+    <p>Item ID: {{ itemID }}</p>
+</div>
+-->
 <div class="item-container">
     <!-- Image now displayed on the left -->
     <img src="/static/book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
@@ -25,6 +29,32 @@
         <p><strong>Description:</strong> Item Description</p>
     </div>
 </div>
+
+<div class="item-container">
+    <!-- Check if itemID is provided -->
+    {% if itemID %}
+        <!-- Retrieve post information based on itemID -->
+        {% set post = Post.query.get(itemID) %}
+        {% if post %}
+            <!-- Display item information -->
+            <div class="item-information" id="item-info">
+                <h2>Item Information</h2>
+                <p><strong>Name:</strong> {{ post.item_name }}</p>
+                <p><strong>Description:</strong> {{ post.desc }}</p>
+            </div>
+            
+            <!-- Display associated images -->
+            {% for image in post.images %}
+                <img src="{{ image.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this)">
+            {% endfor %}
+        {% else %}
+            <p>No item found with ID {{ itemID }}</p>
+        {% endif %}
+    {% else %}
+        <p>No item information available.</p>
+    {% endif %}
+</div>
+
 <script>
     // Enlarges the image when clicked
     function enlargeImage(itemId) {
