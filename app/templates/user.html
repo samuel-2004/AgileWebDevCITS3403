@@ -15,6 +15,8 @@
       </p>
       {% if post.images %}
       <img class="profile_post_img" src="{{ post.images.src }}">
+      {%else %}
+      <img class="profile_post_img" src="/static/book.jpg">
       {% endif %}
     </div>
     {% endfor %}
