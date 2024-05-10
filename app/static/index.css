@@ -112,6 +112,7 @@ body {
     text-decoration: underline;
 }
 
+
 .profile_post_img {
     height: 200px;
     width: 200px;
@@ -122,4 +123,62 @@ body {
     border: #2196F3;
     border-style: solid;
     padding: 1%;
+
+.contactformmain {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 50%;
 }
+.contactrow {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+.contactsubmit {
+    padding-top:1rem; 
+    padding-right:20px; 
+    float:right;
+}
+
+.aboutsection {
+    padding-top:25px;
+    padding-bottom:25px;
+}
+
+
+.aboutimg {
+    display: block;
+}
+.abouttext {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+}
+@media (max-width: 768px) {
+    .abouttext {
+        max-width: 75%;
+    }
+    .aboutimg {
+        max-width: 75%;
+        margin: auto;
+    }
+}
+@media (min-width: 768px) {
+    .abouttext {
+        max-width: 30%;
+    }
+    .aboutimg {
+        max-width: 50%;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.newhometext {
+    color: rgb(33,150,243); 
+    font-weight: bold;
+  }

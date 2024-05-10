@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 from urllib.parse import urlsplit, urlparse, parse_qs
 import sqlalchemy as sa
 from app import flaskApp, db
-from app.forms import LoginForm, uploadForm
 from app.models import *
+from app.forms import *
 from werkzeug.utils import secure_filename
 import newhome
 
@@ -31,6 +31,24 @@ def search():
 @flaskApp.route('/account')
 def account():
     return render_template('account.html')
+
+@flaskApp.route('/about')
+def about():
+    return render_template('about.html', active_link='/about')
+
+@flaskApp.route('/contact', methods=['GET','POST'])
+@flaskApp.route('/contact-us', methods=['GET','POST'])
+def contact():
+    form = ContactForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        name = request.form["name"]
+        email = request.form["email"]
+        subject = request.form["subject"]
+        message = request.form["message"]
+        print({'name': name, 'email': email, 'subject': subject, 'message': message})
+        return redirect(url_for('contact'))
+    else:
+        return render_template('contact.html', form=form, active_link='/contact')
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
@@ -66,6 +84,7 @@ def signup():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 @flaskApp.route('/upload', methods=['GET', 'POST'])
 @login_required
