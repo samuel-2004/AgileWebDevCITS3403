@@ -3,22 +3,14 @@ import sqlalchemy as sa
 from app.models import User, Post, Image
 import sqlalchemy.orm as so
 import sqlite3
-import imghdr
+
 
 @flaskApp.shell_context_processor
 def make_shell_context():
     return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post, 'Image': Image}
 
-from app import flaskApp
-import sqlite3
 
-def validate_image(stream):
-    header = stream.read(512)
-    stream.seek(0)
-    format = imghdr.what(None, header)
-    if not format:
-        return None
-    return "." + (format if format != "jpeg" else "jpg")
+
 '''
 con = sqlite3.connect("tutorial.db")
 cur = con.cursor()
