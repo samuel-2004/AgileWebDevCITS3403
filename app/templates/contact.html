@@ -30,6 +30,7 @@ function validateEmail() {
 <div class="contact">
     <h3>Contact us</h3>
     <form id="contactform" action="{{ url_for('contact') }}" onsubmit="return validateEmail()" method=post>
+        {{ form.csrf_token }}
         <div>
             <!-- name forms -->
             <div class="row">

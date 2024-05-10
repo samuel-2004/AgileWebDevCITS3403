@@ -41,7 +41,7 @@ def about():
 @flaskApp.route('/contact-us', methods=['GET','POST'])
 def contact():
     form = ContactForm()
-    if request.method == 'POST':
+    if request.method == 'POST' and form.validate_on_submit():
         name = request.form["name"]
         email = request.form["email"]
         subject = request.form["subject"]
