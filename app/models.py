@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
     points: so.Mapped[int] = so.mapped_column(default=0)
     given: so.Mapped[int] = so.mapped_column(default=0)
     requested: so.Mapped[int] = so.mapped_column(default=0)
-    address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id), index=True)
+    address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id,name="fk_address_id"), index=True)
 
     posts: so.WriteOnlyMapped['Post'] = so.relationship(
       back_populates='author')
