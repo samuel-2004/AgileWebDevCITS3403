@@ -68,7 +68,11 @@ class Post(db.Model):
 
   def __repr__(self) -> str:
     return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
-  
+
+def get_posts(q, md, order):
+    posts = sa.select(Post).where(((q in Post.item_name) or (q in Post.desc))).order_by(Post.timestamp)
+
+    return posts
   
 class Image(db.Model):
   id: so.Mapped[int] = so.mapped_column(primary_key=True)
