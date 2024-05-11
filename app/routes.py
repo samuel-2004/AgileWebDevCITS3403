@@ -22,11 +22,27 @@ def index():
 
 @flaskApp.route('/advancedsearch')
 def advancedSearch():
-    return render_template('advancedsearch.html', active_link='/advancedsearch')
+    form = SearchForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        title = request.form["q"]
+        max_distance = request.form["md"]
+        orderby = request.form["order"]
+        print({'title': title, 'max_distance': max_distance, 'orderby': orderby})
+        return redirect(url_for('search', q=title, md=max_distance, order=orderby))
+    else:
+        return render_template('advancedsearch.html', form=form, active_link='/advancedsearch')
 
-@flaskApp.route('/search', methods=['GET'])
+@flaskApp.route('/search')
 def search():
-    return render_template('search.html')
+    # Retrieve search parameters from the query string
+    query = request.args.get('q')
+    max_distance = request.args.get('md')
+    orderby = request.args.get('order')
+
+    # Perform search based on the parameters
+    # Your search logic goes here...
+
+    return f"Search results for: {query}, Max Distance: {max_distance}, Order By: {orderby}"
 
 @flaskApp.route('/account')
 def account():
