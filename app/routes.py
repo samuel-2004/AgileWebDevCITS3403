@@ -39,8 +39,9 @@ def search():
     max_distance = request.args.get('md')
     orderby = request.args.get('order')
 
-    # Perform search based on the parameters
-    # Your search logic goes here...
+    #user = db.first_or_404(sa.select(User).where(User.username == username))
+    #query = user.posts.select().order_by(Post.timestamp.desc())
+    #posts = db.session.scalars(query)
 
     return f"Search results for: {query}, Max Distance: {max_distance}, Order By: {orderby}"
 
