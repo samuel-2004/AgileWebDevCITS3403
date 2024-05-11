@@ -39,9 +39,10 @@ def search():
     max_distance = request.args.get('md')
     orderby = request.args.get('order')
 
-    posts = get_posts(query, max_distance, orderby)
-
-    return f"Total number of posts found: {len(posts)}."
+    posts_query = get_posts(query, max_distance, orderby)
+    posts = db.session.execute(posts_query).fetchall()
+    result_count = len(posts)
+    return f"Total number of posts found: {result_count}."
 
 @flaskApp.route('/account')
 def account():

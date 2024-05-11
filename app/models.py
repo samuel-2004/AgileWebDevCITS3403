@@ -79,9 +79,9 @@ def get_posts(q, md, order):
         q = []
 
     # Check if any word in q is in the post name or description
-    posts = posts.where(sa.or_(
-        any([_ in Post.item_name for _ in q]), 
-        any([_ in Post.desc for _ in q])))
+    name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
+    desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
+    posts = posts.where(sa.or_(*name_conditions, * desc_conditions))
     # This does not take into account the maximum distance
     # maximum distance will require api calls etc
 
