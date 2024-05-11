@@ -70,8 +70,32 @@ class Post(db.Model):
     return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
 def get_posts(q, md, order):
-    posts = sa.select(Post).where(((q in Post.item_name) or (q in Post.desc))).order_by(Post.timestamp)
+    posts = sa.select(Post)
 
+    # Split the query into words
+    if (len(q) > 0):
+        q = q.split()
+    else:
+        q = []
+
+    # Check if any word in q is in the post name or description
+    posts = posts.where(sa.or_(
+        any([_ in Post.item_name for _ in q]), 
+        any([_ in Post.desc for _ in q])))
+    # This does not take into account the maximum distance
+    # maximum distance will require api calls etc
+
+    if order == "new":
+        posts = posts.order_by(sa.desc(Post.timestamp))
+    elif order == "old":
+        posts = posts.order_by(Post.timestamp)
+    elif order == "close":
+        # need to access distance
+        posts = posts
+    elif order == "rating":
+        # need to access users' points
+        posts = posts
+    
     return posts
   
 class Image(db.Model):
