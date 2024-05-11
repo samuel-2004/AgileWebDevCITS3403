@@ -39,11 +39,9 @@ def search():
     max_distance = request.args.get('md')
     orderby = request.args.get('order')
 
-    #user = db.first_or_404(sa.select(User).where(User.username == username))
-    #query = user.posts.select().order_by(Post.timestamp.desc())
-    #posts = db.session.scalars(query)
+    posts = get_posts(query, max_distance, orderby)
 
-    return f"Search results for: {query}, Max Distance: {max_distance}, Order By: {orderby}"
+    return f"Total number of posts found: {len(posts)}."
 
 @flaskApp.route('/account')
 def account():
@@ -91,17 +89,14 @@ def login():
         return redirect(next_page)
     return render_template('login.html', active_link='/login', form=form)
 
-
 @flaskApp.route('/signup')
 def signup():
     return render_template('signup.html', active_link='/signup')
-
 
 @flaskApp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
 
 @flaskApp.route('/upload', methods=['GET', 'POST'])
 @login_required
