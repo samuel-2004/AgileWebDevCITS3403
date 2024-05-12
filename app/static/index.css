@@ -182,3 +182,38 @@ body {
     font-weight: bold;
 }
 
+.anItem {
+    outline: 2px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+.anItem:hover {
+    background-color: lightgrey;
+    outline: 3px solid darkslategrey;
+    cursor: pointer;
+}
+.anItem > img {
+    display: block;
+    margin: auto;
+    border-radius: 2%;
+}
+.anItem > .name {
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+.anItem:hover > .name {
+    text-decoration: underline;
+}
+.anItem > p {
+    white-space: pre;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+@media (max-width: 576px) {
+    .anItem {
+        width: 75%;
+    }
+}

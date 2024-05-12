@@ -65,7 +65,10 @@
       {% endif %}
       {% endwith %}
     </div>
-    <div class="content" id="content">{% block content %}{% endblock %}</div>
+
+    <div class="content" id="content">
+        {% block content %}{% endblock %}
+    </div>
 
     <!-- The following was derived from https://getbootstrap.com/docs/5.2/examples/footers/ -->
     <div class="container footer">
