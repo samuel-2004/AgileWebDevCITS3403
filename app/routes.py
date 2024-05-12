@@ -56,6 +56,7 @@ def item(itemID):
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
+    # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
@@ -75,8 +76,12 @@ def login():
     return render_template('login.html', active_link='/login', form=form)
 
 
-@flaskApp.route('/signup')
+@flaskApp.route('/signup', methods=['GET', 'POST'])
 def signup():
+    # redirect if logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    #form = SignupForm()
     return render_template('signup.html', active_link='/signup')
 
 
