@@ -81,8 +81,8 @@ def signup():
     # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    #form = SignupForm()
-    return render_template('signup.html', active_link='/signup')
+    form = SignupForm()
+    return render_template('signup.html', active_link='/signup', form=form)
 
 
 @flaskApp.route('/logout')
