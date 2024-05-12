@@ -3,6 +3,17 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Selec
 from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import DataRequired, Length, Optional, Regexp, Email
 
+class SignupForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email("This field requires a valid email address")])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirmed_password = PasswordField('Password', validators=[DataRequired()])
+    # address fields
+    street_number = StringField('Number', validators=[DataRequired()])
+    street = StringField('Street', validators=[DataRequired()])
+    suburb = StringField('Suburb', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
