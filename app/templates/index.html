@@ -3,6 +3,33 @@
 {% block head %}
 {{ super() }}
 <script src="items.js"></script>
+<style>
+.anItem {
+    border: 2px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 3px;
+}
+.anItem:hover {
+    background-color: lightgrey;
+    border: 3px solid darkslategrey;
+    cursor: pointer;
+}
+.anItem > img {
+    display: block;
+    margin: auto;
+}
+.anItem > .name {
+    text-align: center;
+}
+.anItem:hover > .name {
+    text-decoration: underline;
+}
+.anItem > p {
+    white-space: pre;
+    margin-bottom: 0;
+}
+</style>
 {% endblock %}
 {% block content %}
     <!-- Render each item to the page -->
@@ -11,7 +38,10 @@
         <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
             <!-- If the image wasn't passed, render the default -->
             <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
-            <p style="white-space: pre;">Name: {{item.name}}&#10;&#13;Suburb: {{item.suburb}}&#10;&#13;Who: {{item.who}}</p></div>
+            <p class="name">{{item.name}}</p>
+            <p>Located in {{item.suburb}}</p>
+            <p>Posted by {{item.who}}</p>
+        </div>
         {% endfor %}
     </div>
 {% endblock %}
