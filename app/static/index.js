@@ -1,16 +1,19 @@
 //Adapted from https://www.w3schools.com/js/js_ajax_intro.asp
-function loadQuote() {
+function getQuote() {
     const xhttp = new XMLHttpRequest();
     xhttp.onload = function() {
       let result = JSON.parse(this.responseText);
-      console.log(result[0].content);
+      loadQuote(result[0])
+      console.log(result[0]);
     }
-   /*  xhttp.open("GET","https://quotesondesign.com/wp-json/wp/v2/posts/?orderby=rand");
-    //xhttp.setRequestHeader('Content-Type', 'application/json'); */
-
-    xhttp.open("GET", "https://api.quotable.io/quotes/random", true);
+    xhttp.open("GET", "https://api.quotable.io/quotes/random?tags=inspirational&maxLength=100", true);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
   }
 
-window.onload = () => {loadQuote()}
+function loadQuote(quote){
+  quoteText = quote.content+"<br>- "+quote.author
+  quoteElement = $("<h3></h3>").html(quoteText);
+  $("#content").prepend(quoteElement);
+}
+window.onload = () => {getQuote()}
