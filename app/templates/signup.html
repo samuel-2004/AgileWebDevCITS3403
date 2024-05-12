@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Sign Up{% endblock %}
 {% block content %}
-<div class="container col-4">
-    <form>
+<div class="container col-sm-6 col-lg-4">
+    <form method="post">
+        {{ form.hidden_tag() }}
         <!-- Form header-->
         <div class="text-center">
             <h1 class="text-center">Sign up</h1>
@@ -11,24 +12,36 @@
         <br>
         <!-- Form body -->
         <div class="form-group row">
-            <label for="username" class="col-4 col-form-label">Username</label>
-            <input class="form-control col" type="text" id="username" name="username" placeholder="Username">
+            {{ form.username.label(class="col-5 col-form-label") }}
+            {{ form.username(_class="form-control col")}}
+            {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </div>
         <div class="form-group row">
-            <label for="email" class="col-4 col-form-label">Email Address</label>
-            <input class="form-control col" type="email" id="email" name="email" placeholder="Email address">
+            {{ form.email.label(class="col-5 col-form-label") }}
+            {{ form.email(_class="form-control col")}}
+            {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </div>
         <div class="form-group">
             <div class="row">
-                <label for="password" class="col-4 col-form-label">Password</label>
-                <input class="form-control col-4" type="password" id="password" name="password" placeholder="Password">
+                {{ form.password.label(class="col-5 col-form-label") }}
+                {{ form.password(_class="form-control col")}}
+                {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
             <div class="row">
-                <label for="confirmed_password" class="col-4 col-form-label">Confirm Password</label>
-                <input class="form-control col-4" type="password" id="confirmed_password" name="confirmed_password" placeholder="Confirm Password">
+                {{ form.confirmed_password.label(class="col-5 col-form-label") }}
+                {{ form.confirmed_password(_class="form-control col")}}
+                {% for error in form.confirmed_password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-xlg col" method="post">Create Account</button>
+        {{ form.submit() }}
     </form>
 </div>
 {% endblock %}
