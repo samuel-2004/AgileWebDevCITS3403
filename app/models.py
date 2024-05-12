@@ -22,33 +22,33 @@ class Address(db.Model):
   
 
 class User(UserMixin, db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,unique=True)
-    email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,unique=True)
-    password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-    time_created: so.Mapped[datetime] = so.mapped_column(
-      index=True, default=lambda: datetime.now(timezone.utc))
-    bio: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-    pic: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
-    points: so.Mapped[int] = so.mapped_column(default=0)
-    given: so.Mapped[int] = so.mapped_column(default=0)
-    requested: so.Mapped[int] = so.mapped_column(default=0)
-    address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id,name="fk_address_id"), index=True)
+  id: so.Mapped[int] = so.mapped_column(primary_key=True)
+  username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,unique=True)
+  email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True,unique=True)
+  password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
+  time_created: so.Mapped[datetime] = so.mapped_column(
+    index=True, default=lambda: datetime.now(timezone.utc))
+  bio: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
+  pic: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
+  points: so.Mapped[int] = so.mapped_column(default=0)
+  given: so.Mapped[int] = so.mapped_column(default=0)
+  requested: so.Mapped[int] = so.mapped_column(default=0)
+  address_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Address.id,name="fk_address_id"), index=True)
 
-    posts: so.WriteOnlyMapped['Post'] = so.relationship(
-      back_populates='author')
-    
-    address: so.Mapped[Address] = so.relationship(
-      back_populates='resident')
+  posts: so.WriteOnlyMapped['Post'] = so.relationship(
+    back_populates='author')
+  
+  address: so.Mapped[Address] = so.relationship(
+    back_populates='resident')
 
-    def __repr__(self) -> str:
-      return f'<User {self.username} {self.email}>'
-    
-    def set_password(self, password):
-      self.password_hash = generate_password_hash(password)
+  def __repr__(self) -> str:
+    return f'<User {self.username} {self.email}>'
+  
+  def set_password(self, password):
+    self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
-      return check_password_hash(self.password_hash, password)
+  def check_password(self, password):
+    return check_password_hash(self.password_hash, password)
 
 @login.user_loader
 def load_user(id):
