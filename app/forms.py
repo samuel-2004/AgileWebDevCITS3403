@@ -1,18 +1,22 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from flask_wtf.file import FileField, FileRequired
-from wtforms.validators import DataRequired, Length, Optional, Regexp, Email
+from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo
 
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email("This field requires a valid email address")])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirmed_password = PasswordField('Password', validators=[DataRequired()])
+    confirmed_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password',"Passwords must match")])
     # address fields
-    street_number = StringField('Number', validators=[DataRequired()])
-    street = StringField('Street', validators=[DataRequired()])
-    suburb = StringField('Suburb', validators=[DataRequired()])
-    city = StringField('City', validators=[DataRequired()])
+    street_number = StringField('Number', validators=[DataRequired(), Length(max=8)])
+    street = StringField('Street', validators=[DataRequired(), Length(max=128)])
+    suburb = StringField('Suburb', validators=[DataRequired(), Length(max=32)])
+    postcode = StringField('Post Code', validators=[DataRequired(), Length(min=4,max=4,message="Post code must be 4 digits")])
+    city = StringField('City', validators=[DataRequired(), Length(max=32)])
+    state = StringField('State', validators=[DataRequired(), Length(max=32)])
+    country = StringField('Country', validators=[DataRequired(), Length(max=128)])
+    submit = SubmitField('Create Account')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
