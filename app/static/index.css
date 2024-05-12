@@ -103,6 +103,13 @@ body {
     padding-right: 3%;
 }
 
+#submit{
+    background-color: rgb(33,150,243);
+    color: white;
+    width: 100%;
+    padding: 5px;
+}
+
 .footer {
     flex-shrink: 0;
     height: 100px;
