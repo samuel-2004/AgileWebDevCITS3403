@@ -3,8 +3,18 @@ This CSS file contains the style information for the navbar and footer.
 */
 
 .navbar {
-    background-color: #bbb;
+    background-color: #ccc;
     padding: 0px;
+    font-size: larger;
+}
+
+.navbar a:not(.navbar-brand) {
+    margin: 0px 5px;
+    text-wrap: nowrap;
+}
+
+#navbarsearch {
+    padding: 5px 0px;
 }
 
 .navbar a:not(.navbar-brand):hover {
