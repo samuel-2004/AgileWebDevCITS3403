@@ -2,90 +2,18 @@
 This CSS file contains the style information for the navbar and footer.
 */
 
-.topnav {
-    background-color: #c9c9c9;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
-    margin-bottom: 40px;
-}
-  
-.topnav a {
-    float: left;
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+.navbar {
+    background-color: #bbb;
+    padding: 0px;
 }
 
-.topnav a:hover {
-    background-color: #aaa;
-    color: black;
-}
-
-.topnav a.active {
-    background-color: #2196F3;
-    color: white;
-}
-
-.topnav .home{
-    padding: 2px;
-}
-
-.topnav a.active.home{
-    background-color: #BBDEFB;
-}
-
-.topnav .search-container {
-    margin-left: auto;
-}
-
-.topnav input[type=text] {
-    padding: 6px;
-    margin-top: 8px;
-    font-size: 17px;
-    border: none;
-}
-
-.topnav .search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    background: #eee;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
-}
-
-.topnav .search-container button:hover {
-    background: #999;
-}
-
-@media screen and (max-width: 600px) {
-    .topnav .search-container {
-        float: none;
-    }
-    .topnav a, .topnav input[type=text], .topnav .search-container button {
-        float: none;
-        display: block;
-        text-align: left;
-        width: 100%;
-        margin: 0;
-        padding: 14px;
-    }
-    .topnav input[type=text] {
-        border: 1px solid #ccc;  
-    }
+.navbar a:not(.navbar-brand):hover {
+    border-radius: 3px;
+    background-color: #999;
+    text-decoration: underline;
 }
 
 #content {
-    padding-top: 60px;
     margin-bottom: 40px;
 }
 
@@ -215,6 +143,6 @@ body {
 }
 @media (max-width: 576px) {
     .anItem {
-        width: 75%;
+        width: 75% !important;
     }
 }
