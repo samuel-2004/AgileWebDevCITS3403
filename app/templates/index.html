@@ -1,19 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
+{% block head %}
+{{ super() }}
+<script src="items.js"></script>
+{% endblock %}
 {% block content %}
-    <!-- Add onclick method that redirects user to the item's page -->
-    <!-- This may be used on the search results page, so may add to a js file later -->
-    <script>
-        function openItemPage(event, nID) {
-            var ref = "./item/" + nID;
-            if(event.ctrlKey || event.metaKey){
-                window.open(ref, "_blank");
-            } else {
-                window.location.href = ref;   
-            }
-        }
-    </script>
-
     <!-- Render each item to the page -->
     <div class="row d-flex justify-content-center" id="mainContent">
         {% for item in items %}
