@@ -9,7 +9,7 @@ This CSS file contains the style information for the navbar and footer.
 }
 
 .navbar a:not(.navbar-brand) {
-    margin: 0px 5px;
+    padding: 5px 5px;
     text-wrap: nowrap;
 }
 
