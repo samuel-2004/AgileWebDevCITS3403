@@ -69,7 +69,7 @@ class Post(db.Model):
   def __repr__(self) -> str:
     return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
-def get_posts(q, md, order):
+def get_posts(q="", md=None, order="new"):
     posts = sa.select(Post)
 
     # Split the query into words
