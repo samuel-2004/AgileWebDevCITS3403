@@ -8,7 +8,7 @@
     border: 2px solid grey;
     border-radius: 10px;
     padding: 10px;
-    margin: 3px;
+    margin: 10px;
 }
 .anItem:hover {
     background-color: lightgrey;
@@ -33,19 +33,24 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+@media (max-width: 576px) {
+    .anItem {
+        width: 75%;
+    }
+}
 </style>
 {% endblock %}
 {% block content %}
-    <!-- Render each item to the page -->
-    <div class="row d-flex justify-content-center" id="mainContent">
-        {% for item in items %}
-        <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
-            <!-- If the image wasn't passed, render the default -->
-            <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
-            <p class="name">{{item.name}}</p>
-            <p>Located in {{item.suburb}}</p>
-            <p class="d-none d-xl-block">Posted by {{item.who}}</p>
-        </div>
-        {% endfor %}
+<!-- Render each item to the page -->
+<div class="row d-flex justify-content-center" id="mainContent">
+    {% for item in items %}
+    <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
+        <!-- If the image wasn't passed, render the default -->
+        <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
+        <p class="name">{{item.name}}</p>
+        <p>Located in {{item.suburb}}</p>
+        <p class="d-none d-xl-block">Posted by {{item.who}}</p>
     </div>
+    {% endfor %}
+</div>
 {% endblock %}
