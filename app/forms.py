@@ -4,8 +4,8 @@ from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo
 
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email("This field requires a valid email address")])
+    username = StringField('Username', validators=[DataRequired(), Length(max=64)])
+    email = StringField('Email', validators=[DataRequired(), Email("This field requires a valid email address"), Length(max=120)])
     password = PasswordField('Password', validators=[DataRequired()])
     confirmed_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password',"Passwords must match")])
     # address fields
