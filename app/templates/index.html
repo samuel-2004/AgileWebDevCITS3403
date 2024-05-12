@@ -21,6 +21,8 @@
 }
 .anItem > .name {
     text-align: center;
+    font-size: larger;
+    font-weight: bold;
 }
 .anItem:hover > .name {
     text-decoration: underline;
@@ -28,6 +30,8 @@
 .anItem > p {
     white-space: pre;
     margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>
 {% endblock %}
@@ -40,7 +44,7 @@
             <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
             <p class="name">{{item.name}}</p>
             <p>Located in {{item.suburb}}</p>
-            <p>Posted by {{item.who}}</p>
+            <p class="d-none d-xl-block">Posted by {{item.who}}</p>
         </div>
         {% endfor %}
     </div>
