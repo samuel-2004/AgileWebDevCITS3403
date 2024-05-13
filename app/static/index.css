@@ -23,6 +23,18 @@ This CSS file contains the style information for the navbar and footer.
     text-decoration: underline;
 }
 
+.navbar-nav .nav-item {
+    border-right: 1px solid #999;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.navbar-nav .nav-item:last-child {
+    border-right: none; /* Remove border from last item */
+}
+
+
+
 #content {
     margin-bottom: 40px;
 }

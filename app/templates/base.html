@@ -33,6 +33,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('contact') }}">Contact Us</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('advancedSearch') }}">Advanced Search</a>
+            </li>
             {% if current_user.is_anonymous %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('login') }}">Login</a>
@@ -55,7 +58,7 @@
             </form>
             </div>
         </div>
-      </nav>
+    </nav>
     <div style="margin-top:60px">
       <!--Flashes error/informational messages for user-->
       {% with messages = get_flashed_messages() %}
