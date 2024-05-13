@@ -21,5 +21,9 @@ def calcTimeAgo(timestamp):
         if count > 0:
             return f'1 {interval["label"]} ago' if count == 1 else f'{count} {interval["label"]}s ago'
         
-        
     return 'Just now'
+
+def convertPostsTimestamps(posts):
+    for post in posts:
+        post['timestamp'] = calcTimeAgo(post['timestamp'])
+    return posts

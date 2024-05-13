@@ -7,7 +7,6 @@ import sqlalchemy as sa
 from app import flaskApp, db
 from app.models import *
 from app.forms import *
-from app.controllers import *
 from werkzeug.utils import secure_filename
 import newhome
 
@@ -19,9 +18,6 @@ from os.path import join as os_join, dirname as os_dirname, exists as os_pathexi
 @flaskApp.route('/index')
 def index():
     posts = get_posts()
-    for post in posts:
-        post['timestamp'] = calcTimeAgo(post['timestamp'])
-    print(posts)
     return render_template('index.html', posts=posts, defaultimage='book.jpg')
 
 @flaskApp.route('/advancedsearch')
@@ -44,8 +40,7 @@ def search():
     orderby = request.args.get('order')
 
     posts = get_posts(query, max_distance, orderby)
-    result_count = len(posts)
-    return f"Total number of posts found: {result_count}."
+    return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
 
 @flaskApp.route('/account')
 def account():
