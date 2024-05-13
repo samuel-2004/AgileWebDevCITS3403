@@ -70,7 +70,7 @@ class Post(db.Model):
     def __repr__(self) -> str:
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
-def get_posts(q="", md=None, order="new"):
+def get_posts(q="", md=None, order="new", lim=100):
     query = db.session.query(
             Post.id,Post.post_type,Post.item_name,Post.timestamp,User.username,Address.city,Address.postcode,Image.src
         ).join(User, Post.user_id==User.id).\
@@ -99,6 +99,7 @@ def get_posts(q="", md=None, order="new"):
         pass
 
     #print("\n\n\n",query,"\n\n\n")
+    query = query.limit(lim)
     posts = db.session.execute(query).fetchall()
     posts = [post._asdict() for post in posts]
     posts = convertPostsTimestamps(posts)
