@@ -1,0 +1,28 @@
+<!-- The following form was derived from https://getbootstrap.com/docs/4.0/components/forms/? -->
+<div class="container">
+    <h1>Advanced Search</h1>
+    <form action="{{ url_for('search') }}" accept-charset="UTF-8" method="get">
+        <div class="form-group row">
+            <label for="nameSearch" class="col-sm-3 col-form-label">What are you looking for?</label>
+            <div class="col-sm-9">
+                {{ form.q(class="form-control", id="nameSearch", maxlength="1024") }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="maxDistance" class="col-sm-3 col-form-label">Max distance</label>
+            <div class="col-sm-8">
+                {{ form.md(class="form-control", id="md", type="range", value="5", min="1", max="25", oninput="this.parentElement.nextElementSibling.childNodes[0].value = this.value + 'km'") }}
+            </div>
+            <div class="col-sm-1" id="maxDistanceDisplay"><output>5km</output></div>
+        </div>
+        <div class="form-group row">
+            <label for="order" class="col-sm-3 col-form-label">Sort by</label>
+            <div class="col-sm-9">
+                {{ form.order(class="form-control", id="order") }}
+            </div>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Search</button>
+        </div>  
+    </form>
+</div>

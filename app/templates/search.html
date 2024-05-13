@@ -1,5 +1,22 @@
 <!-- Will submit a GET request to server on load based on the parameters passed to the page -->
 {% extends "base.html" %}
-{% block title %}Advanced Search{% endblock %}
+{% block title %}Search Results{% endblock %}
 {% block content %}
+{% include "searchform.html" %}
+<hr style="width:50%;margin:20px auto;"/>
+<!-- Render each item to the page -->
+<div class="row d-flex justify-content-center" id="mainContent">
+    {% for post in posts %}
+    <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
+        <p>{{post.post_type}}</p>
+        <!-- If the image wasn't passed, render the default -->
+        <img class="img-fluid" 
+            src="{% if post.src %}{{ post.src }}{% else %}{{ defaultimage }}{% endif %}">
+        <p class="name">{{post.item_name}}</p>
+        <p>Located in {{post.city}}, {{post.postcode}}</p>
+        <p class="d-none d-xl-block">Posted by {{post.username}}</p>
+        <p class="text-end">{{ post.timestamp }}</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
