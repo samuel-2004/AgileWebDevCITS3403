@@ -70,32 +70,34 @@ class Post(db.Model):
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
 def get_posts(q="", md=None, order="new"):
-    posts = sa.select(Post)
+    query = db.session.query(
+            Post.post_type,Post.item_name,Post.desc,Post.timestamp,User.username,Image.src
+        ).join(User, Post.user_id==User.id).\
+        join(Image, Post.id==Image.post_id)
 
-    # Split the query into words
-    if (len(q) > 0):
-        q = q.split()
-    else:
-        q = []
 
     # Check if any word in q is in the post name or description
-    name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
-    desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
-    posts = posts.where(sa.or_(*name_conditions, * desc_conditions))
     # This does not take into account the maximum distance
-    # maximum distance will require api calls etc
-
+    # Maximum distance will require api calls etc
+    if (len(q) > 0):
+        name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
+        desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
+        query = query.filter(sa.or_(*name_conditions, * desc_conditions))
+    
     if order == "new":
-        posts = posts.order_by(sa.desc(Post.timestamp))
+        query = query.order_by(sa.desc(Post.timestamp))
     elif order == "old":
-        posts = posts.order_by(Post.timestamp)
+        query = query.order_by(Post.timestamp)
     elif order == "close":
         # need to access distance
-        posts = posts
+        pass
     elif order == "rating":
         # need to access users' points
-        posts = posts
-    
+        pass
+
+    #print("\n\n\n",query,"\n\n\n")
+    posts = db.session.execute(query).fetchall()
+    #print(posts)
     return posts
   
 class Image(db.Model):
