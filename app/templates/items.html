@@ -3,7 +3,7 @@
 {% block content %}
 <head>
     <style>
-        .small-image {
+        .small-post {
             width: 80px;
             height: 80px;
             padding: 10px;
@@ -13,8 +13,8 @@
         }
     </style>
     <script>
-        // Enlarges the image when clicked
-        function enlargeImage(img) {
+        // Enlarges the post when clicked
+        function enlargepost(img) {
             img.style.width = "40%";
             img.style.height = "auto";
             img.style.transition = "width 0.5s ease";
@@ -30,22 +30,22 @@
 </head>
 
 <div class="item-container">
-    {% if image %}
-        <!-- Display item images -->
-        {% if image.images %}
-            {% for img in image.images %}
-                <img src="{{ img.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this)">
+    {% if post %}
+        <!-- Display item posts -->
+        {% if post.images %}
+            {% for img in post.images %}
+                <img src="{{ img.src }}" alt="Item post" class="small-post" onclick="enlargepost(this)">
             {% endfor %}
         {% else %}
-            <!-- Default image if no item images are found -->
-            <img src="{{ url_for('static', filename='book.jpg') }}" alt="Default Image" class="small-image" onclick="enlargeImage(this)">
+            <!-- Default image if no item imagess are found -->
+            <img src="{{ url_for('static', filename='book.jpg') }}" alt="Default post" class="small-post" onclick="enlargepost(this)">
         {% endif %}
 
         <!-- Display item information -->
         <div class="item-information" id="item-info">
             <h2>Item Information</h2>
-            <p><strong>Name:</strong> {{ image.item_name }}</p>
-            <p><strong>Description:</strong> {{ image.desc }}</p>
+            <p><strong>Name:</strong> {{ post.item_name }}</p>
+            <p><strong>Description:</strong> {{ post.desc }}</p>
             <!-- Button to request the item -->
             <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
         </div>

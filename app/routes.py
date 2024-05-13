@@ -36,8 +36,8 @@ def account():
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
     # Fetch the post with the given itemID
-    image = Post.query.get(itemID)
-    return render_template('items.html', image=image, desc=image.desc, item_name=image.item_name)
+    post = Post.query.get(itemID)
+    return render_template('items.html', post=post)
 
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
