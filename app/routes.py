@@ -82,6 +82,8 @@ def signup():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = SignupForm()
+    if form.validate_on_submit():
+        print("Form")
     return render_template('signup.html', active_link='/signup', form=form)
 
 
