@@ -34,8 +34,10 @@ def account():
     return render_template('account.html')
 
 @flaskApp.route('/item/<int:itemID>')
+@login_required
 def item(itemID):
-    return render_template('items.html', itemID=itemID)
+    post = db.first_or_404(Post.query.filter_by(id=itemID))
+    return render_template('items.html', post=post, active_link=None)
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():

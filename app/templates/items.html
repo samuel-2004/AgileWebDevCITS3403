@@ -12,60 +12,36 @@
             float: right;
         }
     </style>
+    <script>
+        // Enlarges the image when clicked
+        function enlargeImage(itemId) {
+            img = document.getElementById(itemId);
+            img.style.width = "40%";
+            img.style.height = "auto";
+            img.style.transition = "width 0.5s ease";
+        }
+    </script>
 </head>
 
 <div class="item-container">
-    <!-- Image now displayed on the left -->
-    <img src="/static/book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
-
-    <!-- Item information now displayed on the right -->
-    <div class="item-information" id="item-info">
-        <h2>Item Information</h2>
-        <p><strong>Name:</strong> Item Name</p>
-        <p><strong>Description:</strong> Item Description</p>
-    </div>
-</div>
-
-<!--
-<div class="item-container">
-    <p>Item ID: {{ itemID }}</p>
-</div>
--->
-
-<div class="item-container">
-    <!-- Check if itemID is provided -->
-    {% if itemID %}
-        <!-- Retrieve post information based on itemID -->
-        {% set post = Post.query.get(itemID) %}
-        {% if post %}
-            <!-- Display item information -->
-            <div class="item-information" id="item-info">
-                <h2>Item Information</h2>
-                <p><strong>Name:</strong> {{ post.item_name }}</p>
-                <p><strong>Description:</strong> {{ post.desc }}</p>
-            </div>
-            
-            <!-- Display associated images -->
-            {% for image in post.images %}
-                <img src="{{ image.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this)">
-            {% endfor %}
+    {% if post %}
+        <!-- Display item image -->
+        {% if post.images %}
+            <img src="{{ post.images[0].src }}" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
         {% else %}
-            <p>No item found with ID {{ itemID }}</p>
+            <!-- Default image if no item image is found -->
+            <img src="{{ url_for('static', filename='book.jpg') }}" alt="Default Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
         {% endif %}
+
+        <!-- Display item information -->
+        <div class="item-information" id="item-info">
+            <h2>Item Information</h2>
+            <p><strong>Name:</strong> {{ post.item_name }}</p>
+            <p><strong>Description:</strong> {{ post.desc }}</p>
+        </div>
     {% else %}
+    <h3>Error in loading item</h3>
         <p>No item information available.</p>
     {% endif %}
 </div>
-
-<script>
-    // Enlarges the image when clicked
-    function enlargeImage(itemId) {
-        img = document.getElementById(itemId);
-            // Loop through all images to revert them back to original size
-        img.style.width = "40%";
-        img.style.height = "auto";
-        img.style.transition = "width 0.5s ease";
-
-    }
-</script>
 {% endblock %}
