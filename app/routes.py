@@ -7,6 +7,7 @@ import sqlalchemy as sa
 from app import flaskApp, db
 from app.models import *
 from app.forms import *
+from app.controllers import *
 from werkzeug.utils import secure_filename
 import newhome
 
@@ -127,11 +128,14 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    #posts = [
-    #    {'author': user, 'item_name': 'Test post #1'},
-    #    {'author': user, 'item_name': 'Test post #2'}
-    #]
-    return render_template('user.html', user=user, posts=posts)
+    posts = db.session.scalars(query)
+    '''
+    posts = get_posts()
+    for post in posts[:]:
+        if post["username"] != username:
+            posts.remove(post)
+    '''
+    return render_template('user.html', user=user, posts=posts, calcTimeAgo = calcTimeAgo)
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
