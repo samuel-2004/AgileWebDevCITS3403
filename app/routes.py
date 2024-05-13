@@ -128,7 +128,6 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    posts = db.session.scalars(query)
     '''
     posts = get_posts()
     for post in posts[:]:

@@ -15,8 +15,8 @@
             </div>
         <p class="name">{{post.item_name}}</p>
         <p>Located in {{post.author.address.city}}, {{post.author.address.postcode}}</p>
-        {% if page=="user" %}
-            <p class="d-none d-xl-block">Posted by {{post.username}}</p>
+        {% if page != "user" %}
+            <p class="d-none d-xl-block">Posted by {{post.author.username}}</p>
         {% endif %}
         <p class="text-end">{{ calcTimeAgo(post.timestamp) }}</p>
     </div>
