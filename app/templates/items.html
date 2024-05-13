@@ -14,8 +14,7 @@
     </style>
     <script>
         // Enlarges the image when clicked
-        function enlargeImage(itemId) {
-            img = document.getElementById(itemId);
+        function enlargeImage(img) {
             img.style.width = "40%";
             img.style.height = "auto";
             img.style.transition = "width 0.5s ease";
@@ -25,12 +24,14 @@
 
 <div class="item-container">
     {% if post %}
-        <!-- Display item image -->
+        <!-- Display item images -->
         {% if post.images %}
-            <img src="{{ post.images[0].src }}" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
+            {% for image in post.images %}
+                <img src="{{ image.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this.id)">
+            {% endfor %}
         {% else %}
-            <!-- Default image if no item image is found -->
-            <img src="{{ url_for('static', filename='book.jpg') }}" alt="Default Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
+            <!-- Default image if no item images are found -->
+            <img src="{{ url_for('static', filename='book.jpg') }}" alt="Default Image" class="small-image" onclick="enlargeImage(this)">
         {% endif %}
 
         <!-- Display item information -->
@@ -41,7 +42,7 @@
         </div>
     {% else %}
     <h3>Error in loading item</h3>
-        <p>No item information available.</p>
+    <p>No item information available for item ID: {{ itemID }}</p>
     {% endif %}
 </div>
 {% endblock %}

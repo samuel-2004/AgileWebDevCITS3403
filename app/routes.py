@@ -34,10 +34,14 @@ def account():
     return render_template('account.html')
 
 @flaskApp.route('/item/<int:itemID>')
-@login_required
 def item(itemID):
-    post = db.first_or_404(Post.query.filter_by(id=itemID))
-    return render_template('items.html', post=post, active_link=None)
+    # Fetch the post with the given itemID
+    post = Image.query.filter_by(id=itemID)
+    if post:
+        return render_template('items.html', post=post)
+    else:
+        # If no post found, return a 404 error
+        return "Item not found", 404
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
