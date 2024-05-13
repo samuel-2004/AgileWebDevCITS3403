@@ -35,7 +35,7 @@ def advancedSearch():
         print({'title': title, 'max_distance': max_distance, 'orderby': orderby})
         return redirect(url_for('search', q=title, md=max_distance, order=orderby))
     else:
-        return render_template('advancedsearch.html', form=form, active_link='/advancedsearch')
+        return render_template('advancedsearch.html', form=form)
 
 @flaskApp.route('/search')
 def search():
@@ -55,7 +55,7 @@ def account():
 
 @flaskApp.route('/about')
 def about():
-    return render_template('about.html', active_link='/about')
+    return render_template('about.html')
 
 @flaskApp.route('/contact', methods=['GET','POST'])
 @flaskApp.route('/contact-us', methods=['GET','POST'])
@@ -69,7 +69,7 @@ def contact():
         print({'name': name, 'email': email, 'subject': subject, 'message': message})
         return redirect(url_for('contact'))
     else:
-        return render_template('contact.html', form=form, active_link='/contact')
+        return render_template('contact.html', form=form)
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
@@ -93,11 +93,11 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', active_link='/login', form=form)
+    return render_template('login.html', form=form)
 
 @flaskApp.route('/signup')
 def signup():
-    return render_template('signup.html', active_link='/signup')
+    return render_template('signup.html')
 
 @flaskApp.route('/logout')
 def logout():
@@ -125,7 +125,7 @@ def upload():
             db.session.add(image)
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('upload.html', active_link='/upload', form=form)
+    return render_template('upload.html', form=form)
 
 @flaskApp.route('/user')
 @login_required
@@ -138,7 +138,7 @@ def user():
     #    {'author': user, 'item_name': 'Test post #1'},
     #    {'author': user, 'item_name': 'Test post #2'}
     #]
-    return render_template('user.html', user=user, posts=posts, active_link='/user')
+    return render_template('user.html', user=user, posts=posts)
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
