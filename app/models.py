@@ -7,18 +7,18 @@ import sqlalchemy.orm as so
 from app import db, login
 
 class Address(db.Model):
-  id: so.Mapped[int] = so.mapped_column(primary_key=True)
-  number:so.Mapped[str] = so.mapped_column(sa.String(8)) # Can have letters, eg. 47A
-  street: so.Mapped[str] = so.mapped_column(sa.String(128))
-  city: so.Mapped[str] = so.mapped_column(sa.String(32))
-  postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
-  state: so.Mapped[str] = so.mapped_column(sa.String(32))
-  country: so.Mapped[str] = so.mapped_column(sa.String(128))
-  
-  resident: so.Mapped['User'] = so.relationship(back_populates='address')
-  
-  def __repr__(self) -> str:
-    return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    number:so.Mapped[str] = so.mapped_column(sa.String(8)) # Can have letters, eg. 47A
+    street: so.Mapped[str] = so.mapped_column(sa.String(128))
+    city: so.Mapped[str] = so.mapped_column(sa.String(32))
+    postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
+    state: so.Mapped[str] = so.mapped_column(sa.String(32))
+    country: so.Mapped[str] = so.mapped_column(sa.String(128))
+    
+    resident: so.Mapped['User'] = so.relationship(back_populates='address')
+    
+    def __repr__(self) -> str:
+        return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
   
 
 class User(UserMixin, db.Model):
