@@ -3,14 +3,16 @@
 {% block content %}
 <!-- Render each item to the page -->
 <div class="row d-flex justify-content-center" id="mainContent">
-    {% for item in items %}
-    <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
+    {% for post in posts %}
+    <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
+        <p>{{post.post_type}}</p>
         <!-- If the image wasn't passed, render the default -->
-        <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
-        <p class="name">{{item.name}}</p>
-        <p>Located in {{item.suburb}}</p>
-        <p class="d-none d-xl-block">Posted by {{item.who}}</p>
-        <p>Posted {{ item.timestamp }}</p>
+        <img class="img-fluid" 
+            src="{% if post.src %}{{ post.src }}{% else %}{{ defaultimage }}{% endif %}">
+        <p class="name">{{post.item_name}}</p>
+        <p>Located in {{post.city}}, {{post.postcode}}</p>
+        <p class="d-none d-xl-block">Posted by {{post.username}}</p>
+        <p class="text-end">{{ post.timestamp }}</p>
     </div>
     {% endfor %}
 </div>

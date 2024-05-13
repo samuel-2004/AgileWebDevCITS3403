@@ -1,9 +1,11 @@
 from math import floor
-import time
+from datetime import datetime, timezone
 
 # Calculates the time since posting, and returns a formatted string
 def calcTimeAgo(timestamp):
-    secondsAgo = floor(time.time() - timestamp)
+    timestamp = timestamp.astimezone(timezone.utc)
+    time_difference = datetime.now(timezone.utc) - timestamp
+    secondsAgo = int(time_difference.total_seconds()) - 3600 * 8
     intervals = [
         { 'label': 'year',      'seconds': 31536000 },
         { 'label': 'month',     'seconds': 2592000 },

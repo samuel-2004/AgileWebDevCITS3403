@@ -71,9 +71,10 @@ class Post(db.Model):
 
 def get_posts(q="", md=None, order="new"):
     query = db.session.query(
-            Post.post_type,Post.item_name,Post.desc,Post.timestamp,User.username,Image.src
+            Post.id,Post.post_type,Post.item_name,Post.timestamp,User.username,Address.city,Address.postcode,Image.src
         ).join(User, Post.user_id==User.id).\
-        join(Image, Post.id==Image.post_id)
+        join(Image, Post.id==Image.post_id).\
+        join(Address, User.address_id==Address.id)
 
 
     # Check if any word in q is in the post name or description
@@ -97,6 +98,7 @@ def get_posts(q="", md=None, order="new"):
 
     #print("\n\n\n",query,"\n\n\n")
     posts = db.session.execute(query).fetchall()
+    posts = [post._asdict() for post in posts]
     #print(posts)
     return posts
   
