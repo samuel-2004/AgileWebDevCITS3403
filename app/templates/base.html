@@ -31,7 +31,7 @@
                 <a class="nav-link" aria-current="page" href="{{ url_for('about') }}">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('contact') }}">Contact Us</a>
+                <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('advancedSearch') }}">Advanced Search</a>
@@ -48,7 +48,7 @@
                 <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('user', username=current_user.username) }}"><i class="bi bi-person"></i></a>
             </li>
             {% endif %}
             </ul>

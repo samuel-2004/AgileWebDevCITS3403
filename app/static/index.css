@@ -8,6 +8,10 @@ This CSS file contains the style information for the navbar and footer.
     font-size: larger;
 }
 
+.navbar .btn {
+    padding: 6px 12px !important;
+}
+
 .navbar a:not(.navbar-brand) {
     padding: 5px 5px;
     text-wrap: nowrap;
@@ -17,20 +21,23 @@ This CSS file contains the style information for the navbar and footer.
     padding: 5px 0px;
 }
 
+
 .navbar a:not(.navbar-brand):hover {
     border-radius: 3px;
     background-color: #999;
     text-decoration: underline;
 }
 
-.navbar-nav .nav-item {
-    border-right: 1px solid #999;
-    padding-right: 5px;
-    padding-left: 5px;
-}
+@media (min-width: 992px) {
+    .navbar-nav .nav-item {
+        border-right: 1px solid #999;
+        padding-right: 5px;
+        padding-left: 5px;
+    }
 
-.navbar-nav .nav-item:last-child {
-    border-right: none; /* Remove border from last item */
+    .navbar-nav .nav-item:last-child {
+        border-right: none; /* Remove border from last item */
+    }
 }
 
 
