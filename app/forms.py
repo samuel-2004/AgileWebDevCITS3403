@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField
 from flask_wtf.file import FileField, FileRequired
-from wtforms.validators import DataRequired, Length, Optional, Regexp, Email
+from wtforms.validators import DataRequired, Length, Optional, Regexp, Email, NumberRange
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -23,3 +23,15 @@ class ContactForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Send')
+
+class SearchForm(FlaskForm):
+    q = StringField('Title')
+    md = IntegerField('Max Distance (km)', validators=[NumberRange(min=0, max=25)])
+    order = SelectField('Order By', choices=
+        [
+            ('',        ''), 
+            ('close',   'Closest'), 
+            ('new',     'Newest'),
+            ('old',     'Oldest'),
+            ('rating',  'Vendor Rating')
+        ])
