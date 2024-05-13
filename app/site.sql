@@ -3,8 +3,8 @@ CREATE TABLE Users (
     username varchar(16) NOT NULL,
     passwordHash  varchar(255) NOT NULL,
     lastName varchar(32),
-    firstName varchar(32)
-    addressID_FK int;
+    firstName varchar(32),
+    addressID_FK int
 );
 
 CREATE TABLE Addresses (
@@ -13,7 +13,7 @@ CREATE TABLE Addresses (
     streetNumber varchar(10),
     postcode varchar(10),
     city varchar(32),
-    state varchar(32)
+    state varchar(32),
     country varchar(255)
 );
 
