@@ -19,6 +19,13 @@
             img.style.height = "auto";
             img.style.transition = "width 0.5s ease";
         }
+        // Function to handle the request button click
+        function requestItem(button) {
+            // Toggle button text
+            if (button.innerText === "I want this item!") {
+                button.innerText = "Item requested! Please wait for uploader to respond";
+            }
+        }
     </script>
 </head>
 
@@ -26,8 +33,8 @@
     {% if image %}
         <!-- Display item images -->
         {% if image.images %}
-            {% for image in image.images %}
-                <img src="{{ image.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this.id)">
+            {% for img in image.images %}
+                <img src="{{ img.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this)">
             {% endfor %}
         {% else %}
             <!-- Default image if no item images are found -->
@@ -39,6 +46,8 @@
             <h2>Item Information</h2>
             <p><strong>Name:</strong> {{ image.item_name }}</p>
             <p><strong>Description:</strong> {{ image.desc }}</p>
+            <!-- Button to request the item -->
+            <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
         </div>
     {% else %}
     <h3>Error in loading item</h3>
