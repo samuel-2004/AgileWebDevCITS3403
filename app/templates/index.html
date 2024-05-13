@@ -1,26 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-    <!-- Add onclick method that redirects user to the item's page -->
-    <!-- This may be used on the search results page, so may add to a js file later -->
-    <script>
-        function openItemPage(event, nID) {
-            var ref = "./item/" + nID;
-            if(event.ctrlKey || event.metaKey){
-                window.open(ref, "_blank");
-            } else {
-                window.location.href = ref;   
-            }
-        }
-    </script>
-
-    <!-- Render each item to the page -->
-    <div class="row d-flex justify-content-center" id="mainContent">
-        {% for item in items %}
-        <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{item.nID}}" onclick="openItemPage(event, {{ item.nID }})">
-            <!-- If the image wasn't passed, render the default -->
-            <img class="img-fluid" src="{% if item.imageref %}{{ item.imageref }}{% else %}{{ defaultimage }}{% endif %}">
-            <p style="white-space: pre;">Name: {{item.name}}&#10;&#13;Suburb: {{item.suburb}}&#10;&#13;Who: {{item.who}}</p></div>
-        {% endfor %}
-    </div>
+{% include "displayitems.html" %}
 {% endblock %}
