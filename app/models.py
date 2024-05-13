@@ -82,10 +82,11 @@ def get_posts(q="", md=None, order="new"):
     # This does not take into account the maximum distance
     # Maximum distance will require api calls etc
     if (len(q) > 0):
+        q = q.split()
         name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
         desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
         query = query.filter(sa.or_(*name_conditions, * desc_conditions))
-    
+        
     if order == "new":
         query = query.order_by(sa.desc(Post.timestamp))
     elif order == "old":
