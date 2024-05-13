@@ -5,7 +5,6 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db, login
-from app.controllers import convertPostsTimestamps
 
 class Address(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -102,7 +101,6 @@ def get_posts(q="", md=None, order="new", lim=100):
     query = query.limit(lim)
     posts = db.session.execute(query).fetchall()
     posts = [post._asdict() for post in posts]
-    posts = convertPostsTimestamps(posts)
     return posts
   
 class Image(db.Model):
