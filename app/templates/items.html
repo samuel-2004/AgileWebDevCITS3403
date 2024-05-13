@@ -23,10 +23,10 @@
 </head>
 
 <div class="item-container">
-    {% if post %}
+    {% if image %}
         <!-- Display item images -->
-        {% if post.images %}
-            {% for image in post.images %}
+        {% if image.images %}
+            {% for image in image.images %}
                 <img src="{{ image.src }}" alt="Item Image" class="small-image" onclick="enlargeImage(this.id)">
             {% endfor %}
         {% else %}
@@ -37,8 +37,8 @@
         <!-- Display item information -->
         <div class="item-information" id="item-info">
             <h2>Item Information</h2>
-            <p><strong>Name:</strong> {{ post.item_name }}</p>
-            <p><strong>Description:</strong> {{ post.desc }}</p>
+            <p><strong>Name:</strong> {{ image.item_name }}</p>
+            <p><strong>Description:</strong> {{ image.desc }}</p>
         </div>
     {% else %}
     <h3>Error in loading item</h3>

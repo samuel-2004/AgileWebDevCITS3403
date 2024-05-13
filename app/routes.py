@@ -36,9 +36,9 @@ def account():
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
     # Fetch the post with the given itemID
-    post = Image.query.filter_by(id=itemID)
-    if post:
-        return render_template('items.html', post=post)
+    image = Image.query.filter_by(id=itemID)
+    if image:
+        return render_template('items.html', image=image)
     else:
         # If no post found, return a 404 error
         return "Item not found", 404
