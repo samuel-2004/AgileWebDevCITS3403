@@ -21,7 +21,9 @@ This CSS file contains the style information for the navbar and footer.
     padding: 5px 0px;
 }
 
-.row-buffer { margin-top:10px; }
+.row-buffer { 
+    margin-top:10px; 
+}
 
 .navbar a:not(.navbar-brand):hover {
     border-radius: 3px;
