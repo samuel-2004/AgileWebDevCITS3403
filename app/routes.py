@@ -81,9 +81,31 @@ def signup():
     # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
+    # form
     form = SignupForm()
     if form.validate_on_submit():
-        print("Form")
+        # add address
+        address = Address(address_line1=form.address_line1.data, address_line2=form.address_line2.data)
+        address.suburb = form.suburb.data
+        address.postcode = form.postcode.data
+        address.city = form.city.data
+        address.state = form.state.data
+        address.country = "Australia"           # All accounts are registered in Australia for now
+        db.session.add(address)
+        db.session.commit()
+        # add user
+        user = User(username=form.username.data)
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        user.bio = "I'm using NewHome"          # default
+        user.pic = "default_profile_pic.png"    # default
+        user.address_id = address.id
+        db.session.add(user)
+        db.session.commit()
+        # submit and redirect
+        flash("Congratulations! Welcome to NewHome!")
+        return redirect(url_for('login'))
+    # render page
     return render_template('signup.html', active_link='/signup', form=form)
 
 
