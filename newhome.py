@@ -1,9 +1,9 @@
 from app import create_app, db
 from app.config import DeploymentConfig
-#import sqlalchemy as sa
-#from app.models import *
-#import sqlalchemy.orm as so
-#import sqlite3
+import sqlalchemy as sa
+from app.models import *
+import sqlalchemy.orm as so
+import sqlite3
 
 from flask_migrate import Migrate
 
