@@ -17,16 +17,30 @@ from os.path import join as os_join, dirname as os_dirname, exists as os_pathexi
 @flaskApp.route('/', methods=['GET'])
 @flaskApp.route('/index')
 def index():
-    items = loads('[{"nID":87241,"name":"Rice Cooker","who":"John Smith","suburb":"Downtown","imageref":"","timestamp":1679776345},{"nID":52379,"name":"Smartphone","who":"Emily Johnson","suburb":"Midtown","imageref":"","timestamp":1679818345},{"nID":10294,"name":"Laptop","who":"Michael Brown","suburb":"Uptown","imageref":"","timestamp":1679762345},{"nID":40957,"name":"Bicycle","who":"Sarah Davis","suburb":"Eastside","imageref":"","timestamp":1679790345},{"nID":78526,"name":"Television","who":"DavnID Wilson","suburb":"Westside","imageref":"","timestamp":1679720345},{"nID":63081,"name":"Coffee Maker","who":"Jessica Martinez","suburb":"Downtown","imageref":"","timestamp":1679804345},{"nID":21789,"name":"Headphones","who":"Christopher Lee","suburb":"Midtown","imageref":"","timestamp":1679748345},{"nID":95873,"name":"Backpack","who":"Jennifer Thompson","suburb":"Uptown","imageref":"","timestamp":1679734345},{"nID":37402,"name":"Digital Camera","who":"Daniel Garcia","suburb":"Eastside","imageref":"","timestamp":1679822345},{"nID":69023,"name":"Printer","who":"Olivia Hernandez","suburb":"Westside","imageref":"","timestamp":1679706345},{"nID":18396,"name":"Blender","who":"William Rodriguez","suburb":"Downtown","imageref":"","timestamp":1679692345},{"nID":54127,"name":"Smart Watch","who":"Ava Wilson","suburb":"Midtown","imageref":"","timestamp":1679678345},{"nID":76258,"name":"Gaming Console","who":"Ethan Moore","suburb":"Uptown","imageref":"","timestamp":1679664345},{"nID":89501,"name":"Tablet","who":"Sophia Anderson","suburb":"Eastside","imageref":"","timestamp":1679650345},{"nID":32095,"name":"Microwave Oven","who":"James Taylor","suburb":"Westside","imageref":"","timestamp":1679636345},{"nID":61478,"name":"Fitness Tracker","who":"Mia Thomas","suburb":"Downtown","imageref":"","timestamp":1679622345},{"nID":94602,"name":"Portable Speaker","who":"Benjamin White","suburb":"Midtown","imageref":"","timestamp":1679608345},{"nID":25814,"name":"Vacuum Cleaner","who":"Isabella Martinez","suburb":"Uptown","imageref":"","timestamp":1679594345},{"nID":70183,"name":"Kitchen Scale","who":"Alexander Johnson","suburb":"Eastside","imageref":"","timestamp":1679580345},{"nID":18347,"name":"Digital Watch","who":"Charlotte Brown","suburb":"Westside","imageref":"","timestamp":1679566345}]')
-    return render_template('index.html', items=items, defaultimage='book.jpg')
+    posts = get_posts()
+    return render_template('index.html', posts=posts, defaultimage='book.jpg')
 
 @flaskApp.route('/advancedsearch')
 def advancedSearch():
-    return render_template('advancedsearch.html', active_link='/advancedsearch')
+    form = SearchForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        title = request.form["q"]
+        max_distance = request.form["md"]
+        orderby = request.form["order"]
+        print({'title': title, 'max_distance': max_distance, 'orderby': orderby})
+        return redirect(url_for('search', q=title, md=max_distance, order=orderby))
+    else:
+        return render_template('advancedsearch.html', form=form)
 
-@flaskApp.route('/search', methods=['GET'])
+@flaskApp.route('/search')
 def search():
-    return render_template('search.html')
+    # Retrieve search parameters from the query string
+    query = request.args.get('q')
+    max_distance = request.args.get('md')
+    orderby = request.args.get('order')
+
+    posts = get_posts(query, max_distance, orderby)
+    return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
 
 @flaskApp.route('/account')
 def account():
@@ -34,7 +48,7 @@ def account():
 
 @flaskApp.route('/about')
 def about():
-    return render_template('about.html', active_link='/about')
+    return render_template('about.html')
 
 @flaskApp.route('/contact', methods=['GET','POST'])
 @flaskApp.route('/contact-us', methods=['GET','POST'])
@@ -48,14 +62,18 @@ def contact():
         print({'name': name, 'email': email, 'subject': subject, 'message': message})
         return redirect(url_for('contact'))
     else:
-        return render_template('contact.html', form=form, active_link='/contact')
+        return render_template('contact.html', form=form)
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
-    return render_template('items.html', itemID=itemID)
+    # Fetch the post with the given itemID
+    post = Post.query.get(itemID)
+    return render_template('items.html', post=post)
+
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
+    # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
@@ -72,19 +90,44 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', active_link='/login', form=form)
+    return render_template('login.html', form=form)
 
-
-@flaskApp.route('/signup')
+@flaskApp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('signup.html', active_link='/signup')
-
+    # redirect if logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    # form
+    form = SignupForm()
+    if form.validate_on_submit():
+        # add address
+        address = Address(address_line1=form.address_line1.data, address_line2=form.address_line2.data)
+        address.suburb = form.suburb.data
+        address.postcode = form.postcode.data
+        address.city = form.city.data
+        address.state = form.state.data
+        address.country = "Australia"           # All accounts are registered in Australia for now
+        db.session.add(address)
+        db.session.commit()
+        # add user
+        user = User(username=form.username.data)
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        user.bio = "I'm using NewHome"          # default
+        user.pic = "default_profile_pic.png"    # default
+        user.address_id = address.id
+        db.session.add(user)
+        db.session.commit()
+        # submit and redirect
+        flash("Congratulations! Welcome to NewHome!")
+        return redirect(url_for('login'))
+    # render page
+    return render_template('signup.html', active_link='/signup', form=form)
 
 @flaskApp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
 
 @flaskApp.route('/upload', methods=['GET', 'POST'])
 @login_required
@@ -94,7 +137,11 @@ def upload():
         post = Post(post_type = form.post_type.data, item_name = form.item_name.data, 
                     desc = form.desc.data, author=current_user)
         db.session.add(post)
-        #db.session.commit()
+        current_user.points += 1
+        if post.post_type == "OFFER":
+            current_user.given += 1
+        elif post.post_type == "REQUEST":
+            current_user.requested += 1
         image = form.image.data
         if image:
             filename = secure_filename(image.filename)
@@ -107,7 +154,7 @@ def upload():
             db.session.add(image)
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('upload.html', active_link='/upload', form=form)
+    return render_template('upload.html', form=form)
 
 @flaskApp.route('/user')
 @login_required
@@ -120,7 +167,7 @@ def user():
     #    {'author': user, 'item_name': 'Test post #1'},
     #    {'author': user, 'item_name': 'Test post #2'}
     #]
-    return render_template('user.html', user=user, posts=posts, active_link='/user')
+    return render_template('user.html', user=user, posts=posts)
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')

@@ -5,21 +5,23 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db, login
+from app.controllers import convertPostsTimestamps
 
 class Address(db.Model):
-  id: so.Mapped[int] = so.mapped_column(primary_key=True)
-  number:so.Mapped[str] = so.mapped_column(sa.String(8)) # Can have letters, eg. 47A
-  street: so.Mapped[str] = so.mapped_column(sa.String(128))
-  city: so.Mapped[str] = so.mapped_column(sa.String(32))
-  postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
-  state: so.Mapped[str] = so.mapped_column(sa.String(32))
-  country: so.Mapped[str] = so.mapped_column(sa.String(128))
-  
-  resident: so.Mapped['User'] = so.relationship(back_populates='address')
-  
-  def __repr__(self) -> str:
-    return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
-  
+	id: so.Mapped[int] = so.mapped_column(primary_key=True)
+	address_line1: so.Mapped[str] = so.mapped_column(sa.String(64))
+	address_line2: so.Mapped[str] = so.mapped_column(sa.String(64))
+	suburb: so.Mapped[str] = so.mapped_column(sa.String(32))
+	postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
+	city: so.Mapped[str] = so.mapped_column(sa.String(32))
+	state: so.Mapped[str] = so.mapped_column(sa.String(32))
+	country: so.Mapped[str] = so.mapped_column(sa.String(128))
+	
+	resident: so.Mapped['User'] = so.relationship(back_populates='address')
+	
+	def __repr__(self) -> str:
+		return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
+	
 
 class User(UserMixin, db.Model):
   id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -53,21 +55,54 @@ def load_user(id):
   return db.session.get(User, int(id))
 
 class Post(db.Model):
-  id: so.Mapped[int] = so.mapped_column(primary_key=True)
-  post_type: so.Mapped[str] = so.mapped_column(sa.String(8))
-  item_name: so.Mapped[str] = so.mapped_column(sa.String(32))
-  desc: so.Mapped[str] = so.mapped_column(sa.String(256))
-  timestamp: so.Mapped[datetime] = so.mapped_column(
-    index=True, default=lambda: datetime.now(timezone.utc))
-  user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    post_type: so.Mapped[str] = so.mapped_column(sa.String(8))
+    item_name: so.Mapped[str] = so.mapped_column(sa.String(32))
+    desc: so.Mapped[str] = so.mapped_column(sa.String(256))
+    timestamp: so.Mapped[datetime] = so.mapped_column(
+        index=True, default=lambda: datetime.now(timezone.utc))
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
+    author: so.Mapped[User] = so.relationship(back_populates='posts')
+    images: so.Mapped['Image'] = so.relationship(back_populates='post')
+    replies: so.WriteOnlyMapped['Reply'] = so.relationship(foreign_keys = "Reply.post_id",back_populates='post')
 
-  author: so.Mapped[User] = so.relationship(back_populates='posts')
-  images: so.Mapped['Image'] = so.relationship(back_populates='post')
-  replies: so.WriteOnlyMapped['Reply'] = so.relationship(foreign_keys = "Reply.post_id",back_populates='post')
+    def __repr__(self) -> str:
+        return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
-  def __repr__(self) -> str:
-    return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
-  
+def get_posts(q="", md=None, order="new", lim=100):
+    query = db.session.query(
+            Post.id,Post.post_type,Post.item_name,Post.timestamp,User.username,Address.city,Address.postcode,Image.src
+        ).join(User, Post.user_id==User.id).\
+        join(Image, Post.id==Image.post_id).\
+        join(Address, User.address_id==Address.id)
+
+
+    # Check if any word in q is in the post name or description
+    # This does not take into account the maximum distance
+    # Maximum distance will require api calls etc
+    if (len(q) > 0):
+        q = q.split()
+        name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
+        desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
+        query = query.filter(sa.or_(*name_conditions, * desc_conditions))
+        
+    if order == "new":
+        query = query.order_by(sa.desc(Post.timestamp))
+    elif order == "old":
+        query = query.order_by(Post.timestamp)
+    elif order == "close":
+        # need to access distance
+        pass
+    elif order == "rating":
+        # need to access users' points
+        pass
+
+    #print("\n\n\n",query,"\n\n\n")
+    query = query.limit(lim)
+    posts = db.session.execute(query).fetchall()
+    posts = [post._asdict() for post in posts]
+    posts = convertPostsTimestamps(posts)
+    return posts
   
 class Image(db.Model):
   id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -94,4 +129,3 @@ class Reply(db.Model):
   
   def __repr__(self) -> str:
     return f'<Reply {self.id} {self.text} {self.author} {self.post}>'
-
