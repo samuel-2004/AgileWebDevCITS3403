@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from flask_wtf.file import FileField, FileRequired
-from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo, AnyOf
+
+STATES = ['NSW','QLD','TAS','VIC','WA','ACT','NT']
 
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(max=64)])
@@ -14,7 +16,7 @@ class SignupForm(FlaskForm):
     suburb = StringField('Suburb', validators=[DataRequired(), Length(max=32)])
     postcode = StringField('Post Code', validators=[DataRequired(), Length(min=4,max=4,message="Post code must be 4 digits")])
     city = StringField('City', validators=[DataRequired(), Length(max=32)])
-    state = SelectField('State', choices=['STATE','NSW','QLD','TAS','VIC','WA','ACT','NT'], validators=[DataRequired(), Length(max=32)])
+    state = SelectField('State', choices=(['STATE'] + STATES), validators=[DataRequired(), AnyOf(STATES, "Please pick a state"), Length(max=32)])
     #country = StringField('Country', validators=[DataRequired(), Length(max=128)])
     submit = SubmitField('Create Account')
 
