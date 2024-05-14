@@ -1,13 +1,15 @@
-from app import flaskApp, db
+"""
+The main application module
+"""
 import sqlalchemy as sa
-from app.models import *
 import sqlalchemy.orm as so
-import sqlite3
+from app import flaskApp, db
+from app.models import User, Post, Image, Address
 
 @flaskApp.shell_context_processor
 def make_shell_context():
-    return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post, 'Image': Image, 'Address': Address}
-
-from app import flaskApp
-import sqlite3
-
+    """
+    Provides command line context when executing `flask shell`
+    """
+    return {'sa': sa, 'so': so, 'db': db, \
+        'User': User, 'Post': Post, 'Image': Image, 'Address': Address}
