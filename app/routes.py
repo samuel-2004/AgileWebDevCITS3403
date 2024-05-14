@@ -7,6 +7,7 @@ import sqlalchemy as sa
 from app import flaskApp, db
 from app.models import *
 from app.forms import *
+from app.controllers import *
 from werkzeug.utils import secure_filename
 import newhome
 
@@ -18,7 +19,7 @@ from os.path import join as os_join, dirname as os_dirname, exists as os_pathexi
 @flaskApp.route('/index')
 def index():
     posts = get_posts()
-    return render_template('index.html', posts=posts, defaultimage='book.jpg')
+    return render_template('index.html', page="index", posts=posts, calcTimeAgo=calcTimeAgo)
 
 @flaskApp.route('/advancedsearch')
 def advancedSearch():
@@ -40,7 +41,7 @@ def search():
     orderby = request.args.get('order')
 
     posts = get_posts(query, max_distance, orderby)
-    return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
+    return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calcTimeAgo)
 
 @flaskApp.route('/account')
 def account():
@@ -163,11 +164,13 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    #posts = [
-    #    {'author': user, 'item_name': 'Test post #1'},
-    #    {'author': user, 'item_name': 'Test post #2'}
-    #]
-    return render_template('user.html', user=user, posts=posts)
+    '''
+    posts = get_posts()
+    for post in posts[:]:
+        if post["username"] != username:
+            posts.remove(post)
+    '''
+    return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calcTimeAgo, is_user_page=True)
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')

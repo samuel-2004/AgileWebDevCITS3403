@@ -4,12 +4,21 @@
     <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
         <p>{{post.post_type}}</p>
         <!-- If the image wasn't passed, render the default -->
-        <img class="img-fluid" 
-            src="{% if post.src %}{{ post.src }}{% else %}{{ defaultimage }}{% endif %}">
+        <div class="d-flex align-items-center w-100" style="aspect-ratio:1/1;">
+            <img class="img-fluid mx-auto d-block align-middle mw-100 mh-100"
+                src="
+                {% if post.images.src %}
+                    {{ post.images.src }}
+                {% else %}
+                    {{ '/static/book.jpg' }}
+                {% endif %}">
+            </div>
         <p class="name">{{post.item_name}}</p>
-        <p>Located in {{post.city}}, {{post.postcode}}</p>
-        <p class="d-none d-xl-block">Posted by {{post.username}}</p>
-        <p class="text-end">{{ post.timestamp }}</p>
+        <p>Located in {{post.author.address.city}}, {{post.author.address.postcode}}</p>
+        {% if page != "user" %}
+            <p class="d-none d-xl-block">Posted by {{post.author.username}}</p>
+        {% endif %}
+        <p class="text-end">{{ calcTimeAgo(post.timestamp) }}</p>
     </div>
     {% endfor %}
 </div>

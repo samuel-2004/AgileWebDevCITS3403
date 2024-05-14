@@ -5,7 +5,6 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db, login
-from app.controllers import convertPostsTimestamps
 
 class Address(db.Model):
 	id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -72,12 +71,7 @@ class Post(db.Model):
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
 def get_posts(q="", md=None, order="new", lim=100):
-    query = db.session.query(
-            Post.id,Post.post_type,Post.item_name,Post.timestamp,User.username,Address.city,Address.postcode,Image.src
-        ).join(User, Post.user_id==User.id).\
-        join(Image, Post.id==Image.post_id).\
-        join(Address, User.address_id==Address.id)
-
+    query = db.session.query(Post)
 
     # Check if any word in q is in the post name or description
     # This does not take into account the maximum distance
@@ -99,12 +93,10 @@ def get_posts(q="", md=None, order="new", lim=100):
         # need to access users' points
         pass
 
-    #print("\n\n\n",query,"\n\n\n")
     query = query.limit(lim)
-    posts = db.session.execute(query).fetchall()
-    posts = [post._asdict() for post in posts]
-    posts = convertPostsTimestamps(posts)
+    posts = db.session.scalars(query)
     return posts
+
   
 class Image(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
