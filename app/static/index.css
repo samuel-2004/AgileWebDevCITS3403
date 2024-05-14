@@ -17,6 +17,7 @@ body {
     min-height: 100vh;
     margin: 0;
     background-color: rgb(164, 242, 242);
+    color: inherit;
 }
 
 .content {
@@ -27,6 +28,7 @@ body {
 
 .navbar {
     background-color: #ccc;
+    color: inherit;
     padding: 0px;
     font-size: larger;
 }
@@ -47,6 +49,7 @@ body {
 .navbar a:not(.navbar-brand):hover {
     border-radius: 3px;
     background-color: #999;
+    color: inherit;
     text-decoration: underline;
 }
 
@@ -79,6 +82,7 @@ body {
  */
 .post {
     background-color: white;
+    color: inherit;
     outline: 2px solid grey;
     border-radius: 10px;
     padding: 10px;
@@ -87,6 +91,7 @@ body {
 
 .post:hover {
     background-color: lightgrey;
+    color: inherit;
     outline: 3px solid darkslategrey;
     cursor: pointer;
 }
@@ -199,6 +204,7 @@ body {
 }
 
 .newhometext {
+    background-color: inherit;
     color: rgb(33,150,243) !important;
     font-weight: bold;
 }
