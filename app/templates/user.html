@@ -5,13 +5,20 @@
   <h1>User: {{ user.username }}</h1>
   <hr>
   <p>
+    Made {{user.points}} {% if user.points != 1 %}Posts{% else %}Post{%endif%} 
+    ({{user.given}} {% if user.given != 1 %}Offers{% else %}Offer{%endif%}, 
+    {{user.requested}} {% if user.requested != 1 %}Requests{% else %}Request{%endif%})
+  </p>
+  <p>
     Lives at: {{user.address.number}} {{user.address.street}}, {{user.address.city}}, {{user.address.state}}, {{user.address.country}}
   </p>
   <div class="row d-flex justify-content-center">
     {% for post in posts %}
     <div class="profile_post">
       <p>
-        {{ post.author.username }} posted: <b>{{ post.item_name }}</b> at {{ post.timestamp }}
+        {% if post.post_type == "OFFER" %}Offer for
+        {% elif post.post_type == "REQUEST" %} Request for
+        {% endif %} <b>{{ post.item_name }}</b> at {{ post.timestamp }}
       </p>
       {% if post.images %}
       <img class="profile_post_img" src="{{ post.images.src }}">
