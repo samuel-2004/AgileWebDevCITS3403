@@ -66,7 +66,10 @@ def contact():
 
 @flaskApp.route('/item/<int:itemID>')
 def item(itemID):
-    return render_template('items.html', itemID=itemID)
+    # Fetch the post with the given itemID
+    post = Post.query.get(itemID)
+    return render_template('items.html', post=post)
+
 
 @flaskApp.route('/login', methods=['GET', 'POST'])
 def login():
