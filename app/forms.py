@@ -9,13 +9,13 @@ class SignupForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirmed_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('Password', "Passwrods must match")])
     # address fields
-    street_number = StringField('Number', validators=[DataRequired(), Length(max=8)])
-    street = StringField('Street', validators=[DataRequired(), Length(max=128)])
+    address_line1 = StringField('Address Line 1', validators=[DataRequired(), Length(min=2, max=64)])
+    address_line2 = StringField('Address Line 2', validators=[Length(max=64)])
     suburb = StringField('Suburb', validators=[DataRequired(), Length(max=32)])
     postcode = StringField('Post Code', validators=[DataRequired(), Length(min=4,max=4,message="Post code must be 4 digits")])
     city = StringField('City', validators=[DataRequired(), Length(max=32)])
-    state = StringField('State', validators=[DataRequired(), Length(max=32)])
-    country = StringField('Country', validators=[DataRequired(), Length(max=128)])
+    state = SelectField('State', choices=['STATE','NSW','QLD','TAS','VIC','WA','ACT','NT'], validators=[DataRequired(), Length(max=32)])
+    #country = StringField('Country', validators=[DataRequired(), Length(max=128)])
     submit = SubmitField('Create Account')
 
 class LoginForm(FlaskForm):
