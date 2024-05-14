@@ -1,5 +1,7 @@
-<!-- Will submit a GET request to server on load based on the parameters passed to the page -->
 {% extends "base.html" %}
-{% block title %}Advanced Search{% endblock %}
+{% block title %}Search Results{% endblock %}
 {% block content %}
+{% include "searchform.html" %}
+<hr style="width:50%;margin:20px auto;"/>
+{% include "displayitems.html" %}
 {% endblock %}

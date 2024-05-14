@@ -5,6 +5,7 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db, login
+from app.controllers import convertPostsTimestamps
 
 class Address(db.Model):
 	id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -56,28 +57,61 @@ def load_user(id):
 		return db.session.get(User, int(id))
 
 class Post(db.Model):
-	id: so.Mapped[int] = so.mapped_column(primary_key=True)
-	post_type: so.Mapped[str] = so.mapped_column(sa.String(8))
-	item_name: so.Mapped[str] = so.mapped_column(sa.String(32))
-	desc: so.Mapped[str] = so.mapped_column(sa.String(256))
-	timestamp: so.Mapped[datetime] = so.mapped_column(
-		index=True, default=lambda: datetime.now(timezone.utc))
-	user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    post_type: so.Mapped[str] = so.mapped_column(sa.String(8))
+    item_name: so.Mapped[str] = so.mapped_column(sa.String(32))
+    desc: so.Mapped[str] = so.mapped_column(sa.String(256))
+    timestamp: so.Mapped[datetime] = so.mapped_column(
+        index=True, default=lambda: datetime.now(timezone.utc))
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
 
-	author: so.Mapped[User] = so.relationship(back_populates='posts')
-	images: so.Mapped['Image'] = so.relationship(back_populates='post')
+    author: so.Mapped[User] = so.relationship(back_populates='posts')
+    images: so.Mapped['Image'] = so.relationship(back_populates='post')
 
-	def __repr__(self) -> str:
-		return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
-	
-	
+    def __repr__(self) -> str:
+        return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
+
+def get_posts(q="", md=None, order="new", lim=100):
+    query = db.session.query(
+            Post.id,Post.post_type,Post.item_name,Post.timestamp,User.username,Address.city,Address.postcode,Image.src
+        ).join(User, Post.user_id==User.id).\
+        join(Image, Post.id==Image.post_id).\
+        join(Address, User.address_id==Address.id)
+
+
+    # Check if any word in q is in the post name or description
+    # This does not take into account the maximum distance
+    # Maximum distance will require api calls etc
+    if (len(q) > 0):
+        q = q.split()
+        name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
+        desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
+        query = query.filter(sa.or_(*name_conditions, * desc_conditions))
+        
+    if order == "new":
+        query = query.order_by(sa.desc(Post.timestamp))
+    elif order == "old":
+        query = query.order_by(Post.timestamp)
+    elif order == "close":
+        # need to access distance
+        pass
+    elif order == "rating":
+        # need to access users' points
+        pass
+
+    #print("\n\n\n",query,"\n\n\n")
+    query = query.limit(lim)
+    posts = db.session.execute(query).fetchall()
+    posts = [post._asdict() for post in posts]
+    posts = convertPostsTimestamps(posts)
+    return posts
+  
 class Image(db.Model):
-	id: so.Mapped[int] = so.mapped_column(primary_key=True)
-	src: so.Mapped[str] = so.mapped_column(sa.String(256))
-	post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id), index=True)
-	
-	post: so.Mapped[Post] = so.relationship(back_populates='images')
-	
-	def __repr__(self) -> str:
-		return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
-
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    src: so.Mapped[str] = so.mapped_column(sa.String(256))
+    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id), index=True)
+    
+    post: so.Mapped[Post] = so.relationship(back_populates='images')
+    
+    def __repr__(self) -> str:
+        return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'

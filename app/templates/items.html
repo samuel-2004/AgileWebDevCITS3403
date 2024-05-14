@@ -3,7 +3,7 @@
 {% block content %}
 <head>
     <style>
-        .small-image {
+        .small-post {
             width: 80px;
             height: 80px;
             padding: 10px;
@@ -12,28 +12,41 @@
             float: right;
         }
     </style>
+    <script>
+        // Enlarges the post when clicked
+        function enlargepost(img) {
+            img.style.width = "40%";
+            img.style.height = "auto";
+            img.style.transition = "width 0.5s ease";
+        }
+        // Function to handle the request button click
+        function requestItem(button) {
+            // Toggle button text
+            if (button.innerText === "I want this item!") {
+                button.innerText = "Item requested! Please wait for uploader to respond";
+            }
+        }
+    </script>
 </head>
 
 <div class="item-container">
-    <!-- Image now displayed on the left -->
-    <img src="/static/book.jpg" alt="Item Image" id="item-image" class="small-image" onclick="enlargeImage(this.id)">
+    {% if post %}
+        <!-- Display item posts -->
+        <img src="{{ post.images.src }}" alt="Item post" class="small-post" onclick="enlargepost(this)">
 
-    <!-- Item information now displayed on the right -->
-    <div class="item-information" id="item-info">
-        <h2>Item Information</h2>
-        <p><strong>Name:</strong> Item Name</p>
-        <p><strong>Description:</strong> Item Description</p>
-    </div>
+        <!-- Display item information -->
+        <div class="item-information" id="item-info">
+            <h2>Item Information</h2>
+            <p><strong>Name:</strong> {{ post.item_name }}</p>
+            <p><strong>Description:</strong> {{ post.desc }}</p>
+            <p><strong>Posted By:</strong> {{ post.author.username }}</p>
+            <p><strong>Item Type:</strong> {{ post_type }}</p>
+            <!-- Button to request the item -->
+            <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
+        </div>
+    {% else %}
+    <h3>Error in loading item</h3>
+    <p>No item information available for item ID: {{ itemID }}</p>
+    {% endif %}
 </div>
-<script>
-    // Enlarges the image when clicked
-    function enlargeImage(itemId) {
-        img = document.getElementById(itemId);
-            // Loop through all images to revert them back to original size
-        img.style.width = "40%";
-        img.style.height = "auto";
-        img.style.transition = "width 0.5s ease";
-
-    }
-</script>
 {% endblock %}

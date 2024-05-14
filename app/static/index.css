@@ -2,91 +2,48 @@
 This CSS file contains the style information for the navbar and footer.
 */
 
-.topnav {
-    background-color: #e9e9e9;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 999;
-    margin-bottom: 40px;
-}
-  
-.topnav a {
-    float: left;
-    display: block;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
+.navbar {
+    background-color: #ccc;
+    padding: 0px;
+    font-size: larger;
 }
 
-.topnav a:hover {
-    background-color: #ddd;
-    color: black;
+.navbar .btn {
+    padding: 6px 12px !important;
 }
 
-.topnav a.active {
-    background-color: #2196F3;
-    color: white;
+.navbar a:not(.navbar-brand) {
+    padding: 5px 5px;
+    text-wrap: nowrap;
 }
 
-.topnav .home{
-    padding: 2px;
+#navbarsearch {
+    padding: 5px 0px;
 }
 
-.topnav a.active.home{
-    background-color: #BBDEFB;
+.row-buffer { margin-top:10px; }
+
+.navbar a:not(.navbar-brand):hover {
+    border-radius: 3px;
+    background-color: #999;
+    text-decoration: underline;
 }
 
-.topnav .search-container {
-    margin-left: auto;
-}
-
-.topnav input[type=text] {
-    padding: 6px;
-    margin-top: 8px;
-    font-size: 17px;
-    border: none;
-}
-
-.topnav .search-container button {
-    float: right;
-    padding: 6px 10px;
-    margin-top: 8px;
-    margin-right: 16px;
-    background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
-}
-
-.topnav .search-container button:hover {
-    background: #ccc;
-}
-
-@media screen and (max-width: 600px) {
-    .topnav .search-container {
-        float: none;
+@media (min-width: 992px) {
+    .navbar-nav .nav-item {
+        border-right: 1px solid #999;
+        padding-right: 5px;
+        padding-left: 5px;
     }
-    .topnav a, .topnav input[type=text], .topnav .search-container button {
-        float: none;
-        display: block;
-        text-align: left;
-        width: 100%;
-        margin: 0;
-        padding: 14px;
-    }
-    .topnav input[type=text] {
-        border: 1px solid #ccc;  
+
+    .navbar-nav .nav-item:last-child {
+        border-right: none; /* Remove border from last item */
     }
 }
+
 
 
 #content {
-    padding-top: 60px;
     margin-bottom: 40px;
 }
 
@@ -147,20 +104,20 @@ body {
     float:right;
 }
 
+
 .aboutsection {
     padding-top:25px;
     padding-bottom:25px;
 }
 
-
 .aboutimg {
     display: block;
+    margin: auto;
 }
 .abouttext {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    word-wrap: break-word;
 }
 @media (max-width: 768px) {
     .abouttext {
@@ -168,7 +125,6 @@ body {
     }
     .aboutimg {
         max-width: 75%;
-        margin: auto;
     }
 }
 @media (min-width: 768px) {
@@ -177,15 +133,48 @@ body {
     }
     .aboutimg {
         max-width: 50%;
-        margin: 0;
-        position: absolute;
         top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
     }
 }
 
 .newhometext {
     color: rgb(33,150,243) !important;
     font-weight: bold;
+}
+
+.anItem {
+    background-color: white;
+    outline: 2px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+.anItem:hover {
+    background-color: lightgrey;
+    outline: 3px solid darkslategrey;
+    cursor: pointer;
+}
+.anItem > img {
+    display: block;
+    margin: auto;
+    border-radius: 2%;
+}
+.anItem > .name {
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+.anItem:hover > .name {
+    text-decoration: underline;
+}
+.anItem > p {
+    white-space: pre;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+@media (max-width: 576px) {
+    .anItem {
+        width: 75% !important;
+    }
 }
