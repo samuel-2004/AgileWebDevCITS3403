@@ -1,7 +1,10 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from flask_wtf.file import FileField, FileRequired
-from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo, AnyOf
+from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo, AnyOf, ValidationError
+import sqlalchemy as sa
+from app import db
+from app.models import User
 
 STATES = ['NSW','QLD','TAS','VIC','WA','ACT','NT']
 
@@ -19,6 +22,17 @@ class SignupForm(FlaskForm):
     state = SelectField('State', choices=(['STATE'] + STATES), validators=[DataRequired(), AnyOf(STATES, "Please pick a state"), Length(max=32)])
     #country = StringField('Country', validators=[DataRequired(), Length(max=128)])
     submit = SubmitField('Create Account')
+
+    # Derived from flask mega tutorial
+    def validate_username(self, username):
+        user = db.session.scalar(sa.select(User).where(User.username == username.data))
+        if user is not None:
+            raise ValidationError('Please use a different username')
+
+    def validate_email(self, email):
+        user = db.session.scalar(sa.select(User).where(User.email == email.data))
+        if user is not None:
+            raise ValidationError('Please use a different email address')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
