@@ -29,13 +29,13 @@
             <div class="row">
                 {{ form.password.label(class="col-5 col-form-label") }}
                 {{ form.password(class="form-control col")}}
-                {% for error in form.password.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
             </div>
             <div class="row">
                 {{ form.confirmed_password.label(class="col-5 col-form-label") }}
                 {{ form.confirmed_password(class="form-control col")}}
+                {% for error in form.password.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
                 {% for error in form.confirmed_password.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
