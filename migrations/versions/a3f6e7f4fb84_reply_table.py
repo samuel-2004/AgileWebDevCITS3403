@@ -1,7 +1,7 @@
 """reply table
 
 Revision ID: a3f6e7f4fb84
-Revises: 9e553d89c1d4
+Revises: 15ac394fcb0f
 Create Date: 2024-05-12 21:49:53.057035
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'a3f6e7f4fb84'
-down_revision = '9e553d89c1d4'
+down_revision = '15ac394fcb0f'
 branch_labels = None
 depends_on = None
 
