@@ -4,7 +4,8 @@ from json import loads
 from datetime import datetime, timezone
 from urllib.parse import urlsplit, urlparse, parse_qs
 import sqlalchemy as sa
-from app import flaskApp, db
+from app import db
+from app.blueprints import main
 from app.models import *
 from app.forms import *
 from werkzeug.utils import secure_filename
@@ -14,13 +15,13 @@ import newhome
 import os
 from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
 
-@flaskApp.route('/', methods=['GET'])
-@flaskApp.route('/index')
+@main.route('/', methods=['GET'])
+@main.route('/index')
 def index():
     posts = get_posts()
     return render_template('index.html', posts=posts, defaultimage='book.jpg')
 
-@flaskApp.route('/advancedsearch')
+@main.route('/advancedsearch')
 def advancedSearch():
     form = SearchForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -28,11 +29,11 @@ def advancedSearch():
         max_distance = request.form["md"]
         orderby = request.form["order"]
         print({'title': title, 'max_distance': max_distance, 'orderby': orderby})
-        return redirect(url_for('search', q=title, md=max_distance, order=orderby))
+        return redirect(url_for('main.search', q=title, md=max_distance, order=orderby))
     else:
         return render_template('advancedsearch.html', form=form)
 
-@flaskApp.route('/search')
+@main.route('/search')
 def search():
     # Retrieve search parameters from the query string
     query = request.args.get('q')
@@ -42,16 +43,16 @@ def search():
     posts = get_posts(query, max_distance, orderby)
     return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
 
-@flaskApp.route('/account')
+@main.route('/account')
 def account():
     return render_template('account.html')
 
-@flaskApp.route('/about')
+@main.route('/about')
 def about():
     return render_template('about.html')
 
-@flaskApp.route('/contact', methods=['GET','POST'])
-@flaskApp.route('/contact-us', methods=['GET','POST'])
+@main.route('/contact', methods=['GET','POST'])
+@main.route('/contact-us', methods=['GET','POST'])
 def contact():
     form = ContactForm()
     if request.method == 'POST' and form.validate_on_submit():
@@ -60,44 +61,44 @@ def contact():
         subject = request.form["subject"]
         message = request.form["message"]
         print({'name': name, 'email': email, 'subject': subject, 'message': message})
-        return redirect(url_for('contact'))
+        return redirect(url_for('main.contact'))
     else:
         return render_template('contact.html', form=form)
 
-@flaskApp.route('/item/<int:itemID>')
+@main.route('/item/<int:itemID>')
 def item(itemID):
     return render_template('items.html', itemID=itemID)
 
-@flaskApp.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = db.session.scalar(
             sa.select(User).where(User.username == form.username.data))
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         login_user(user, remember=form.remember_me.data)
         #flash('Login requested for user {}, remember_me={}'.format(
         #    form.username.data, form.remember_me.data))
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc != '':
-            next_page = url_for('index')
+            next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('login.html', form=form)
 
-@flaskApp.route('/signup')
+@main.route('/signup')
 def signup():
     return render_template('signup.html')
 
-@flaskApp.route('/logout')
+@main.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
-@flaskApp.route('/upload', methods=['GET', 'POST'])
+@main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
     form = uploadForm()
@@ -117,10 +118,10 @@ def upload():
             image = Image(src = path, post = post)
             db.session.add(image)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     return render_template('upload.html', form=form)
 
-@flaskApp.route('/user')
+@main.route('/user')
 @login_required
 def user():
     username = request.args.get('username')
@@ -134,7 +135,7 @@ def user():
     return render_template('user.html', user=user, posts=posts)
 
 # Try the main directory if a file is not found in the root branch
-@flaskApp.route('/<path:filename>')
+@main.route('/<path:filename>')
 def get_file(filename):
     # Check if the file exists in the original directory
     original_path = os_join(flaskApp.static_folder, filename)
