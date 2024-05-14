@@ -8,10 +8,11 @@ from app import db, login
 
 class Address(db.Model):
   id: so.Mapped[int] = so.mapped_column(primary_key=True)
-  number:so.Mapped[str] = so.mapped_column(sa.String(8)) # Can have letters, eg. 47A
-  street: so.Mapped[str] = so.mapped_column(sa.String(128))
-  city: so.Mapped[str] = so.mapped_column(sa.String(32))
+  address_line1: so.Mapped[str] = so.mapped_column(sa.String(64))
+  address_line2: so.Mapped[str] = so.mapped_column(sa.String(64))
+  suburb: so.Mapped[str] = so.mapped_column(sa.String(32))
   postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
+  city: so.Mapped[str] = so.mapped_column(sa.String(32))
   state: so.Mapped[str] = so.mapped_column(sa.String(32))
   country: so.Mapped[str] = so.mapped_column(sa.String(128))
   
