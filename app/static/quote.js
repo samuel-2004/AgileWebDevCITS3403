@@ -12,7 +12,7 @@ function getQuote() {
 }
 
 async function loadQuote(quote){
-    while (document.readyState != "complete"){} //Ensures window is loaded
+    while (document.readyState != "complete"){} // Ensures window is loaded
     let quoteText = quote.content+"<br>- "+quote.author;
     let quoteElement = $("<h3></h3>").html(quoteText);
     $("#content").prepend(quoteElement);

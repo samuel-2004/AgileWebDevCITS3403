@@ -5,13 +5,13 @@
 <script src="contactform.js"></script>
 {% endblock %}
 {% block content %}
-<div class="contactformmain">
+<div class="contact-form-main">
     <h3>Contact us</h3>
-    <form id="contactform" action="{{ url_for('contact') }}" onsubmit="return validateEmail()" method=post>
+    <form id="contact-form" action="{{ url_for('contact') }}" onsubmit="return validateEmail()" method=post>
         {{ form.csrf_token }}
         <div>
             <!-- name forms -->
-            <div class="row contactrow">
+            <div class="row contact-row">
                 <div class="col-md-3">
                     {{ form.name.label }}
                 </div><br>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <!-- email forms -->
-            <div class="row contactrow">
+            <div class="row contact-row">
                 <div class="col-md-3">
                     {{ form.email.label }}
                 </div><br>
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <!-- Subject of your request -->
-            <div class="row contactrow">
+            <div class="row contact-row">
                 <div class="col-md-3">
                     {{ form.subject.label }}
                 </div><br>
@@ -38,13 +38,13 @@
                 </div>
             </div>
             <!-- Content of your request -->
-            <div class="row contactrow">
+            <div class="row contact-row">
                 <div class="col-md-12">
                     {{ form.message(placeholder='Write your request ...', class_="form-control") }}
                 </div>
             </div>
             <!-- Submit button -->
-            <div class="row contactsubmit">
+            <div class="row contact-submit">
                 {{ form.submit }}
             </div>
         </div>
