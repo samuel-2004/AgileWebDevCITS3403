@@ -47,7 +47,7 @@ class SearchForm(FlaskForm):
     md = IntegerField('Max Distance (km)', validators=[NumberRange(min=0, max=25)])
     order = SelectField('Order By', choices=
         [
-            ('',        ''),
+            ('',        'Select'),
             ('close',   'Closest'),
             ('new',     'Newest'),
             ('old',     'Oldest'),
