@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Sign Up{% endblock %}
 {% block content %}
+<script src="location.js"></script>
 <div class="container col-sm-6 col-lg-4">
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -81,6 +82,8 @@
         {% for error in form.city.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
+        {{ form.lat(id="latitude") }}
+        {{ form.lng(id="longitude") }}
         {{ form.submit() }}
     </form>
 </div>
