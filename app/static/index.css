@@ -169,15 +169,18 @@ body {
 /*
  * The following CSS is for the about page.
  */
- .aboutsection {
+ .about-section {
     padding-top:25px;
     padding-bottom:25px;
+    display: flex;
+    align-items: center;
 }
 
 .about-img {
     display: block;
     margin: auto;
 }
+
 .about-text {
     display: block;
     margin-left: auto;
@@ -194,10 +197,10 @@ body {
 }
 
 @media (min-width: 768px) {
-    .abouttext {
+    .about-text {
         max-width: 30%;
     }
-    .aboutimg {
+    .about-img {
         max-width: 50%;
         top: 50%;
     }
