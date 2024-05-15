@@ -8,7 +8,7 @@ import sqlite3
 from flask_migrate import Migrate
 
 flaskApp = create_app(DeploymentConfig)
-migrate = Migrate(db, flaskApp)
+migrate = Migrate(flaskApp, db)
 
 
 @flaskApp.shell_context_processor
