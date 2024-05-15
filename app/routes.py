@@ -167,23 +167,3 @@ def user():
     #    {'author': user, 'item_name': 'Test post #2'}
     #]
     return render_template('user.html', user=user, posts=posts)
-
-# Try the main directory if a file is not found in the root branch
-@flaskApp.route('/<path:filename>')
-def get_file(filename):
-    """
-    If the path for a file cannot be found, try the 
-    """
-    # Check if the file exists in the original directory
-    original_path = os_join(flaskApp.static_folder, filename)
-    if os_pathexists(original_path):
-        return send_from_directory(flaskApp.static_folder, filename)
-
-    # If not found, try to locate the file in the directory of the Flask app
-    app_directory_path = os_dirname(os_abspath(__file__))
-    app_file_path = os_join(app_directory_path, filename)
-    if os_pathexists(app_file_path):
-        return send_from_directory(app_directory_path, filename)
-
-    # If the file is not found in either location, return a 404 error
-    return "File not found", 404
