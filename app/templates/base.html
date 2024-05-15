@@ -28,27 +28,27 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{{ url_for('about') }}">About</a>
+                <a class="nav-link" aria-current="page" href="{{ url_for('main.about') }}">About</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                <a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('advancedSearch') }}">Advanced Search</a>
+                <a class="nav-link" href="{{ url_for('main.advancedSearch') }}">Advanced Search</a>
             </li>
             {% if current_user.is_anonymous %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                <a class="nav-link" href="{{ url_for('main.logout') }}">Logout</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('upload') }}">Upload</a>
+                <a class="nav-link" href="{{ url_for('main.upload') }}">Upload</a>
             </li>
             <li class="nav-item">
-                <a class="btn btn-outline-secondary" href="{{ url_for('user', username=current_user.username) }}"><i class="bi bi-person"></i></a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('main.user', username=current_user.username) }}"><i class="bi bi-person"></i></a>
             </li>
             {% endif %}
             </ul>

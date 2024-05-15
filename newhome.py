@@ -1,8 +1,12 @@
-from app import flaskApp, db
+from app import create_app, db
+from app.config import DeploymentConfig
 import sqlalchemy as sa
 from app.models import *
 import sqlalchemy.orm as so
 import sqlite3
+
+flaskApp = create_app(DeploymentConfig)
+migrate = Migrate(flaskApp, db)
 
 
 @flaskApp.shell_context_processor
