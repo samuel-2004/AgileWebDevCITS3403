@@ -21,7 +21,7 @@
 <body style="background-color:#DEEEFC ">
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/"><img class="img-fluid" src="/static/NewHomeLogo.png" style="max-height:60px;" alt="New Home Logo"/></a>
+            <a class="navbar-brand" href="/"><img class="img-fluid" src="/static/NewHomeLogo.png" style="max-height:60px;" alt="New Home Logo"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,7 +34,7 @@
                 <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('advancedSearch') }}">Advanced Search</a>
+                <a class="nav-link" href="{{ url_for('advanced_search') }}">Advanced Search</a>
             </li>
             {% if current_user.is_anonymous %}
             <li class="nav-item">
