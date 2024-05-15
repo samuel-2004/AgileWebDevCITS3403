@@ -71,8 +71,8 @@
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
         <div class="form-group row">
-            <label class="col-form-label col col-4">State & City</label>
-            <div class="col-3">{{ form.state(class="form-control col")}}</div>
+            <label class="col-form-label col col-5">State & City</label>
+            <div class="col-2" style="padding: 0px 2px;">{{ form.state(class="form-control col")}}</div>
             {{ form.city(class="form-control col")}}
         </div>
         {% for error in form.state.errors %}
