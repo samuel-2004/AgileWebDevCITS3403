@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="items.js"></script>
+    <script src="static/items.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -52,7 +52,7 @@
             </li>
             {% endif %}
             </ul>
-            <form class="d-flex" id="navbarsearch" accept-charset="UTF-8" action="search" method="get">
+            <form class="d-flex" id="navbarsearch" accept-charset="UTF-8" action="/search" method="get">
                 <input id="navbarsearchbox" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" maxlength="1024">
                 <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
             </form>
