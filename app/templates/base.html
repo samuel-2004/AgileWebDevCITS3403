@@ -38,7 +38,7 @@
             </li>
             {% if current_user.is_anonymous %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-link" href="{{ url_for('login_page') }}">Login</a>
             </li>
             {% else %}
             <li class="nav-item">
