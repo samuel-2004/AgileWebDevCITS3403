@@ -8,6 +8,7 @@ from app import db
 from app.blueprints import main
 from app.models import *
 from app.forms import *
+from app.controllers import *
 from werkzeug.utils import secure_filename
 import newhome
 
@@ -19,7 +20,7 @@ from os.path import join as os_join, dirname as os_dirname, exists as os_pathexi
 @main.route('/index')
 def index():
     posts = get_posts()
-    return render_template('index.html', posts=posts, defaultimage='book.jpg')
+    return render_template('index.html', page="index", posts=posts, calcTimeAgo=calcTimeAgo)
 
 @main.route('/advancedsearch')
 def advancedSearch():
@@ -41,7 +42,7 @@ def search():
     orderby = request.args.get('order')
 
     posts = get_posts(query, max_distance, orderby)
-    return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
+    return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calcTimeAgo)
 
 @main.route('/account')
 def account():
@@ -67,10 +68,14 @@ def contact():
 
 @main.route('/item/<int:itemID>')
 def item(itemID):
-    return render_template('items.html', itemID=itemID)
+    # Fetch the post with the given itemID
+    post = Post.query.get(itemID)
+    return render_template('items.html', post=post)
+
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
+    # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
     form = LoginForm()
@@ -89,9 +94,38 @@ def login():
         return redirect(next_page)
     return render_template('login.html', form=form)
 
-@main.route('/signup')
+
+@flaskApp.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('signup.html')
+    # redirect if logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    # form
+    form = SignupForm()
+    if form.validate_on_submit():
+        # add address
+        address = Address(address_line1=form.address_line1.data, address_line2=form.address_line2.data)
+        address.suburb = form.suburb.data
+        address.postcode = form.postcode.data
+        address.city = form.city.data
+        address.state = form.state.data
+        address.country = "Australia"           # All accounts are registered in Australia for now
+        db.session.add(address)
+        db.session.commit()
+        # add user
+        user = User(username=form.username.data)
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        user.bio = "I'm using NewHome"          # default
+        user.pic = "default_profile_pic.png"    # default
+        user.address_id = address.id
+        db.session.add(user)
+        db.session.commit()
+        # submit and redirect
+        flash("Congratulations! Welcome to NewHome!")
+        return redirect(url_for('login'))
+    # render page
+    return render_template('signup.html', active_link='/signup', form=form)
 
 @main.route('/logout')
 def logout():
@@ -106,7 +140,11 @@ def upload():
         post = Post(post_type = form.post_type.data, item_name = form.item_name.data, 
                     desc = form.desc.data, author=current_user)
         db.session.add(post)
-        #db.session.commit()
+        current_user.points += 1
+        if post.post_type == "OFFER":
+            current_user.given += 1
+        elif post.post_type == "REQUEST":
+            current_user.requested += 1
         image = form.image.data
         if image:
             filename = secure_filename(image.filename)
@@ -128,26 +166,4 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    #posts = [
-    #    {'author': user, 'item_name': 'Test post #1'},
-    #    {'author': user, 'item_name': 'Test post #2'}
-    #]
-    return render_template('user.html', user=user, posts=posts)
-'''
-# Try the main directory if a file is not found in the root branch
-@main.route('/<path:filename>')
-def get_file(filename):
-    # Check if the file exists in the original directory
-    original_path = os_join(main.static_folder, filename)
-    if os_pathexists(original_path):
-        return send_from_directory(main.static_folder, filename)
-    
-    # If not found, try to locate the file in the directory of the Flask app
-    app_directory_path = os_dirname(os_abspath(__file__))
-    app_file_path = os_join(app_directory_path, filename)
-    if os_pathexists(app_file_path):
-        return send_from_directory(app_directory_path, filename)
-
-    # If the file is not found in either location, return a 404 error
-    return "File not found", 404
-'''
+    return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calcTimeAgo, is_user_page=True)
