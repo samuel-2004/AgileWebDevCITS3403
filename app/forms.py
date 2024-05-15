@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, IntegerField, HiddenField
 from flask_wtf.file import FileField, FileRequired
 from wtforms.validators import DataRequired, Length, Optional, Email, EqualTo, AnyOf, ValidationError, Regexp, NumberRange
 import sqlalchemy as sa
@@ -66,3 +66,5 @@ class SearchForm(FlaskForm):
             ('old',     'Oldest'),
             ('rating',  'Vendor Rating')
         ])
+    lat = HiddenField("latitude")
+    lng = HiddenField("longitude")

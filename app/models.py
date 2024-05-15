@@ -8,19 +8,21 @@ from sqlalchemy.types import REAL
 from app import db, login
 
 class Address(db.Model):
-	id: so.Mapped[int] = so.mapped_column(primary_key=True)
-	address_line1: so.Mapped[str] = so.mapped_column(sa.String(64))
-	address_line2: so.Mapped[str] = so.mapped_column(sa.String(64))
-	suburb: so.Mapped[str] = so.mapped_column(sa.String(32))
-	postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
-	city: so.Mapped[str] = so.mapped_column(sa.String(32))
-	state: so.Mapped[str] = so.mapped_column(sa.String(32))
-	country: so.Mapped[str] = so.mapped_column(sa.String(128))
-	
-	resident: so.Mapped['User'] = so.relationship(back_populates='address')
-	
-	def __repr__(self) -> str:
-		return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    address_line1: so.Mapped[str] = so.mapped_column(sa.String(64))
+    address_line2: so.Mapped[str] = so.mapped_column(sa.String(64))
+    suburb: so.Mapped[str] = so.mapped_column(sa.String(32))
+    postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
+    city: so.Mapped[str] = so.mapped_column(sa.String(32))
+    state: so.Mapped[str] = so.mapped_column(sa.String(32))
+    country: so.Mapped[str] = so.mapped_column(sa.String(128))
+    latitude: so.Mapped[REAL] = so.mapped_column(REAL)
+    longitude: so.Mapped[REAL] = so.mapped_column(REAL)
+
+    resident: so.Mapped['User'] = so.relationship(back_populates='address')
+
+    def __repr__(self) -> str:
+        return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
 	
 
 class User(UserMixin, db.Model):
@@ -71,7 +73,7 @@ class Post(db.Model):
     def __repr__(self) -> str:
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
 
-def get_posts(q="", md=None, order="new", lim=100):
+def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
     query = db.session.query(Post)
 
     # Check if any word in q is in the post name or description
@@ -82,7 +84,10 @@ def get_posts(q="", md=None, order="new", lim=100):
         name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
         desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
         query = query.filter(sa.or_(*name_conditions, * desc_conditions))
-        
+    
+    if (md and lat and lng):
+        pass
+
     if order == "new":
         query = query.order_by(sa.desc(Post.timestamp))
     elif order == "old":
@@ -108,15 +113,3 @@ class Image(db.Model):
     
     def __repr__(self) -> str:
         return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
-
-class postcode_geo(db.Model):
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    postcode: so.Mapped[str] = so.mapped_column(sa.String(5))
-    suburb: so.Mapped[str] = so.mapped_column(sa.String(100))
-    state: so.Mapped[str] = so.mapped_column(sa.String(32))
-    latitude: so.Mapped[REAL] = so.mapped_column(REAL)
-    longitude: so.Mapped[REAL] = so.mapped_column(REAL)
-
-    def __repr__(self) -> str:
-        return f'<postcode_get {self.id} {self.postcode} {self.suburb}' + \
-            f'{self.state} {self.latitude} {self.longitude}>'

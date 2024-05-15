@@ -14,7 +14,9 @@ CREATE TABLE Addresses (
     postcode varchar(10),
     city varchar(32),
     state varchar(32),
-    country varchar(255)
+    country varchar(255),
+    latitude real DEFAULT NULL,
+    longitude real DEFAULT NULL
 );
 
 CREATE TABLE Posts (

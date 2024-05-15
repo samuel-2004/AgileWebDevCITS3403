@@ -1,3 +1,4 @@
+<script src="location.js"></script>
 <div class="container">
     <h1>Advanced Search</h1>
     <form action="{{ url_for('search') }}" accept-charset="UTF-8" method="get">
@@ -23,6 +24,8 @@
                 {{ form.order(class="form-control", id="order") }}
             </div>
         </div>
+        {{ form.lat(id="latitude") }}
+        {{ form.lng(id="longitude") }}
         <div class="col-sm-11"></div>
         <div class="col-sm-1">
             <button type="submit" class="btn btn-primary mb-2 row-buffer">Search</button>
