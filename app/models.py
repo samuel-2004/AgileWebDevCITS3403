@@ -119,7 +119,8 @@ def is_within_max_distance(md,lat1,lng1,lat2,lng2):
     return x <= md
 
 def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
-    query = db.session.query(Post)
+    db.session.connection().connection.create_function("is_within_max_distance", 5, is_within_max_distance)
+    query = db.session.query(Post).join(User).join(Address)
 
     # Check if any word in q is in the post name or description
     # This does not take into account the maximum distance
@@ -130,9 +131,9 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
         desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
         query = query.filter(sa.or_(*name_conditions, * desc_conditions))
     
-    if (md and lat and lng):
-        pass
-
+    if md is not None and lat is not None and lng is not None:
+        query = query.filter(func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
+    
     if order == "new":
         query = query.order_by(sa.desc(Post.timestamp))
     elif order == "old":
