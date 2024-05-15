@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from sqlalchemy.types import REAL
 from app import db, login
 
 class Address(db.Model):
@@ -107,3 +108,15 @@ class Image(db.Model):
     
     def __repr__(self) -> str:
         return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
+
+class postcode_geo(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    postcode: so.Mapped[str] = so.mapped_column(sa.String(5))
+    suburb: so.Mapped[str] = so.mapped_column(sa.String(100))
+    state: so.Mapped[str] = so.mapped_column(sa.String(32))
+    latitude: so.Mapped[REAL] = so.mapped_column(REAL)
+    longitude: so.Mapped[REAL] = so.mapped_column(REAL)
+
+    def __repr__(self) -> str:
+        return f'<postcode_get {self.id} {self.postcode} {self.suburb}' + \
+            f'{self.state} {self.latitude} {self.longitude}>'
