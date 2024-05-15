@@ -4,6 +4,7 @@ import sqlalchemy as sa
 from app.models import *
 import sqlalchemy.orm as so
 import sqlite3
+from flask_migrate import Migrate
 
 flaskApp = create_app(DeploymentConfig)
 migrate = Migrate(flaskApp, db)

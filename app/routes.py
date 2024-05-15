@@ -95,11 +95,11 @@ def login():
     return render_template('login.html', form=form)
 
 
-@flaskApp.route('/signup', methods=['GET', 'POST'])
+@main.route('/signup', methods=['GET', 'POST'])
 def signup():
     # redirect if logged in
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     # form
     form = SignupForm()
     if form.validate_on_submit():
@@ -123,7 +123,7 @@ def signup():
         db.session.commit()
         # submit and redirect
         flash("Congratulations! Welcome to NewHome!")
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
     # render page
     return render_template('signup.html', active_link='/signup', form=form)
 
