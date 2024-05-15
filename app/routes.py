@@ -51,13 +51,6 @@ def search():
     posts = get_posts(query, max_distance, orderby)
     return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
 
-@flaskApp.route('/account')
-def account():
-    """
-    A page to show a user's account details
-    """
-    return render_template('account.html')
-
 @flaskApp.route('/about')
 def about():
     """
