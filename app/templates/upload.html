@@ -2,7 +2,7 @@
 {% block title %}Upload{% endblock %}
 {% block content %}
 <div class="container">
-  <form accept-charset="UTF-8" method="post" action="" enctype="multipart/form-data">
+  <form accept-charset="UTF-8" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <p>
       {{ form.post_type.label }}<br>
