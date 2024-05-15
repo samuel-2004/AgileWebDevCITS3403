@@ -5,6 +5,7 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from sqlalchemy.types import REAL
+from sqlalchemy.sql import func
 from app import db, login
 
 class Address(db.Model):
@@ -22,7 +23,7 @@ class Address(db.Model):
     resident: so.Mapped['User'] = so.relationship(back_populates='address')
 
     def __repr__(self) -> str:
-        return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
+        return f'<Address: {self.city}, {self.postcode}, {self.state}, {self.country}, {self.latitude}, {self.longitude}>'
 	
 
 class User(UserMixin, db.Model):
@@ -72,6 +73,50 @@ class Post(db.Model):
 
     def __repr__(self) -> str:
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
+
+from math import radians, cos, sin, asin, sqrt
+
+def haversine(lat1,lng1,lat2,lng2):
+    """
+    Calculate the great circle distance in kilometers between two points 
+    on the earth (specified in decimal degrees)
+    Uses the haversine formula
+    :param lat1, lng1: first coordinate pair
+    :param lat2, lng2: second coordinate pair
+
+    :return: The distance between the points in kilometers.
+
+    See https://stackoverflow.com/a/4913653 for the implementation
+    """
+    
+
+    # convert decimal degrees to radians
+    lng1, lat1, lng2, lat2 = map(radians, [lng1, lat1, lng2, lat2])
+
+    # haversine formula 
+    dlon = lng2 - lng1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 6371 # Radius of earth in kilometers.
+    out = c * r
+    return out
+
+
+def is_within_max_distance(md,lat1,lng1,lat2,lng2):
+
+    """
+    Calculates if the distance between two coordinate pairs is less than the given maximum distance
+    :param md: maximum distance the pairs can be
+    :param lat1, lng1: first coordinate pair
+    :param lat2, lng2: second coordinate pair
+
+    :return: True if the distance is less than the max distance, False otherwise
+    """
+    # convert inputs to floats
+    md, lng1, lat1, lng2, lat2 = map(float, [md, lng1, lat1, lng2, lat2])
+    x = haversine(lat1,lng1,lat2,lng2)
+    return x <= md
 
 def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
     query = db.session.query(Post)
