@@ -39,8 +39,10 @@ def search():
     query = request.args.get('q')
     max_distance = request.args.get('md')
     orderby = request.args.get('order')
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
 
-    posts = get_posts(query, max_distance, orderby)
+    posts = get_posts(query, max_distance, orderby, lat, lng)
     return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calcTimeAgo)
 
 @flaskApp.route('/account')
@@ -107,6 +109,8 @@ def signup():
         address.postcode = form.postcode.data
         address.city = form.city.data
         address.state = form.state.data
+        address.lat = form.lat.data
+        address.lng = form.lng.data
         address.country = "Australia"           # All accounts are registered in Australia for now
         db.session.add(address)
         db.session.commit()

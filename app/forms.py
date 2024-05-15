@@ -21,6 +21,8 @@ class SignupForm(FlaskForm):
     city = StringField('City', validators=[DataRequired(), Length(max=32)])
     state = SelectField('State', choices=(['STATE'] + STATES), validators=[DataRequired(), AnyOf(STATES, "Please pick a state"), Length(max=32)])
     #country = StringField('Country', validators=[DataRequired(), Length(max=128)])
+    lat = HiddenField("latitude")
+    lng = HiddenField("longitude")
     submit = SubmitField('Create Account')
 
     # Derived from flask mega tutorial
