@@ -11,8 +11,9 @@ from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from werkzeug.utils import secure_filename
 from app import flaskApp, db
-from app.models import User, Post, Image, get_posts
+from app.models import User, Post, Image
 from app.forms import LoginForm, UploadForm, ContactForm, SearchForm
+from app.controllers import get_posts
 
 @flaskApp.route('/', methods=['GET'])
 @flaskApp.route('/index')
