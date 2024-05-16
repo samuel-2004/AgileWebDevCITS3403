@@ -116,6 +116,9 @@ class Image(db.Model):
         return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
 
 class Reply(db.Model):
+    """
+    Stores each reply to a post
+    """
     id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
     user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
     post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id), index=True)
