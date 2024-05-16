@@ -16,11 +16,11 @@ db.session.add(addr3)
 db.session.add(addr4)
 db.session.add(addr5)
 users = [
-    u1 = User(username='matt1', email='matt1@example.com', address = addr1)
-    u2 = User(username='matt2', email='matt2@example.com', address = addr2)
-    u3 = User(username='matt3', email='matt3@example.com', address = addr3)
-    u4 = User(username='matt4', email='matt4@example.com', address = addr4)
-    u5 = User(username='matt5', email='matt5@example.com', address = addr5)
+    User(username='matt1', email='matt1@example.com', address = addr1),
+    User(username='matt2', email='matt2@example.com', address = addr2),
+    User(username='matt3', email='matt3@example.com', address = addr3),
+    User(username='matt4', email='matt4@example.com', address = addr4),
+    User(username='matt5', email='matt5@example.com', address = addr5)
 ]
 for u in users:
     db.session.add(u)
