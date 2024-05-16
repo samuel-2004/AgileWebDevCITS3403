@@ -29,7 +29,7 @@ class Address(db.Model):
     resident: so.Mapped['User'] = so.relationship(back_populates='address')
 
     def __repr__(self) -> str:
-        return f'<Address: {self.city}, {self.postcode}, {self.state},' + \ 
+        return f'<Address: {self.city}, {self.postcode}, {self.state},' + \
                 f'{self.country}, {self.latitude}, {self.longitude}>'
 
 

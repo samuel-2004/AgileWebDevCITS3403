@@ -6,7 +6,7 @@ from app.models import User
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField#, FileRequired
 from wtforms import StringField, PasswordField, BooleanField,\
-    SubmitField, SelectField, TextAreaField, IntegerField
+    SubmitField, SelectField, TextAreaField, IntegerField, HiddenField
 from wtforms.validators import DataRequired, Length,\
     Email, EqualTo, AnyOf, ValidationError, Regexp, NumberRange
 import sqlalchemy as sa
