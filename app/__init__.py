@@ -12,18 +12,3 @@ db = SQLAlchemy(flaskApp)
 migrate = Migrate(flaskApp, db)
 from app import routes, models
 
-
-# Testing Purposes
-db = SQLAlchemy()
-
-def create_app(config):
-    flaskApp = Flask(__name__)
-    flaskApp.config.from_object(config)
-
-    db.init_app(flaskApp)
-    # initialises routes
-    login.init_app(flaskApp)
-
-    from blueprint import main
-    flaskApp.register_blueprint(main)
-    return flaskApp
