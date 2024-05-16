@@ -32,8 +32,11 @@
 <div class="item-container">
     {% if post %}
         <!-- Display item posts -->
-        <img src="{{ post.images.src }}" alt="Item post" class="small-post" onclick="enlargepost(this)">
-
+        {% if post.images %}
+            <img src="{{ post.images.src }}" alt="Item post" class="small-post" onclick="enlargepost(this)">
+        {% else %}
+            <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Placeholder Image" class="small-post" onclick="enlargepost(this)">
+        {% endif %}
         <!-- Display item information -->
         <div class="item-information" id="item-info">
             <h2>Item Information</h2>
