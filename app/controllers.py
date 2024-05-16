@@ -1,7 +1,7 @@
 """
 This module provides controllers and helper functions for the flask application
 """
-from math import floor
+from math import floor, radians, cos, sin, asin, sqrt
 from datetime import datetime, timezone
 import sqlalchemy as sa
 from app.models import Post, User, Image, Address
@@ -42,9 +42,39 @@ def calc_time_ago(timestamp):
 
     return 'Just now'
 
-def get_posts(q="", md=None, order="new", lim=100):
-    query = db.session.query(Post)
-
+def haversine_distance(lat1,lng1,lat2,lng2):
+    """
+    Calculate the great circle distance in kilometers between two points 
+    on the earth (specified in decimal degrees)
+    Uses the haversine formula
+    :param lat1, lng1: first coordinate pair
+    :param lat2, lng2: second coordinate pair
+    :return: The distance between the points in kilometers.
+    See https://stackoverflow.com/a/4913653 for the implementation
+    """
+    # convert decimal degrees to radians
+    lng1, lat1, lng2, lat2 = map(radians, [lng1, lat1, lng2, lat2])
+    # haversine formula 
+    dlon = lng2 - lng1 
+    dlat = lat2 - lat1 
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    c = 2 * asin(sqrt(a)) 
+    r = 6371 # Radius of earth in kilometers.
+    out = c * r
+    return out
+def is_within_max_distance(md,lat1,lng1,lat2,lng2):
+    """
+    Calculates if the distance between two coordinate pairs is less than the given maximum distance
+    :param md: maximum distance the pairs can be
+    :param lat1, lng1: first coordinate pair
+    :param lat2, lng2: second coordinate pair
+    :return: True if the distance is less than the max distance, False otherwise
+    """
+    return haversine_distance(lat1,lng1,lat2,lng2) <= md
+def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
+    db.session.connection().connection.create_function("is_within_max_distance", 5, is_within_max_distance)
+    db.session.connection().connection.create_function("haversine_distance", 4, haversine_distance)
+    query = db.session.query(Post).join(User).join(Address)
     # Check if any word in q is in the post name or description
     # This does not take into account the maximum distance
     # Maximum distance will require api calls etc
@@ -53,18 +83,21 @@ def get_posts(q="", md=None, order="new", lim=100):
         name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
         desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
         query = query.filter(sa.or_(*name_conditions, * desc_conditions))
-        
+
+    if md is not None and lat is not None and lng is not None:
+        # convert inputs to floats
+        md, lng, lat = map(float, [md, lng, lat])
+        query = query.filter(func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
+
     if order == "new":
         query = query.order_by(sa.desc(Post.timestamp))
     elif order == "old":
         query = query.order_by(Post.timestamp)
-    elif order == "close":
-        # need to access distance
-        pass
     elif order == "rating":
-        # need to access users' points
-        pass
-
+        query = query.order_by(User.points)
+    elif md is not None and lat is not None and lng is not None:
+        if order == "close":
+            query = query.order_by(func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
     query = query.limit(lim)
     posts = db.session.scalars(query)
     return posts
