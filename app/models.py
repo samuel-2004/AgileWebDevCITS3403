@@ -17,8 +17,8 @@ class Address(db.Model):
     city: so.Mapped[str] = so.mapped_column(sa.String(32))
     state: so.Mapped[str] = so.mapped_column(sa.String(32))
     country: so.Mapped[str] = so.mapped_column(sa.String(128))
-    latitude: so.Mapped[REAL] = so.mapped_column(REAL)
-    longitude: so.Mapped[REAL] = so.mapped_column(REAL)
+    latitude: so.Mapped[Optional[REAL]] = so.mapped_column(REAL)
+    longitude: so.Mapped[Optional[REAL]] = so.mapped_column(REAL)
 
     resident: so.Mapped['User'] = so.relationship(back_populates='address')
 

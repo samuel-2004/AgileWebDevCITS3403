@@ -1,8 +1,8 @@
-"""address-table
+"""address_table
 
-Revision ID: 15ac394fcb0f
+Revision ID: 71b059243d80
 Revises: 170e7ea381ac
-Create Date: 2024-05-14 14:50:41.334583
+Create Date: 2024-05-16 16:50:31.550065
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '15ac394fcb0f'
+revision = '71b059243d80'
 down_revision = '170e7ea381ac'
 branch_labels = None
 depends_on = None
@@ -27,6 +27,8 @@ def upgrade():
     sa.Column('city', sa.String(length=32), nullable=False),
     sa.Column('state', sa.String(length=32), nullable=False),
     sa.Column('country', sa.String(length=128), nullable=False),
+    sa.Column('latitude', sa.REAL(), nullable=True),
+    sa.Column('longitude', sa.REAL(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     with op.batch_alter_table('user', schema=None) as batch_op:

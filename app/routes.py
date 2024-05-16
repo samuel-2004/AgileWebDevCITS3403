@@ -109,8 +109,8 @@ def signup():
         address.postcode = form.postcode.data
         address.city = form.city.data
         address.state = form.state.data
-        address.lat = form.lat.data
-        address.lng = form.lng.data
+        address.latitude = form.lat.data
+        address.longitude = form.lng.data
         address.country = "Australia"           # All accounts are registered in Australia for now
         db.session.add(address)
         db.session.commit()
