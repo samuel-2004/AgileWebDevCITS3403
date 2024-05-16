@@ -88,3 +88,10 @@ class SearchForm(FlaskForm):
         ])
     lat = HiddenField("latitude")
     lng = HiddenField("longitude")
+
+class ReplyForm(FlaskForm):
+    """
+    Form used to create a reply to a post
+    """
+    message = TextAreaField('Message', validators=[DataRequired(), Length(max=256)])
+    submit = SubmitField('Reply')
