@@ -56,6 +56,9 @@ class User(UserMixin, db.Model):
 
     address: so.Mapped[Address] = so.relationship(
         back_populates='resident')
+    
+    replies: so.WriteOnlyMapped['Reply'] = so.relationship(
+        foreign_keys = "Reply.user_id", back_populates='author')
 
     def __repr__(self) -> str:
         return f'<User {self.username} {self.email}>'
@@ -93,6 +96,8 @@ class Post(db.Model):
 
     author: so.Mapped[User] = so.relationship(back_populates='posts')
     images: so.Mapped['Image'] = so.relationship(back_populates='post')
+    replies: so.WriteOnlyMapped['Reply'] = so.relationship(
+        foreign_keys = "Reply.post_id",back_populates='post')
 
     def __repr__(self) -> str:
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
@@ -109,3 +114,17 @@ class Image(db.Model):
 
     def __repr__(self) -> str:
         return f'<User {self.id} {self.src} {self.post_id} {self.post.item_name}>'
+
+class Reply(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
+    post_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Post.id), index=True)
+    text: so.Mapped[str] = so.mapped_column(sa.String(256))
+    timestamp: so.Mapped[datetime] = so.mapped_column(
+    index=True, default=lambda: datetime.now(timezone.utc))
+    
+    author: so.Mapped[User] = so.relationship(foreign_keys = "Reply.user_id", back_populates='replies')
+    post: so.Mapped[Post] = so.relationship(foreign_keys = "Reply.post_id", back_populates='replies')
+    
+    def __repr__(self) -> str:
+        return f'<Reply {self.id} {self.text} {self.author} {self.post}>'
