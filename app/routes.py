@@ -107,7 +107,7 @@ def login_page():
             sa.select(User).where(User.username == form.username.data))
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('main.login'))
+            return redirect(url_for('main.login_page'))
         login_user(user, remember=form.remember_me.data)
         #flash('Login requested for user {}, remember_me={}'.format(
         #    form.username.data, form.remember_me.data))
