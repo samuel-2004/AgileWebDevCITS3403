@@ -1,8 +1,8 @@
-"""address-table
+"""'address_table'
 
-Revision ID: 15ac394fcb0f
+Revision ID: 306646a0a0ce
 Revises: 170e7ea381ac
-Create Date: 2024-05-14 14:50:41.334583
+Create Date: 2024-05-16 16:05:07.678154
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '15ac394fcb0f'
+revision = '306646a0a0ce'
 down_revision = '170e7ea381ac'
 branch_labels = None
 depends_on = None

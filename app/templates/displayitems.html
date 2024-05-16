@@ -1,17 +1,18 @@
 <!-- Render each item to the page -->
 <div class="row d-flex justify-content-center" id="mainContent">
     {% for post in posts %}
-    <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
+    <div class="post col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }});">
         <p>{{post.post_type}}</p>
         <!-- If the image wasn't passed, render the default -->
         <div class="d-flex align-items-center w-100" style="aspect-ratio:1/1;">
             <img class="img-fluid mx-auto d-block align-middle mw-100 mh-100"
-                src="
                 {% if post.images.src %}
-                    {{ post.images.src }}
+                    src='{{ post.images.src }}'
+                    alt="{{ post.item_name }}"
                 {% else %}
-                    {{ '/static/book.jpg' }}
-                {% endif %}">
+                    src="{{ '/static/placeholder.png' }}"
+                    alt="Missing Image"
+                {% endif %}>
             </div>
         <p class="name">{{post.item_name}}</p>
         <p>Located in {{post.author.address.city}}, {{post.author.address.postcode}}</p>
