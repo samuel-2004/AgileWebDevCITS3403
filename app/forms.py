@@ -59,7 +59,7 @@ class ContactForm(FlaskForm):
 
 class SearchForm(FlaskForm):
     q = StringField('Title')
-    md = IntegerField('Max Distance (km)', validators=[NumberRange(min=0, max=25)])
+    md = IntegerField('Max Distance (km)', validators=[NumberRange(min=0, max=100)])
     order = SelectField('Order By', choices=
         [
             ('',        ''), 

@@ -12,11 +12,11 @@
             <label for="maxDistance" class="col-sm-3 col-form-label">Max distance</label>
             <div class="col-sm-8">
                 {{ form.md(class="form-range", id="md", 
-                    type="range", value="5", min="1", max="25", 
+                    type="range", value="25", min="1", max="100", 
                     oninput="this.parentElement.nextElementSibling.childNodes[0].value = this.value + 'km'") 
                 }}
             </div>
-            <div class="col-sm-1" id="maxDistanceDisplay"><output>5km</output></div>
+            <div class="col-sm-1" id="maxDistanceDisplay"><output>25km</output></div>
         </div>
         <div class="form-group row row-buffer">
             <label for="order" class="col-sm-3 col-form-label">Sort by</label>
