@@ -76,7 +76,7 @@ class Post(db.Model):
 
 from math import radians, cos, sin, asin, sqrt
 
-def haversine(lat1,lng1,lat2,lng2):
+def haversine_distance(lat1,lng1,lat2,lng2):
     """
     Calculate the great circle distance in kilometers between two points 
     on the earth (specified in decimal degrees)
@@ -88,8 +88,6 @@ def haversine(lat1,lng1,lat2,lng2):
 
     See https://stackoverflow.com/a/4913653 for the implementation
     """
-    
-
     # convert decimal degrees to radians
     lng1, lat1, lng2, lat2 = map(radians, [lng1, lat1, lng2, lat2])
 
@@ -102,9 +100,7 @@ def haversine(lat1,lng1,lat2,lng2):
     out = c * r
     return out
 
-
 def is_within_max_distance(md,lat1,lng1,lat2,lng2):
-
     """
     Calculates if the distance between two coordinate pairs is less than the given maximum distance
     :param md: maximum distance the pairs can be
@@ -113,13 +109,11 @@ def is_within_max_distance(md,lat1,lng1,lat2,lng2):
 
     :return: True if the distance is less than the max distance, False otherwise
     """
-    # convert inputs to floats
-    md, lng1, lat1, lng2, lat2 = map(float, [md, lng1, lat1, lng2, lat2])
-    x = haversine(lat1,lng1,lat2,lng2)
-    return x <= md
+    return haversine_distance(lat1,lng1,lat2,lng2) <= md
 
 def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
     db.session.connection().connection.create_function("is_within_max_distance", 5, is_within_max_distance)
+    db.session.connection().connection.create_function("haversine_distance", 4, haversine_distance)
     query = db.session.query(Post).join(User).join(Address)
 
     # Check if any word in q is in the post name or description
@@ -132,18 +126,19 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
         query = query.filter(sa.or_(*name_conditions, * desc_conditions))
     
     if md is not None and lat is not None and lng is not None:
+        # convert inputs to floats
+        md, lng, lat = map(float, [md, lng, lat])
         query = query.filter(func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
     
     if order == "new":
         query = query.order_by(sa.desc(Post.timestamp))
     elif order == "old":
         query = query.order_by(Post.timestamp)
-    elif order == "close":
-        # need to access distance
-        pass
     elif order == "rating":
-        # need to access users' points
-        pass
+        query = query.order_by(User.points)
+    elif md is not None and lat is not None and lng is not None:
+        if order == "close":
+            query = query.order_by(func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
 
     query = query.limit(lim)
     posts = db.session.scalars(query)
