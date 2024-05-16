@@ -39,13 +39,15 @@
         {% endif %}
         <!-- Display item information -->
         <div class="item-information" id="item-info">
-            <h2>Item Information</h2>
-            <p><strong>Name:</strong> {{ post.item_name }}</p>
-            <p><strong>Description:</strong> {{ post.desc }}</p>
-            <p><strong>Posted By:</strong> {{ post.author.username }}</p>
-            <p><strong>Item Type:</strong> {{ post_type }}</p>
-            <!-- Button to request the item -->
-            <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
+            <div class="description-border"></div>
+                <h2>Item Information</h2>
+                <p><strong>Name:</strong> {{ post.item_name }}</p>
+                <p><strong>Description:</strong> {{ post.desc }}</p>
+                <p><strong>Posted By:</strong> {{ post.author.username }}</p>
+                <p><strong>Item Type:</strong> {{ post_type }}</p>
+                <!-- Button to request the item -->
+                <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
+            </div>
         </div>
     {% else %}
     <h3>Error in loading item</h3>
