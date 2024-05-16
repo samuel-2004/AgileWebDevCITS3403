@@ -40,3 +40,7 @@ class SeleniumTests(selenium.TestCase):
     def test_login_page(self):
         loginElement = self.driver.find_element(By.Username, "login")
         loginElement.send_keys("test")
+
+    def test_search_page(self):
+        # Code goes here
+    
