@@ -1,3 +1,4 @@
+<script src="location.js"></script>
 <div class="container">
     <h1>Advanced Search</h1>
     <form action="{{ url_for('main.search') }}" accept-charset="UTF-8" method="get">
@@ -11,11 +12,11 @@
             <label class="col-sm-3 col-form-label">Max distance</label>
             <div class="col-sm-8">
                 {{ form.md(class="form-range", id="md", 
-                    type="range", value="5", min="1", max="25", 
+                    type="range", value="25", min="1", max="100", 
                     oninput="this.parentElement.nextElementSibling.childNodes[0].value = this.value + 'km'") 
                 }}
             </div>
-            <div class="col-sm-1" id="maxDistance"><output>5km</output></div>
+            <div class="col-sm-1" id="maxDistanceDisplay"><output>25km</output></div>
         </div>
         <div class="form-group row row-buffer">
             <label class="col-sm-3 col-form-label">Sort by</label>
@@ -23,6 +24,8 @@
                 {{ form.order(class="form-control", id="order") }}
             </div>
         </div>
+        {{ form.lat(id="latitude") }}
+        {{ form.lng(id="longitude") }}
         <div class="col-sm-11"></div>
         <div class="col-sm-1">
             <button type="submit" class="btn btn-primary mb-2 row-buffer">Search</button>

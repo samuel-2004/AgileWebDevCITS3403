@@ -7,6 +7,8 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from sqlalchemy.types import REAL
+from sqlalchemy.sql import func
 from app import db, login
 
 class Address(db.Model):
@@ -21,11 +23,15 @@ class Address(db.Model):
     city: so.Mapped[str] = so.mapped_column(sa.String(32))
     state: so.Mapped[str] = so.mapped_column(sa.String(32))
     country: so.Mapped[str] = so.mapped_column(sa.String(128))
-    
+    latitude: so.Mapped[Optional[REAL]] = so.mapped_column(REAL)
+    longitude: so.Mapped[Optional[REAL]] = so.mapped_column(REAL)
+
     resident: so.Mapped['User'] = so.relationship(back_populates='address')
-    
+
     def __repr__(self) -> str:
-        return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
+        return f'<Address: {self.city}, {self.postcode}, {self.state},' + \ 
+                f'{self.country}, {self.latitude}, {self.longitude}>'
+
 
 class User(UserMixin, db.Model):
     """

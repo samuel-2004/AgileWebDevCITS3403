@@ -50,9 +50,12 @@ def search():
     query = request.args.get('q')
     max_distance = request.args.get('md')
     orderby = request.args.get('order')
+    lat = request.args.get('lat')
+    lng = request.args.get('lng')
 
-    posts = get_posts(query, max_distance, orderby)
+    posts = get_posts(query, max_distance, orderby, lat, lng)
     return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
+
 
 @main.route('/about')
 def about():
@@ -131,6 +134,8 @@ def signup():
         address.postcode = form.postcode.data
         address.city = form.city.data
         address.state = form.state.data
+        address.latitude = form.lat.data
+        address.longitude = form.lng.data
         address.country = "Australia"           # All accounts are registered in Australia for now
         db.session.add(address)
         db.session.commit()

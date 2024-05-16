@@ -1,8 +1,14 @@
 <!-- Render each item to the page -->
 <div class="row d-flex justify-content-center" id="mainContent">
     {% for post in posts %}
-    <div class="post col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }});">
-        <p>{{post.post_type}}</p>
+    <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
+        <span>
+            {% if post.post_type == "OFFER" %}
+                <i class="bi bi-gift"></i>
+            {% else %}
+                <i class="bi bi-box-seam"></i>
+            {% endif %}
+        </span>
         <!-- If the image wasn't passed, render the default -->
         <div class="d-flex align-items-center w-100" style="aspect-ratio:1/1;">
             <img class="img-fluid mx-auto d-block align-middle mw-100 mh-100"

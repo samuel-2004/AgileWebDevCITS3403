@@ -26,6 +26,8 @@ class SignupForm(FlaskForm):
     city = StringField('City', validators=[DataRequired(), Length(max=32)])
     state = SelectField('State', choices=(['STATE'] + STATES), validators=[DataRequired(), AnyOf(STATES, "Please pick a state"), Length(max=32)])
     #country = StringField('Country', validators=[DataRequired(), Length(max=128)])
+    lat = HiddenField("latitude")
+    lng = HiddenField("longitude")
     submit = SubmitField('Create Account')
 
     # Derived from flask mega tutorial
@@ -75,7 +77,7 @@ class SearchForm(FlaskForm):
     Search Form used to allow users to search posts on the website
     """
     q = StringField('Title')
-    md = IntegerField('Max Distance (km)', validators=[NumberRange(min=0, max=25)])
+    md = IntegerField('Max Distance (km)', validators=[NumberRange(min=0, max=100)])
     order = SelectField('Order By', choices=
         [
             ('',        'Select'),
@@ -84,3 +86,5 @@ class SearchForm(FlaskForm):
             ('old',     'Oldest'),
             ('rating',  'Vendor Rating')
         ])
+    lat = HiddenField("latitude")
+    lng = HiddenField("longitude")
