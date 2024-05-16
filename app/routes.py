@@ -1,29 +1,36 @@
-from flask import render_template, send_from_directory, flash, redirect, url_for, request
-from flask_login import current_user, login_user, logout_user, login_required
-from json import loads
+"""
+This module defines all the routes for the website
+"""
+
+from os.path import join as os_join, dirname as os_dirname, \
+     abspath as os_abspath
 from datetime import datetime, timezone
-from urllib.parse import urlsplit, urlparse, parse_qs
+from urllib.parse import urlsplit
+from flask import render_template, flash, redirect, url_for, request
+from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
+
 from app import db
 from app.blueprints import main
-from app.models import *
-from app.forms import *
-from app.controllers import *
 from werkzeug.utils import secure_filename
-import newhome
-
-#Since we are using os, avoid importing as much as possible
-import os
-from os.path import join as os_join, dirname as os_dirname, exists as os_pathexists, abspath as os_abspath
+from app.models import User, Post, Image, Address
+from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm
+from app.controllers import get_posts, calc_time_ago
 
 @main.route('/', methods=['GET'])
 @main.route('/index')
 def index():
+    """
+    The home page for the website
+    """
     posts = get_posts()
-    return render_template('index.html', page="index", posts=posts, calcTimeAgo=calcTimeAgo)
+    return render_template('index.html', page="index", posts=posts, calcTimeAgo=calc_time_ago)
 
 @main.route('/advancedsearch')
-def advancedSearch():
+def advanced_search():
+    """
+    A search page
+    """
     form = SearchForm()
     if request.method == 'POST' and form.validate_on_submit():
         title = request.form["q"]
@@ -36,25 +43,33 @@ def advancedSearch():
 
 @main.route('/search')
 def search():
+    """
+    A search page that displays results
+    """
     # Retrieve search parameters from the query string
     query = request.args.get('q')
     max_distance = request.args.get('md')
     orderby = request.args.get('order')
 
     posts = get_posts(query, max_distance, orderby)
-    return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calcTimeAgo)
-
-@main.route('/account')
-def account():
-    return render_template('account.html')
+    return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
 
 @main.route('/about')
 def about():
+    """
+    A page to describe the website and show what it's about
+    """
     return render_template('about.html')
 
 @main.route('/contact', methods=['GET','POST'])
 @main.route('/contact-us', methods=['GET','POST'])
 def contact():
+    """
+    A page to contact the developers
+    Currently the method only prints to terminal.
+    In the future, we would hope that it would send an automatic email to
+        a helpdesk email such as contact-us@example.com
+    """
     form = ContactForm()
     if request.method == 'POST' and form.validate_on_submit():
         name = request.form["name"]
@@ -66,15 +81,20 @@ def contact():
     else:
         return render_template('contact.html', form=form)
 
-@main.route('/item/<int:itemID>')
-def item(itemID):
-    # Fetch the post with the given itemID
-    post = Post.query.get(itemID)
+@main.route('/post/<int:post_id>')
+def post(post_id):
+    """
+    A page for each post
+    """
+    # Fetch the post with the given postID
+    post = Post.query.get(post_id)
     return render_template('items.html', post=post)
 
-
 @main.route('/login', methods=['GET', 'POST'])
-def login():
+def login_page():
+    """
+    The login page
+    """
     # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -94,9 +114,11 @@ def login():
         return redirect(next_page)
     return render_template('login.html', form=form)
 
-
 @main.route('/signup', methods=['GET', 'POST'])
 def signup():
+    """
+    The signup page
+    """
     # redirect if logged in
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -123,32 +145,39 @@ def signup():
         db.session.commit()
         # submit and redirect
         flash("Congratulations! Welcome to NewHome!")
-        return redirect(url_for('main.login'))
+        return redirect(url_for('main.login_page'))
     # render page
     return render_template('signup.html', active_link='/signup', form=form)
 
 @main.route('/logout')
 def logout():
+    """
+    Users will logout and be redirected to the home page
+    """
     logout_user()
     return redirect(url_for('main.index'))
 
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
-    form = uploadForm()
+    """
+    Users can upload new posts here
+    They must be logged in to do so
+    """
+    form = UploadForm()
     if form.validate_on_submit():
-        post = Post(post_type = form.post_type.data, item_name = form.item_name.data, 
+        post = Post(post_type = form.post_type.data, item_name = form.item_name.data,
                     desc = form.desc.data, author=current_user)
         db.session.add(post)
         current_user.update_stats(post)
         image = form.image.data
         if image:
             filename = secure_filename(image.filename)
-            basedir = os.path.abspath(os.path.dirname(__file__))
+            basedir = os_abspath(os_dirname(__file__))
             new_name = str(datetime.now(timezone.utc).strftime("%H:%M:%S")) + '_'+ filename
             path = '/static/data/photos/' + new_name
             image.save(os_join(basedir + '/static/data/photos/',new_name))
-            
+
             image = Image(src = path, post = post)
             db.session.add(image)
         db.session.commit()
@@ -158,8 +187,12 @@ def upload():
 @main.route('/user')
 @login_required
 def user():
+    """
+    Users can access their user account
+    They must be logged in
+    """
     username = request.args.get('username')
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calcTimeAgo, is_user_page=True)
+    return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)
