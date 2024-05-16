@@ -11,14 +11,7 @@ def make_shell_context():
 from app import flaskApp
 import sqlite3
 
-'''
-# Testing Purposes
-from app import create_app, db
-from app.config import DeploymentConfig
 
-flaskApp = create_app(DeploymentConfig)
-migrate = Migrate(db, flaskApp)
-'''
 
 
 '''

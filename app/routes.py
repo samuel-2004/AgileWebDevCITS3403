@@ -107,7 +107,6 @@ def user():
 
 # Try the main directory if a file is not found in the root branch
 @flaskApp.route('/<path:filename>')
-#@main.route('/<path:filename>')
 def get_file(filename):
     # Check if the file exists in the original directory
     original_path = os_join(flaskApp.static_folder, filename)
