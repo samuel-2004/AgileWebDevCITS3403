@@ -18,8 +18,7 @@ db.session.commit()
 # Post
 post = Post(post_type="OFFER", item_name="Test Item", desc="Look at my really cool test item", author=u)
 db.session.add(post)
-u.points += 1
-u.given += 1
+u.update_stats(post)
 image = Image(src = '/static/book.jpg', post = post)
 db.session.add(image)
 db.session.commit()

@@ -140,11 +140,7 @@ def upload():
         post = Post(post_type = form.post_type.data, item_name = form.item_name.data, 
                     desc = form.desc.data, author=current_user)
         db.session.add(post)
-        current_user.points += 1
-        if post.post_type == "OFFER":
-            current_user.given += 1
-        elif post.post_type == "REQUEST":
-            current_user.requested += 1
+        current_user.update_stats(post)
         image = form.image.data
         if image:
             filename = secure_filename(image.filename)
