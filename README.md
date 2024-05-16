@@ -20,8 +20,9 @@ To launch the application, perform the following steps:
 2. Unzip the application
 3. Install the required packages into a virtual environment using `pip install -r requirements.txt`
 4. Create the database using `flask db upgrade`
-5. Set the secret key with `export SECRET_KEY = '<secret key>'`
-6. Run the following command `flask run`
+5. Set the secret key with `export SECRET_KEY='<secret key>'`
+6. Run `export FLASK_APP="newhome.py"`
+7. Run the following command `flask run`
 
 # Testing Instructions
 Here will be instructions for how to run the tests for the application.

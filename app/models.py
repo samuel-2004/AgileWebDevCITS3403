@@ -14,18 +14,18 @@ class Address(db.Model):
     A User's address
     """
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    number:so.Mapped[str] = so.mapped_column(sa.String(8)) # Can have letters, eg. 47A
-    street: so.Mapped[str] = so.mapped_column(sa.String(128))
-    city: so.Mapped[str] = so.mapped_column(sa.String(32))
+    address_line1: so.Mapped[str] = so.mapped_column(sa.String(64))
+    address_line2: so.Mapped[str] = so.mapped_column(sa.String(64))
+    suburb: so.Mapped[str] = so.mapped_column(sa.String(32))
     postcode: so.Mapped[str] = so.mapped_column(sa.String(32))
+    city: so.Mapped[str] = so.mapped_column(sa.String(32))
     state: so.Mapped[str] = so.mapped_column(sa.String(32))
     country: so.Mapped[str] = so.mapped_column(sa.String(128))
-
+    
     resident: so.Mapped['User'] = so.relationship(back_populates='address')
-
+    
     def __repr__(self) -> str:
-        return f'<Address: {self.number} {self.street}, {self.city}, ' + \
-                f'{self.postcode}, {self.state}, {self.country}>'
+        return f'<Address: {self.number} {self.street}, {self.city}, {self.postcode}, {self.state}, {self.country}>'
 
 class User(UserMixin, db.Model):
     """

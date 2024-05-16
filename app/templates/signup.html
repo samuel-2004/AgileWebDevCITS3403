@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Sign Up{% endblock %}
 {% block content %}
-<div class="container col-4">
-    <form>
+<div class="container col-sm-6 col-lg-4">
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
         <!-- Form header-->
         <div class="text-center">
             <h1 class="text-center">Sign up</h1>
@@ -11,24 +12,76 @@
         <br>
         <!-- Form body -->
         <div class="form-group row">
-            <label for="username" class="col-4 col-form-label">Username</label>
-            <input class="form-control col" type="text" id="username" name="username" placeholder="Username">
+            {{ form.username.label(class="col-5 col-form-label") }}
+            {{ form.username(class="form-control col")}}
+            {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </div>
         <div class="form-group row">
-            <label for="email" class="col-4 col-form-label">Email Address</label>
-            <input class="form-control col" type="email" id="email" name="email" placeholder="Email address">
+            {{ form.email.label(class="col-5 col-form-label") }}
+            {{ form.email(class="form-control col")}}
+            {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </div>
         <div class="form-group">
             <div class="row">
-                <label for="password" class="col-4 col-form-label">Password</label>
-                <input class="form-control col-4" type="password" id="password" name="password" placeholder="Password">
+                {{ form.password.label(class="col-5 col-form-label") }}
+                {{ form.password(class="form-control col")}}
             </div>
             <div class="row">
-                <label for="confirmed_password" class="col-4 col-form-label">Confirm Password</label>
-                <input class="form-control col-4" type="password" id="confirmed_password" name="confirmed_password" placeholder="Confirm Password">
+                {{ form.confirmed_password.label(class="col-5 col-form-label") }}
+                {{ form.confirmed_password(class="form-control col")}}
             </div>
+            {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {% for error in form.confirmed_password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary btn-xlg col">Create Account</button>
+        <!--Address fields-->
+        <div class="form-group">
+            <div class="row">
+                {{ form.address_line1.label(class="col-5 col-form-label") }}
+                {{ form.address_line1(class="form-control col")}}
+            </div>
+            <div class="row">
+                {{ form.address_line2.label(class="col-5 col-form-label") }}
+                {{ form.address_line2(class="form-control col")}}
+            </div>
+            {% for error in form.address_line1.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {% for error in form.address_line2.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div class="form-group row">
+            {{ form.suburb.label(class="col-form-label col") }}
+            {{ form.suburb(class="form-control col")}}
+            {{ form.postcode.label(class="col-form-label col") }}
+            {{ form.postcode(class="form-control col")}}
+        </div>
+        {% for error in form.suburb.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {% for error in form.postcode.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        <div class="form-group row">
+            <label class="col-form-label col-4">State & City</label>
+            {{ form.state(class="form-control col-3")}}
+            {{ form.city(class="form-control col")}}
+        </div>
+        {% for error in form.state.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {% for error in form.city.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {{ form.submit() }}
     </form>
 </div>
 {% endblock %}

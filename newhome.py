@@ -1,10 +1,15 @@
 """
 The main application module
 """
+from app import create_app, db
+from app.config import DeploymentConfig
+from app.models import User, Post, Image, Address
 import sqlalchemy as sa
 import sqlalchemy.orm as so
-from app import flaskApp, db
-from app.models import User, Post, Image, Address
+from flask_migrate import Migrate
+
+flaskApp = create_app(DeploymentConfig)
+migrate = Migrate(flaskApp, db)
 
 @flaskApp.shell_context_processor
 def make_shell_context():

@@ -7,7 +7,7 @@
 {% block content %}
 <div class="contact-form-main">
     <h3>Contact us</h3>
-    <form id="contact-form" action="{{ url_for('contact') }}" onsubmit="return validateEmail()" method=post>
+    <form id="contact-form" action="{{ url_for('main.contact') }}" onsubmit="return validateEmail()" method=post>
         {{ form.csrf_token }}
         <div>
             <!-- name forms -->

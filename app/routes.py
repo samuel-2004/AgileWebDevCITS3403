@@ -3,28 +3,30 @@ This module defines all the routes for the website
 """
 
 from os.path import join as os_join, dirname as os_dirname, \
-     exists as os_pathexists, abspath as os_abspath
+     abspath as os_abspath
 from datetime import datetime, timezone
 from urllib.parse import urlsplit
-from flask import render_template, send_from_directory, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
-from werkzeug.utils import secure_filename
-from app import flaskApp, db
-from app.models import User, Post, Image
-from app.forms import LoginForm, UploadForm, ContactForm, SearchForm
-from app.controllers import get_posts
 
-@flaskApp.route('/', methods=['GET'])
-@flaskApp.route('/index')
+from app import db
+from app.blueprints import main
+from werkzeug.utils import secure_filename
+from app.models import User, Post, Image, Address
+from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm
+from app.controllers import get_posts, calc_time_ago
+
+@main.route('/', methods=['GET'])
+@main.route('/index')
 def index():
     """
     The home page for the website
     """
     posts = get_posts()
-    return render_template('index.html', posts=posts, defaultimage='book.jpg')
+    return render_template('index.html', page="index", posts=posts, calcTimeAgo=calc_time_ago)
 
-@flaskApp.route('/advancedsearch')
+@main.route('/advancedsearch')
 def advanced_search():
     """
     A search page
@@ -35,11 +37,11 @@ def advanced_search():
         max_distance = request.form["md"]
         orderby = request.form["order"]
         print({'title': title, 'max_distance': max_distance, 'orderby': orderby})
-        return redirect(url_for('search', q=title, md=max_distance, order=orderby))
+        return redirect(url_for('main.search', q=title, md=max_distance, order=orderby))
     else:
         return render_template('advancedsearch.html', form=form)
 
-@flaskApp.route('/search')
+@main.route('/search')
 def search():
     """
     A search page that displays results
@@ -50,17 +52,17 @@ def search():
     orderby = request.args.get('order')
 
     posts = get_posts(query, max_distance, orderby)
-    return render_template('search.html', posts=posts, defaultimage='book.jpg', form=SearchForm())
+    return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
 
-@flaskApp.route('/about')
+@main.route('/about')
 def about():
     """
     A page to describe the website and show what it's about
     """
     return render_template('about.html')
 
-@flaskApp.route('/contact', methods=['GET','POST'])
-@flaskApp.route('/contact-us', methods=['GET','POST'])
+@main.route('/contact', methods=['GET','POST'])
+@main.route('/contact-us', methods=['GET','POST'])
 def contact():
     """
     A page to contact the developers
@@ -75,56 +77,87 @@ def contact():
         subject = request.form["subject"]
         message = request.form["message"]
         print({'name': name, 'email': email, 'subject': subject, 'message': message})
-        return redirect(url_for('contact'))
+        return redirect(url_for('main.contact'))
     else:
         return render_template('contact.html', form=form)
 
-@flaskApp.route('/item/<int:itemID>')
-def item(itemID):
+@main.route('/post/<int:post_id>')
+def post(post_id):
     """
-    A page for each item
+    A page for each post
     """
-    return render_template('items.html', itemID=itemID)
+    # Fetch the post with the given postID
+    post = Post.query.get(post_id)
+    return render_template('items.html', post=post)
 
-@flaskApp.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login_page():
     """
     The login page
     """
+    # redirect if logged in
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = db.session.scalar(
             sa.select(User).where(User.username == form.username.data))
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('main.login'))
         login_user(user, remember=form.remember_me.data)
         #flash('Login requested for user {}, remember_me={}'.format(
         #    form.username.data, form.remember_me.data))
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc != '':
-            next_page = url_for('index')
+            next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('login.html', form=form)
 
-@flaskApp.route('/signup')
+@main.route('/signup', methods=['GET', 'POST'])
 def signup():
     """
     The signup page
     """
-    return render_template('signup.html')
+    # redirect if logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    # form
+    form = SignupForm()
+    if form.validate_on_submit():
+        # add address
+        address = Address(address_line1=form.address_line1.data, address_line2=form.address_line2.data)
+        address.suburb = form.suburb.data
+        address.postcode = form.postcode.data
+        address.city = form.city.data
+        address.state = form.state.data
+        address.country = "Australia"           # All accounts are registered in Australia for now
+        db.session.add(address)
+        db.session.commit()
+        # add user
+        user = User(username=form.username.data)
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        user.bio = "I'm using NewHome"          # default
+        user.pic = "default_profile_pic.png"    # default
+        user.address_id = address.id
+        db.session.add(user)
+        db.session.commit()
+        # submit and redirect
+        flash("Congratulations! Welcome to NewHome!")
+        return redirect(url_for('main.login_page'))
+    # render page
+    return render_template('signup.html', active_link='/signup', form=form)
 
-@flaskApp.route('/logout')
+@main.route('/logout')
 def logout():
     """
     Users will logout and be redirected to the home page
     """
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
-@flaskApp.route('/upload', methods=['GET', 'POST'])
+@main.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
     """
@@ -136,7 +169,11 @@ def upload():
         post = Post(post_type = form.post_type.data, item_name = form.item_name.data,
                     desc = form.desc.data, author=current_user)
         db.session.add(post)
-        #db.session.commit()
+        current_user.points += 1
+        if post.post_type == "OFFER":
+            current_user.given += 1
+        elif post.post_type == "REQUEST":
+            current_user.requested += 1
         image = form.image.data
         if image:
             filename = secure_filename(image.filename)
@@ -148,10 +185,10 @@ def upload():
             image = Image(src = path, post = post)
             db.session.add(image)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     return render_template('upload.html', form=form)
 
-@flaskApp.route('/user')
+@main.route('/user')
 @login_required
 def user():
     """
@@ -162,8 +199,4 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    #posts = [
-    #    {'author': user, 'item_name': 'Test post #1'},
-    #    {'author': user, 'item_name': 'Test post #2'}
-    #]
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)

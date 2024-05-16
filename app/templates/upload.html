@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Upload{% endblock %}
 {% block content %}
+<script src="uploadform.js"></script>
 <div class="container">
   <form accept-charset="UTF-8" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}

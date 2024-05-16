@@ -13,7 +13,7 @@ document.getElementById('item-image').addEventListener('click', function() {
 
 // Add onclick method that redirects user to the item's page
 function openItemPage(event, nID) {
-    var ref = "./item/" + nID;
+    var ref = "/post/" + nID;
     if(event.ctrlKey || event.metaKey){
         window.open(ref, "_blank");
     } else {
