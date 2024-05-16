@@ -1,9 +1,34 @@
 /*
-This CSS file contains the style information for the navbar and footer.
-*/
+ * This CSS file contains the style information for the site.
+ */
+
+
+/*
+ * The following CSS is the style information for the base template,
+ * navbar and footer.
+ */
+#content {
+    margin-bottom: 40px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    background-color: rgb(164, 242, 242);
+    color: inherit;
+}
+
+.content {
+    flex: 1;
+    padding-left: 3%;
+    padding-right: 3%;
+}
 
 .navbar {
     background-color: #ccc;
+    color: inherit;
     padding: 0px;
     font-size: larger;
 }
@@ -21,13 +46,10 @@ This CSS file contains the style information for the navbar and footer.
     padding: 5px 0px;
 }
 
-.row-buffer { 
-    margin-top:10px; 
-}
-
 .navbar a:not(.navbar-brand):hover {
     border-radius: 3px;
     background-color: #999;
+    color: inherit;
     text-decoration: underline;
 }
 
@@ -43,24 +65,13 @@ This CSS file contains the style information for the navbar and footer.
     }
 }
 
-
-
-#content {
-    margin-bottom: 40px;
-}
-
+/*
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-}
-
-.content {
-    flex: 1;
-    padding-left: 3%;
-    padding-right: 3%;
-}
+}*/
 
 #submit{
     background-color: rgb(33,150,243);
@@ -70,6 +81,7 @@ body {
 }
 
 .footer {
+    border-radius: 10px;
     flex-shrink: 0;
     height: 100px;
 }
@@ -79,110 +91,138 @@ body {
 }
 
 
-.profile_post_img {
+/*
+ * The following CSS represents the styles for the posts
+ * (as displayed on the home page, etc)
+ */
+.post {
+    background-color: white;
+    color: inherit;
+    outline: 2px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.post:hover {
+    background-color: lightgrey;
+    color: inherit;
+    outline: 3px solid darkslategrey;
+    cursor: pointer;
+}
+
+.post > img {
+    display: block;
+    margin: auto;
+    border-radius: 2%;
+}
+
+.post > .name {
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.post:hover > .name {
+    text-decoration: underline;
+}
+
+.post > p {
+    white-space: pre;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 576px) {
+    .post {
+        width: 75% !important;
+    }
+}
+
+/*
+ * The following contains the CSS for the profile page.
+ */
+.profile-post-img {
     height: 200px;
     width: 200px;
     object-fit: cover;
 }
 
-.profile_post {
+.profile-post {
     border: #2196F3;
     border-style: solid;
     padding: 1%;
 }
-.contactformmain {
+
+/*
+ * The following is the CSS for the contact form.
+ */
+
+ .contact-form-main {
     display: block;
     margin-left: auto;
     margin-right: auto;
     max-width: 50%;
 }
-.contactrow {
+
+.contact-row {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 }
-.contactsubmit {
+
+.contact-submit {
     padding-top:1rem; 
     padding-right:20px; 
     float:right;
 }
 
-
-.aboutsection {
-    padding-top:25px;
-    padding-bottom:25px;
+.row-buffer { 
+    margin-top:10px; 
 }
 
-.aboutimg {
+/*
+ * The following CSS is for the about page.
+ */
+ .about-section {
+    padding-top:25px;
+    padding-bottom:25px;
+    display: flex;
+    align-items: center;
+}
+
+.about-img {
     display: block;
     margin: auto;
 }
-.abouttext {
+
+.about-text {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
 @media (max-width: 768px) {
-    .abouttext {
+    .about-text {
         max-width: 75%;
     }
-    .aboutimg {
+    .about-img {
         max-width: 75%;
     }
 }
+
 @media (min-width: 768px) {
-    .abouttext {
+    .about-text {
         max-width: 30%;
     }
-    .aboutimg {
+    .about-img {
         max-width: 50%;
         top: 50%;
     }
 }
 
 .newhometext {
+    background-color: inherit;
     color: rgb(33,150,243) !important;
     font-weight: bold;
-}
-
-.anItem {
-    background-color: white;
-    outline: 2px solid grey;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-    position: relative;
-}
-.anItem span {
-    position: absolute;
-    top: 1%;
-    right: 2%;
-}
-.anItem:hover {
-    background-color: lightgrey;
-    outline: 3px solid darkslategrey;
-    cursor: pointer;
-}
-.anItem > img {
-    display: block;
-    margin: auto;
-    border-radius: 2%;
-}
-.anItem > .name {
-    text-align: center;
-    font-size: larger;
-    font-weight: bold;
-}
-.anItem:hover > .name {
-    text-decoration: underline;
-}
-.anItem > p {
-    white-space: pre;
-    margin-bottom: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-@media (max-width: 576px) {
-    .anItem {
-        width: 75% !important;
-    }
 }

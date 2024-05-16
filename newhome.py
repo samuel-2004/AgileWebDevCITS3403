@@ -1,12 +1,20 @@
-from app import flaskApp, db
+"""
+The main application module
+"""
+from app import create_app, db
+from app.config import DeploymentConfig
+from app.models import User, Post, Image, Address
 import sqlalchemy as sa
-from app.models import *
 import sqlalchemy.orm as so
-import sqlite3
+from flask_migrate import Migrate
 
+flaskApp = create_app(DeploymentConfig)
+migrate = Migrate(flaskApp, db)
 
 @flaskApp.shell_context_processor
 def make_shell_context():
-    return {'sa': sa, 'so': so, 'db': db, 'User': User, 'Post': Post, 'Image': Image, 'Address': Address}
-
-
+    """
+    Provides command line context when executing `flask shell`
+    """
+    return {'sa': sa, 'so': so, 'db': db, \
+        'User': User, 'Post': Post, 'Image': Image, 'Address': Address}

@@ -3,31 +3,14 @@
 {% block content %}
 <div class="container">
     <h1>{{ user.username }}</h1>
-    <hr>
     <p>
         Made {{user.points}} {% if user.points != 1 %}Posts{% else %}Post{%endif%} 
         ({{user.given}} {% if user.given != 1 %}Offers{% else %}Offer{%endif%}, 
         {{user.requested}} {% if user.requested != 1 %}Requests{% else %}Request{%endif%})
     </p>
     <p>
-        Lives in: {{user.address.city}}, {{user.address.postcode}}, {{user.address.state}}, {{user.address.country}}
+        Lives in: {{user.address.suburb}} ({{user.address.postcode}}), {{user.address.city}}, {{user.address.state}}, {{user.address.country}}
     </p>
     {% include "displayitems.html" %}
 </div>
-<!--
-<div class="row d-flex justify-content-center" id="mainContent">
-  {% for post in posts %}
-  <div class="anItem col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
-      <p>{{post.post_type}}</p>
-      <!-- If the image wasn't passed, render the default --><!--
-      <img class="img-fluid" 
-          src="{% if post.src %}{{ post.src }}{% else %}{{ defaultimage }}{% endif %}">
-      <p class="name">{{post.item_name}}</p>
-      <p>Located in {{post.author.address.city}}, {{post.author.address.postcode}}</p>
-      <p class="d-none d-xl-block">Posted by {{post.author}}</p>
-      <p class="text-end">{{ post.timestamp }}</p>
-  </div>
-  {% endfor %}
-</div>
--->
 {% endblock %}
