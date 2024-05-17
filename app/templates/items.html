@@ -12,7 +12,6 @@
             float: right;
         }
     </style>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         // Enlarges the post when clicked
         function enlargepost(img) {
@@ -27,15 +26,6 @@
                 button.innerText = "Item requested! Please wait for uploader to respond";
             }
         }
-        //Adapted from https://stackoverflow.com/a/16849202 and https://stackoverflow.com/a/49334973:
-        function deletePost(e)
-            {
-                if(confirm('Do you want to delete this post?')) {
-                    $.getJSON("/delete_post/{{post.id}}",
-                        function(data) {});
-                    window.location.href = "/";
-                }
-            }
     </script>
 </head>
 
@@ -56,7 +46,8 @@
                 <p><strong>Posted By:</strong> {{ post.author.username }}</p>
                 <p><strong>Item Type:</strong> {{ post_type }}</p>
                 {% if post.author == current_user %}
-                <i id = "delete" class="bi bi-trash" onclick="deletePost(event)"></i>
+                <!--Delete button adapted from https://stackoverflow.com/a/10462878-->
+                <a href="{{ url_for('main.delete_post', post_id=post.id) }}"><i id = "delete" class="bi bi-trash" onclick="return confirm('Do you want to delete this post?')"></i></a>
                 {% else %}
                 <!-- Button to request the item -->
                 <button id="requestButton" onclick="requestItem(this)">I want this item!</button>

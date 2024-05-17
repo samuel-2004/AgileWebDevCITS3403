@@ -208,6 +208,19 @@ def user():
 
 @main.route('/delete_post/<int:post_id>')
 def delete_post(post_id):
-    Post.query.filter(Post.id == post_id).delete()
-    db.session.commit()
-    return ("Nothing")
+    post = db.session.get(Post,post_id)
+    if post.author == current_user:
+        current_user.points -= 1
+        if post.post_type == "OFFER":
+            current_user.given -= 1
+        elif post.post_type == "REQUEST":
+            current_user.requested -= 1
+        image = post.images
+        if image:
+            db.session.delete(image)
+        db.session.delete(post)
+        db.session.commit()
+        flash(f"Post {post.item_name} deleted")
+    else:
+        flash(f"Only {post.author.username} can delete their own post!")
+    return redirect(url_for('main.index'))
