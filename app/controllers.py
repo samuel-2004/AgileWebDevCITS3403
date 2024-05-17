@@ -78,11 +78,12 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
     # Check if any word in q is in the post name or description
     # This does not take into account the maximum distance
     # Maximum distance will require api calls etc
-    if (len(q) > 0):
-        q = q.split()
-        name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
-        desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
-        query = query.filter(sa.or_(*name_conditions, * desc_conditions))
+    if q is not None:
+        if (len(q) > 0):
+            q = q.split()
+            name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
+            desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
+            query = query.filter(sa.or_(*name_conditions, * desc_conditions))
 
     if md is not None and lat is not None and lng is not None:
         # convert inputs to floats
