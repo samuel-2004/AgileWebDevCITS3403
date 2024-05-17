@@ -3,6 +3,7 @@ import unittest
 from app import create_app, db
 from app.config import TestConfig
 from app.models import Users, Post, Image
+import time
 
 class BasicTests(unittest.TestCase):
     def setUp(self):
@@ -26,27 +27,6 @@ class BasicTests(unittest.TestCase):
         self.assertTrue(u.check_password("bubbles"))
         self.assertFalse(u.check_password("rumbles"))
 
-    def test_login_page(self):
-        loginElement = self.driver.find_element(By.username, "username")
-        loginElement.send_keys("Add username")
 
-        loginElement = self.driver.find_element(By.username, "password")
-        loginElement.send_keys("Add password")
-
-        submitElement = self.driver.find_element(By.username, "submit")
-        submitElement.click()
-
-        self.assertEqual(self.driver.current_url, localHost = "login_page")
-        time.sleep(10)
-
-
-    def test_signup_page(self):
-        loginElement = self.driver.find_element(By.username, "username")
-        loginElement.send_keys("Add username")
-
-        loginElement = self.driver.find_element(By.password, "password")
-        loginElement.send_keys("Add password")
-
-        # continue with other parameters
 
     

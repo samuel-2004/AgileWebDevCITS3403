@@ -38,9 +38,25 @@ class SeleniumTests(selenium.TestCase):
         self.assertTrue(True)
 
     def test_login_page(self):
-        loginElement = self.driver.find_element(By.Username, "login")
-        loginElement.send_keys("test")
+        time.sleep(1)
+        loginElement = self.driver.find_element(By.username, "username")
+        loginElement.send_keys("Add username")
 
-    def test_search_page(self):
-        # Code goes here
+        loginElement = self.driver.find_element(By.username, "password")
+        loginElement.send_keys("Add password")
+
+        submitElement = self.driver.find_element(By.username, "submit")
+        submitElement.click()
+
+        errorMessage = self.driver.find_element(By.TAG_NAME, "message")
+        self.assertEqual(self.driver.current_url, localHost = "login_page")
+
+    def test_signup_page(self):
+        loginElement = self.driver.find_element(By.username, "username")
+        loginElement.send_keys("Add username")
+
+        loginElement = self.driver.find_element(By.password, "password")
+        loginElement.send_keys("Add password")
+
+        # continue with other parameters
     
