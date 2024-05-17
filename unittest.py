@@ -39,6 +39,13 @@ class BasicTests(unittest.TestCase):
         time.sleep(10)
 
 
+    def test_signup_page(self):
+        loginElement = self.driver.find_element(By.username, "username")
+        loginElement.send_keys("Add username")
 
+        loginElement = self.driver.find_element(By.password, "password")
+        loginElement.send_keys("Add password")
+
+        # continue with other parameters
 
     
