@@ -36,6 +36,7 @@ class BasicTests(unittest.TestCase):
         submitElement = self.driver.find_element(By.username, "submit")
         submitElement.click()
 
+        self.assertEqual(self.driver.current_url, localHost = "login_page")
         time.sleep(10)
 
 
