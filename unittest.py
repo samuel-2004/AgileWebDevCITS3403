@@ -10,6 +10,9 @@ class BasicTests(unittest.TestCase):
         self.app_context = testApp.app_context()
         self.app_context.push()
         db.create_all()
+
+        self.server_process = multiprocessing.Process(target=self, testApp, run)
+        self.server_process.start()
         # add_test_data_to_db()
 
     def tearDown(self):
@@ -22,6 +25,18 @@ class BasicTests(unittest.TestCase):
         u.set_password("bubbles")
         self.assertTrue(u.check_password("bubbles"))
         self.assertFalse(u.check_password("rumbles"))
+
+    def test_login_page(self):
+        loginElement = self.driver.find_element(By.username, "username")
+        loginElement.send_keys("Add username")
+
+        loginElement = self.driver.find_element(By.username, "password")
+        loginElement.send_keys("Add password")
+
+        submitElement = self.driver.find_element(By.username, "submit")
+        submitElement.click()
+
+        time.sleep(10)
 
 
 
