@@ -11,6 +11,17 @@
         .item-information {
             float: right;
         }
+        .replies-box {
+            margin-top: 20px;
+        }
+        .reply-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .reply-item p {
+            margin: 5px 0;
+        }
     </style>
     <script>
         // Enlarges the post when clicked
@@ -32,21 +43,62 @@
 <div class="item-container">
     {% if post %}
         <!-- Display item posts -->
-        <img src="{{ post.images.src }}" alt="Item post" class="small-post" onclick="enlargepost(this)">
-
+        {% if post.images %}
+            <img src="{{ post.images.src }}" alt="Item post" class="small-post" onclick="enlargepost(this)">
+        {% else %}
+            <img src="{{ url_for('static', filename='placeholder.png') }}" alt="Placeholder Image" class="small-post" onclick="enlargepost(this)">
+        {% endif %}
         <!-- Display item information -->
         <div class="item-information" id="item-info">
-            <h2>Item Information</h2>
-            <p><strong>Name:</strong> {{ post.item_name }}</p>
-            <p><strong>Description:</strong> {{ post.desc }}</p>
-            <p><strong>Posted By:</strong> {{ post.author.username }}</p>
-            <p><strong>Item Type:</strong> {{ post_type }}</p>
-            <!-- Button to request the item -->
-            <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
+            <div class="description-border"></div>
+                <h2>Item Information</h2>
+                <p><strong>Name:</strong> {{ post.item_name }}</p>
+                <p><strong>Description:</strong> {{ post.desc }}</p>
+                <p><strong>Posted By:</strong> {{ post.author.username }}</p>
+                <p><strong>Item Type:</strong> {{ post_type }}</p>
+                <!-- Button to request the item -->
+                <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
+            </div>
         </div>
     {% else %}
     <h3>Error in loading item</h3>
     <p>No item information available for item ID: {{ itemID }}</p>
     {% endif %}
+
+<!-- Replies Box below image -->
+<div class="replies-box" id="repliesBox" style="display: none;">
+    <h2>Replies</h2>
+    <div class="reply">
+        <!-- Display replies -->
+        {% for reply in replies %}
+            <div class="reply-item">
+                <hr>
+                <p><strong>User: {{ reply.author.username }} commented:</strong></p>
+                <p>{{ reply.text }}</p>
+                <p><strong>At:</strong> {{ reply.timestamp }}</p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
 </div>
+
+<!-- Reply Form -->
+{% if current_user.is_authenticated %}
+<div class="reply-form">
+    <form method="POST" action="{{ url_for('main.post', post_id=post.id) }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.message.label }}<br>
+            {{ form.message(rows=4, class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class_="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    You must be logged in to reply to this post.
+</div>
+{% endif %}
 {% endblock %}
