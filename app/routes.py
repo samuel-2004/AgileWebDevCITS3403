@@ -41,7 +41,6 @@ def search():
     posts = get_posts(query, max_distance, orderby, lat, lng)
     return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
 
-
 @main.route('/about')
 def about():
     """
