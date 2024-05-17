@@ -205,3 +205,9 @@ def user():
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
     return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)
+
+@main.route('/delete_post/<int:post_id>')
+def delete_post(post_id):
+    Post.query.filter(Post.id == post_id).delete()
+    db.session.commit()
+    return ("Nothing")
