@@ -1,11 +1,15 @@
+import multiprocessing
+import time
 import selenium
 from selenium import webdriver
-import time
-import unittest
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from unittest import TestCase
+
 from app import create_app, db
 from app.config import TestConfig
+from app.controllers import GroupCreationError, create_group
 from app.models import Users, Post, Image
-import multiprocessing
 
 localHost = "http://localhost:5000"
 class SeleniumTests(selenium.TestCase):
@@ -50,9 +54,8 @@ class SeleniumTests(selenium.TestCase):
 
         errorMessage = self.driver.find_element(By.TAG_NAME, "message")
         self.assertEqual(self.driver.current_url, localHost = "login_page")
-        self.assertEqual(message[0:], text, f"Write yours here")
+        self.assertEqual(message[0:].text, f"Write yours here")
 
-        webDriverWait(driver=self.driver).until
 
     def test_signup_page(self):
         loginElement = self.driver.find_element(By.username, "username")
