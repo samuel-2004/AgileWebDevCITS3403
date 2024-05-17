@@ -7,6 +7,11 @@
  * The following CSS is the style information for the base template,
  * navbar and footer.
  */
+
+.quote {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: justify;
+}
 #content {
     margin-bottom: 40px;
 }
@@ -226,3 +231,4 @@ body {
     color: rgb(33,150,243) !important;
     font-weight: bold;
 }
+
