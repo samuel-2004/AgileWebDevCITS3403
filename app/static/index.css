@@ -7,6 +7,10 @@
  * The following CSS is the style information for the base template,
  * navbar and footer.
  */
+
+#delete:hover {
+    color: red;
+}
 #content {
     margin-bottom: 40px;
 }
