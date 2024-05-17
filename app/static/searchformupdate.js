@@ -12,5 +12,5 @@ function updateOutput(value) {
     if (value == 100) {
         value = value + "+";
     }
-    document.getElementById('mdDisplay').value = value;
+    document.getElementById('mdDisplay').value = value + " km";
 }
