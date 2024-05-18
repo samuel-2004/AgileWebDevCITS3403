@@ -4,6 +4,7 @@ from app import create_app, db
 from app.config import TestConfig
 from app.models import Users, Post, Image
 import time
+import multiprocessing
 
 class BasicTests(unittest.TestCase):
     def setUp(self):
@@ -12,8 +13,8 @@ class BasicTests(unittest.TestCase):
         self.app_context.push()
         db.create_all()
 
-        self.server_process = multiprocessing.Process(target=self, testApp, run)
-        self.server_process.start()
+        #self.server_process = multiprocessing.Process(target=self, testApp, run)
+        #self.server_process.start()
         # add_test_data_to_db()
 
     def tearDown(self):
@@ -22,10 +23,10 @@ class BasicTests(unittest.TestCase):
         self.app_context.pop()
 
     def test_password_hashing(self):
-        u = Users(userId = "1", username = "user1")
-        u.set_password("bubbles")
-        self.assertTrue(u.check_password("bubbles"))
-        self.assertFalse(u.check_password("rumbles"))
+        u = Users(username='susan', email='susan@example.com')
+        u.set_password('cat')
+        self.assertFalse(u.check_password('dog'))
+        self.assertTrue(u.check_password('cat'))
 
 
 

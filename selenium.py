@@ -25,7 +25,7 @@ class SeleniumTests(selenium.TestCase):
 
         # Make test run without rendering web page
         options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
+        options.add_argument("--headless=new")
         self.driver = webdriver.Chrome(options = options)
 
         self.driver.get(localHost)
