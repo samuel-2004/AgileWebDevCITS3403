@@ -8,8 +8,8 @@ from unittest import TestCase
 
 from app import create_app, db
 from app.config import TestConfig
-from app.controllers import GroupCreationError, create_group
-from app.models import Users, Post, Image
+#from app.controllers import GroupCreationError
+from app.models import User, Post, Image
 
 localHost = "http://localhost:5000"
 class SeleniumTests(selenium.TestCase):
