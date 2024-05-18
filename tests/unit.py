@@ -29,7 +29,6 @@ class BasicTests(TestCase):
         self.assertTrue(True)
     
     def test_post(self):
-        """
         p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = "12:00", user_id = 1234, author: "author1")
         db.session.add(p)
         self.assertTrue(p.id==1234)
@@ -49,7 +48,7 @@ class BasicTests(TestCase):
 
         self.assertTrue(p.)
         self.assertFalse(p.)
-        """
+
         # add code
         pass
 
