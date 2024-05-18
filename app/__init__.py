@@ -15,7 +15,7 @@ migrate = Migrate(flaskApp, db)
 
 db = SQLAlchemy()
 login = LoginManager()
-login.login_view = 'login'
+login.login_view = 'main.login_page'
 
 def create_app(config):
   flaskApp = Flask(__name__)

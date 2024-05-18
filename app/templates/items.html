@@ -2,31 +2,7 @@
 {% block title %}Item Information - New Home{% endblock %}
 {% block content %}
 <head>
-    <style>
-        .small-post {
-            width: 80px;
-            height: 80px;
-            padding: 10px;
-        }
-        .item-information {
-            float: right;
-        }
-    </style>
-    <script>
-        // Enlarges the post when clicked
-        function enlargepost(img) {
-            img.style.width = "40%";
-            img.style.height = "auto";
-            img.style.transition = "width 0.5s ease";
-        }
-        // Function to handle the request button click
-        function requestItem(button) {
-            // Toggle button text
-            if (button.innerText === "I want this item!") {
-                button.innerText = "Item requested! Please wait for uploader to respond";
-            }
-        }
-    </script>
+    <script src="/static/reply.js"></script>
 </head>
 
 <div class="item-container">
@@ -44,14 +20,56 @@
                 <p><strong>Name:</strong> {{ post.item_name }}</p>
                 <p><strong>Description:</strong> {{ post.desc }}</p>
                 <p><strong>Posted By:</strong> {{ post.author.username }}</p>
-                <p><strong>Item Type:</strong> {{ post_type }}</p>
+                <p><strong>Item Type:</strong> {{ post.post_type }}</p>
+                {% if post.author == current_user %}
+                <!--Delete button adapted from https://stackoverflow.com/a/10462878-->
+                <a href="{{ url_for('main.delete_post', post_id=post.id) }}"><i id = "delete" class="bi bi-trash" onclick="return confirm('Do you want to delete this post?')"></i></a>
+                {% else %}
                 <!-- Button to request the item -->
                 <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
+                {% endif %}
             </div>
         </div>
     {% else %}
     <h3>Error in loading item</h3>
     <p>No item information available for item ID: {{ itemID }}</p>
     {% endif %}
+
+<!-- Replies Box below image -->
+<div class="replies-box" id="repliesBox">
+    <h2>Replies</h2>
+    <div class="reply">
+        <!-- Display replies -->
+        {% for reply in replies %}
+            <div class="reply-item">
+                <hr>
+                <p><strong>User: {{ reply.author.username }}</strong></p>
+                <p><strong>Commented:</strong></p>
+                <p>{{ reply.text }}</p>
+                <p><strong>Time:</strong> {{ calcTimeAgo(reply.timestamp) }}</p>
+                <hr>
+            </div>
+        {% endfor %}
+    </div>
 </div>
+
+<!-- Reply Form -->
+{% if current_user.is_authenticated %}
+<div class="reply-form">
+    <form method="POST" action="{{ url_for('main.post', post_id=post.id) }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.message.label }}<br>
+            {{ form.message(rows=4, class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class_="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    You must be logged in to reply to this post.
+</div>
+{% endif %}
 {% endblock %}

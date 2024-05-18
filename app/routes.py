@@ -13,8 +13,8 @@ import sqlalchemy as sa
 from app import db
 from app.blueprints import main
 from werkzeug.utils import secure_filename
-from app.models import User, Post, Image, Address
-from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm
+from app.models import User, Post, Image, Address, Reply
+from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm, ReplyForm
 from app.controllers import get_posts, calc_time_ago
 
 @main.route('/', methods=['GET'])
@@ -71,14 +71,26 @@ def contact():
     else:
         return render_template('contact.html', form=form)
 
-@main.route('/post/<int:post_id>')
+@main.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post(post_id):
     """
     A page for each post
     """
     # Fetch the post with the given postID
     post = Post.query.get(post_id)
-    return render_template('items.html', post=post)
+    # Fetch replies with given postID and order them by timestamp in descending order
+    replies = Reply.query.filter_by(post_id=post_id).order_by(Reply.timestamp.asc()).all()
+    form = ReplyForm()
+    if form.validate_on_submit():
+        reply = Reply(
+            text=form.message.data,
+            author=current_user,
+            post_id=post_id
+        )
+        db.session.add(reply)
+        db.session.commit()
+        return redirect(url_for('main.post', post_id=post_id))
+    return render_template('items.html', post=post, replies=replies, form=form, calcTimeAgo=calc_time_ago)
 
 @main.route('/login', methods=['GET', 'POST'])
 def login_page():
@@ -192,3 +204,29 @@ def user():
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
     return render_template('user.html', page="user", user=user, nonzeroposts=nonzeroposts, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)
+
+@main.route('/delete_post/<int:post_id>')
+def delete_post(post_id):
+    """
+    Deletes the post via the id if the user is the author
+    """
+    post = db.session.get(Post,post_id)
+    if post.author == current_user:
+        current_user.points -= 1
+        if post.post_type == "OFFER":
+            current_user.given -= 1
+        elif post.post_type == "REQUEST":
+            current_user.requested -= 1
+        image = post.images
+        if image:
+            db.session.delete(image)
+        query = post.replies.select()
+        replies = db.session.scalars(query)
+        for reply in replies:
+            db.session.delete(reply)
+        db.session.delete(post)
+        db.session.commit()
+        flash(f"Post {post.item_name} deleted")
+    else:
+        flash(f"Only {post.author.username} can delete their own post!")
+    return redirect(url_for('main.index'))
