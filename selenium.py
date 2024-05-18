@@ -68,13 +68,17 @@ class SeleniumTests(selenium.TestCase):
 
     def test_upload_page(self):
         # continue with other parameters
+        pass
 
     def test_search_page(self):
         # continue with other parameters
+        pass
 
     def test_about_page(self):
         # continue with other parameters
+        pass
 
     def test_displayitems_page(self):
         # continue with other parameters
+        pass
     
