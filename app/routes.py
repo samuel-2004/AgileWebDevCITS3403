@@ -13,7 +13,7 @@ import sqlalchemy as sa
 from app import db
 from app.blueprints import main
 from werkzeug.utils import secure_filename
-from app.models import User, Post, Image, Address
+from app.models import User, Post, Image, Address, Reply
 from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm
 from app.controllers import get_posts, calc_time_ago
 
@@ -218,6 +218,10 @@ def delete_post(post_id):
         image = post.images
         if image:
             db.session.delete(image)
+        query = post.replies.select()
+        replies = db.session.scalars(query)
+        for reply in replies:
+            db.session.delete(reply)
         db.session.delete(post)
         db.session.commit()
         flash(f"Post {post.item_name} deleted")
