@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from app import create_app, db
 from app.config import TestConfig
-from app.models import User, Post, Image
+from app.models import User, Post, Image, Address
 #import time
 #import multiprocessing
 
@@ -77,7 +77,9 @@ class BasicTests(TestCase):
     def dummy9(self):
         pass
 
-    def dummy10(self):
+    def test_get_posts(self):
+        a = Address()
+        u = User(username='susan', email='susan@example.com')
         pass
 
 
