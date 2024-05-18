@@ -14,7 +14,7 @@ import sqlalchemy as sa
 STATES = ['NSW','QLD','TAS','VIC','WA','ACT','NT']
 
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(max=64)])
+    username = StringField('Username', validators=[DataRequired(), Length(min=4,max=64)])
     email = StringField('Email', validators=[DataRequired(), Email("This field requires a valid email address"), Length(max=128)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=64)])
     confirmed_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message="Passwords must match")])
