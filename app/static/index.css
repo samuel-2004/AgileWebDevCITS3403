@@ -8,10 +8,19 @@
  * navbar and footer.
  */
 
+#delete {
+    color: black
+}
+
+#delete:hover {
+    color: red;
+}
+
 .quote {
     font-family: Georgia, 'Times New Roman', Times, serif;
     text-align: justify;
 }
+
 #content {
     margin-bottom: 40px;
 }
