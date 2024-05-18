@@ -41,7 +41,7 @@ class SeleniumTests(TestCase):
     def insert_dummy_data(self, db):
         # Address
         addr = Address(address_line1="95 Pine St", address_line2="", suburb="Crawley", city="Perth", \
-                    postcode="6009", state="WA", country="Australia", longitude="31.9789",lattitude="115.8181")
+                    postcode="6009", state="WA", country="Australia", longitude="31.9789",latitude="115.8181")
         db.session.add(addr)
 
         # User
@@ -86,7 +86,7 @@ class SeleniumTests(TestCase):
         submitElement = self.driver.find_element(By.ID, "submit")
         submitElement.click()
 
-        self.assertEqual(self.driver.current_url,"http://localhost:5000/")
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/index")
 
 """     def test_login_page(self):
         loginElement = self.driver.find_element(By.ID, "username")
