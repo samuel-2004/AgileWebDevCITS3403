@@ -33,9 +33,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('main.contact') }}">Contact</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.advanced_search') }}">Advanced Search</a>
-            </li>
             {% if current_user.is_anonymous %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('main.login_page') }}">Login</a>

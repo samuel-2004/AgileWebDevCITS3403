@@ -7,12 +7,18 @@
  * The following CSS is the style information for the base template,
  * navbar and footer.
  */
+
 #delete {
     color: black
 }
 
 #delete:hover {
     color: red;
+}
+
+.quote {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: justify;
 }
 
 #content {
@@ -234,3 +240,4 @@ body {
     color: rgb(33,150,243) !important;
     font-weight: bold;
 }
+
