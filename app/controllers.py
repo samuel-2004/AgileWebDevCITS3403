@@ -4,7 +4,7 @@ This module provides controllers and helper functions for the flask application
 from math import floor, radians, cos, sin, asin, sqrt
 from datetime import datetime, timezone
 import sqlalchemy as sa
-from app.models import Post, User, Image, Address
+from app.models import Post, User, Address
 from app import db
 
 def calc_time_ago(timestamp):
@@ -78,16 +78,17 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
     # Check if any word in q is in the post name or description
     # This does not take into account the maximum distance
     # Maximum distance will require api calls etc
-    if (len(q) > 0):
-        q = q.split()
-        name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
-        desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
-        query = query.filter(sa.or_(*name_conditions, * desc_conditions))
+    if q is not None:
+        if (len(q) > 0):
+            q = q.split()
+            name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
+            desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
+            query = query.filter(sa.or_(*name_conditions, * desc_conditions))
 
     if md is not None and lat is not None and lng is not None:
         # convert inputs to floats
         md, lng, lat = map(float, [md, lng, lat])
-        query = query.filter(func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
+        query = query.filter(sa.func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
 
     if order == "new":
         query = query.order_by(sa.desc(Post.timestamp))
@@ -97,7 +98,7 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
         query = query.order_by(User.points)
     elif md is not None and lat is not None and lng is not None:
         if order == "close":
-            query = query.order_by(func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
+            query = query.order_by(sa.func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
     query = query.limit(lim)
     posts = db.session.scalars(query)
     return posts

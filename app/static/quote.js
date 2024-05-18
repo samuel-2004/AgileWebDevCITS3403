@@ -12,9 +12,22 @@ function getQuote() {
 }
 
 function loadQuote(quote){
-    let quoteText = quote.content+"<br>- "+quote.author
-    let quoteElement = $("<h3></h3>").html(quoteText);
-    $("#content").prepend(quoteElement);
+    //let quoteText = quote.content+"<br>- "+quote.author
+    let quoteText = $("<h3></h3>").html(quote.content);
+    quoteText.addClass("quote");
+
+    let quoteAuthor = $("<h5></h5>").html("- "+ quote.author);
+    quoteAuthor.addClass("quote");
+
+    let quoteTextDiv = $("<div></div>")
+    quoteTextDiv.addClass("d-flex justify-content-center");
+    let quoteAuthorDiv = $("<div></div>")
+    quoteAuthorDiv.addClass("d-flex justify-content-center");
+
+    $("#content").prepend(quoteAuthorDiv);
+    $("#content").prepend(quoteTextDiv);
+    quoteTextDiv.append(quoteText);
+    quoteAuthorDiv.append(quoteAuthor);
 }
 
 window.onload = () => {getQuote();};

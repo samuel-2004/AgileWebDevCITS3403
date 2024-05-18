@@ -3,7 +3,7 @@
 function validateImage() {
     let input = document.getElementById("image")
     let allowedTypes = ['image/jpeg', 'image/png','image/svg'];
-    file = input.files[0]
+    let file = input.files[0]
     if (!allowedTypes.includes(file.type)) {
         alert('Invalid file type. Please upload a JPEG, PNG, or SVG file.');
         input.value = '';
