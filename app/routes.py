@@ -23,8 +23,12 @@ def index():
     """
     The home page for the website
     """
-    posts = get_posts()
-    return render_template('index.html', page="index", posts=posts, calcTimeAgo=calc_time_ago)
+    print('hwlloe world')
+    nonzeroposts, posts = get_posts()
+    print('dsfkjsadf world')
+    print('nzp',nonzeroposts)
+
+    return render_template('index.html', page="index", nonzeroposts=nonzeroposts, posts=posts, calcTimeAgo=calc_time_ago)
 
 @main.route('/search')
 def search():
@@ -37,9 +41,8 @@ def search():
     orderby = request.args.get('order')
     lat = request.args.get('lat')
     lng = request.args.get('lng')
-
     posts = get_posts(query, max_distance, orderby, lat, lng)
-    return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
+    return render_template('search.html', page="search", nonzeroposts=nonzeroposts, posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
 
 @main.route('/about')
 def about():
@@ -188,4 +191,4 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
-    return render_template('user.html', page="user", user=user, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)
+    return render_template('user.html', page="user", user=user, nonzeroposts=nonzeroposts, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)

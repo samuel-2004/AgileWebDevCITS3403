@@ -62,6 +62,7 @@ def haversine_distance(lat1,lng1,lat2,lng2):
     r = 6371 # Radius of earth in kilometers.
     out = c * r
     return out
+
 def is_within_max_distance(md,lat1,lng1,lat2,lng2):
     """
     Calculates if the distance between two coordinate pairs is less than the given maximum distance
@@ -71,6 +72,7 @@ def is_within_max_distance(md,lat1,lng1,lat2,lng2):
     :return: True if the distance is less than the max distance, False otherwise
     """
     return haversine_distance(lat1,lng1,lat2,lng2) <= md
+
 def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
     db.session.connection().connection.create_function("is_within_max_distance", 5, is_within_max_distance)
     db.session.connection().connection.create_function("haversine_distance", 4, haversine_distance)
@@ -84,7 +86,7 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
             name_conditions = [Post.item_name.like('%{}%'.format(word)) for word in q]
             desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
             query = query.filter(sa.or_(*name_conditions, * desc_conditions))
-
+    
     if md is not None and lat is not None and lng is not None:
         # convert inputs to floats
         md, lng, lat = map(float, [md, lng, lat])
@@ -101,4 +103,8 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
             query = query.order_by(sa.func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
     query = query.limit(lim)
     posts = db.session.scalars(query)
-    return posts
+    post = db.session.scalar(query)
+    if post:
+        return True, posts
+    else:
+        return False, posts
