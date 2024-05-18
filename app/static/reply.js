@@ -18,9 +18,7 @@ function validateReply() {
     if (input.value.length > 256) {
         alert('Max description length is 256 characters');
         input.value = '';
-        print("Hello")
      }
-     print("Hi")
 }
 
 window.onload = () => {
