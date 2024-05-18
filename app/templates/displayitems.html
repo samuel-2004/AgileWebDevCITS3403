@@ -1,6 +1,6 @@
 <!-- Render each item to the page -->
 <div class="row d-flex justify-content-center" id="mainContent">
-    {% if posts %}
+    {% if nonzeroposts == True %}
     {% for post in posts %}
     <div class="post col-lg-2 col-md-3 col-sm-5 col-xs-6" id="{{post.id}}" onclick="openItemPage(event, {{ post.id }})">
         <span>
