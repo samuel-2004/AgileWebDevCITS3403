@@ -40,14 +40,15 @@ class SeleniumTests(TestCase):
 
     def insert_dummy_data(self, db):
         # Address
-        addr = Address(suburb="Crawley", city="Perth", \
-                    postcode="6009", state="WA", country="Australia")
+        addr = Address(address_line1="95 Pine St", address_line2="", suburb="Crawley", city="Perth", \
+                    postcode="6009", state="WA", country="Australia", longitude="31.9789",lattitude="115.8181")
         db.session.add(addr)
 
         # User
         user = User(username='matt', email='matt@example.com', address = addr)
         user.set_password('123456')
         db.session.add(user)
+        db.session.commit()
 
     def test_go_to_login_page(self):
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
@@ -64,6 +65,18 @@ class SeleniumTests(TestCase):
         messages = self.driver.find_elements(By.CLASS_NAME, "message")
         self.assertEqual(len(messages), 1, "Expected there to be a single error message when trying to login as a non-existent student")
         self.assertEqual(messages[0].text, "Invalid username or password")
+
+    def test_successful_login(self):
+        self.driver.get("http://localhost:5000/login")
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/login")
+        loginElement = self.driver.find_element(By.ID, "username")
+        loginElement.send_keys("matt")
+        loginElement = self.driver.find_element(By.ID, "password")
+        loginElement.send_keys("123456")
+        submitElement = self.driver.find_element(By.ID, "submit")
+        submitElement.click()
+
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/")
 
 """     def test_login_page(self):
         loginElement = self.driver.find_element(By.ID, "username")
