@@ -5,6 +5,7 @@ from app import create_app, db
 from app.config import TestConfig
 from app.models import User, Post, Image, Address
 from app.controllers import get_posts
+from datetime import datetime
 #import time
 #import multiprocessing
 
@@ -61,28 +62,28 @@ class BasicTests(TestCase):
         a = User(id = 1235, username = "testA", email = "testA@test.com", time_created = datetime(year=2023, month = 3, day = 3), bio = "testA bio", points = 3, given = 3, requested = 3)
         db.session.add(u)
         
-        self.assertTrue(u.id == 1234)
+        self.assertEqual(u.id, 1234)
         self.assertFalse(u.id == a.id)
 
-        self.assertTrue(u.username == "testU")
+        self.assertEqual(u.username, "testU")
         self.assertFalse(u.username == a.username)
 
-        self.assertTrue(u.email == "testU@test.com")
+        self.assertEqual(u.email, "testU@test.com")
         self.assertFalse(u.email == a.email)
 
-        self.assertTrue(u.time_created == datetime(year=2024, month = 1, day = 1))
+        self.assertEqual(u.time_created, datetime(year=2024, month = 1, day = 1))
         self.assertFalse(u.time_created == a.time_created)
 
-        self.assertTrue(u.bio == "testU bio")
+        self.assertEqual(u.bio, "testU bio")
         self.assertFalse(u.bio == a.bio)
 
-        self.assertTrue(u.points == 0)
+        self.assertEqual(u.points, 0)
         self.assertFalse(u.points == a.points)
 
-        self.assertTrue(u.given == 0)
+        self.assertEqual(u.given, 0)
         self.assertFalse(u.given == a.given)
 
-        self.assertTrue(u.requested == 0)
+        self.assertEqual(u.requested, 0)
         self.assertFalse(u.requested == a.requested)
         
 
