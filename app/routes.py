@@ -41,7 +41,7 @@ def search():
     orderby = request.args.get('order')
     lat = request.args.get('lat')
     lng = request.args.get('lng')
-    posts = get_posts(query, max_distance, orderby, lat, lng)
+    nonzeroposts, posts = get_posts(query, max_distance, orderby, lat, lng)
     return render_template('search.html', page="search", nonzeroposts=nonzeroposts, posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
 
 @main.route('/about')
@@ -203,6 +203,11 @@ def user():
     user = db.first_or_404(sa.select(User).where(User.username == username))
     query = user.posts.select().order_by(Post.timestamp.desc())
     posts = db.session.scalars(query)
+    post = db.session.scalar(query)
+    if post:
+        nonzeroposts = True
+    else:
+        nonzeroposts = False
     return render_template('user.html', page="user", user=user, nonzeroposts=nonzeroposts, posts=posts, calcTimeAgo=calc_time_ago, is_user_page=True)
 
 @main.route('/delete_post/<int:post_id>')
