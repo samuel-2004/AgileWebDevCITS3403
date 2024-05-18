@@ -28,4 +28,7 @@ To launch the application, perform the following steps:
 Here will be instructions for how to run the tests for the application.
 
 For Unit Tests:
-Run: python -m unittest tests.py
+Run: `python -m unittest tests.py`
+
+For Selenium Tests:
+Run: `<insert commandlet here>`

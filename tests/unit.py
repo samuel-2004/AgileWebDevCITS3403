@@ -4,6 +4,7 @@ from unittest import TestCase
 from app import create_app, db
 from app.config import TestConfig
 from app.models import User, Post, Image, Address
+from app.controllers import get_posts
 #import time
 #import multiprocessing
 
@@ -28,6 +29,7 @@ class BasicTests(TestCase):
         self.assertTrue(True)
     
     def test_post(self):
+        """
         p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = "12:00", user_id = 1234, author: "author1")
         db.session.add(p)
         self.assertTrue(p.id==1234)
@@ -47,6 +49,7 @@ class BasicTests(TestCase):
 
         self.assertTrue(p.)
         self.assertFalse(p.)
+        """
         # add code
         pass
 
@@ -78,9 +81,29 @@ class BasicTests(TestCase):
         pass
 
     def test_get_posts(self):
-        a = Address()
-        u = User(username='susan', email='susan@example.com')
-        pass
+        """
+        This function tests the get_posts method in controllers.py
+        """
+        addr = Address(address_line1="35 wolfram st",address_line2="",suburb="Crawley", \
+            city="Perth", postcode="6009",state="WA",country="Australia", \
+            latitude="32",longitude="-100")
+        u = User(username='susan', email='susan@example.com',address=addr)
+        db.session.add(addr)
+        db.session.add(u)
+        
+        posts = [
+            Post(post_type="OFFER", item_name="Test Item", \
+                desc="Look at my really cool 1st test item", author=u),
+            Post(post_type="OFFER", item_name="Test Item", \
+                desc="Look at my really cool 2nd test item", author=u),
+            Post(post_type="OFFER", item_name="Test Item", \
+                desc="Look at my really cool 3rd test item", author=u)
+        ]
+        for p in posts:
+            db.session.add(p)
+        
+        get_posts_result = get_posts()
+        num_posts_found = len(list(get_posts_result))
+        self.assertEqual(3, num_posts_found)
+        #print(get_posts_result)
 
-
-    
