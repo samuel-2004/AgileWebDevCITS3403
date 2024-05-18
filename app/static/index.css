@@ -239,6 +239,7 @@ body {
     background-color: inherit;
     color: rgb(33,150,243) !important;
     font-weight: bold;
+    text-decoration: none;
 }
 
 .small-post {
