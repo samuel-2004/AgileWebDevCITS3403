@@ -118,6 +118,7 @@ class SeleniumTests(TestCase):
         signupElement.send_keys("Perth")
         submitElement = self.driver.find_element(By.ID, "submit")
         submitElement.click()
+        self.driver.implicitly_wait(2) # To allow for signup
         messages = self.driver.find_elements(By.CLASS_NAME, "message")
         self.assertEqual(len(messages), 1, f"Expected there to be a single confirmation message")
         self.assertEqual(messages[0].text, "Congratulations! Welcome to NewHome!")
@@ -128,7 +129,7 @@ class SeleniumTests(TestCase):
         signupElement = self.driver.find_element(By.ID, "username")
         signupElement.send_keys("matt")
         signupElement = self.driver.find_element(By.ID, "email")
-        signupElement.send_keys("john.smith@test.com")
+        signupElement.send_keys("matt@example.com")
         signupElement = self.driver.find_element(By.ID, "password")
         signupElement.send_keys("password")
         signupElement = self.driver.find_element(By.ID, "confirmed_password")
@@ -147,6 +148,7 @@ class SeleniumTests(TestCase):
         submitElement.click()
         errors = self.driver.find_elements('xpath','.//span')
         self.assertEqual(errors[1].text,"[Please use a different username]")
+        self.assertEqual(errors[2].text,"[Please use a different email address]")
         
 
 """     def test_login_page(self):
