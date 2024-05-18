@@ -1,9 +1,12 @@
 import multiprocessing
 import time
-import selenium
+#import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.keys import Keys
 from unittest import TestCase
 
 from app import create_app, db
@@ -25,6 +28,7 @@ class SeleniumTests(TestCase):
 
         # Make test run without rendering web page
         options = webdriver.ChromeOptions()
+        options.add_argument('--window-size=1920,1080')  
         options.add_argument("--headless=new")
         options.add_argument("--no-sandbox")
         self.driver = webdriver.Chrome(options = options)
@@ -78,7 +82,7 @@ class SeleniumTests(TestCase):
 
     def test_successful_login(self):
         self.driver.get("http://localhost:5000/login")
-        self.assertEqual(self.driver.current_url,"http://localhost:5000/login")
+        
         loginElement = self.driver.find_element(By.ID, "username")
         loginElement.send_keys("matt")
         loginElement = self.driver.find_element(By.ID, "password")
@@ -87,6 +91,36 @@ class SeleniumTests(TestCase):
         submitElement.click()
 
         self.assertEqual(self.driver.current_url,"http://localhost:5000/index")
+        
+    def test_successful_signup(self):
+        self.driver.get("http://localhost:5000/login")
+        self.driver.find_element(By.LINK_TEXT, 'here').click()
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/signup", "Should be on signup page")
+        signupElement = self.driver.find_element(By.ID, "username")
+        signupElement.send_keys("johnsmith")
+        signupElement = self.driver.find_element(By.ID, "email")
+        signupElement.send_keys("john.smith@test.com")
+        signupElement = self.driver.find_element(By.ID, "password")
+        signupElement.send_keys("password")
+        signupElement = self.driver.find_element(By.ID, "confirmed_password")
+        signupElement.send_keys("password")
+        signupElement = self.driver.find_element(By.ID, "address_line1")
+        signupElement.send_keys("35 Stirling Highway")
+        signupElement = self.driver.find_element(By.ID, "suburb")
+        signupElement.send_keys("Crawley")
+        signupElement = self.driver.find_element(By.ID, "postcode")
+        signupElement.send_keys("6009")
+        signupElement = Select(self.driver.find_element(By.ID,'state'))
+        signupElement.select_by_value("WA")
+        signupElement = self.driver.find_element(By.ID, "city")
+        signupElement.send_keys("Perth")
+        submitElement = self.driver.find_element(By.ID, "submit")
+        submitElement.click()
+        messages = self.driver.find_elements(By.CLASS_NAME, "message")
+        self.assertEqual(len(messages), 1, f"Expected there to be a single confirmation message")
+        self.assertEqual(messages[0].text, "Congratulations! Welcome to NewHome!")
+        self.assertEqual(self.driver.current_url,f"http://localhost:5000/login", "Should've been redirected to login")
+        
 
 """     def test_login_page(self):
         loginElement = self.driver.find_element(By.ID, "username")
