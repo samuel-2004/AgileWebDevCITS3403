@@ -38,6 +38,7 @@ class SeleniumTests(selenium.TestCase):
         self.app_context.pop()
 
     def test_index_page(self):
+        # stub
         time.sleep(10)
         self.assertTrue(True)
 
