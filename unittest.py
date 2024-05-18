@@ -27,6 +27,11 @@ class BasicTests(unittest.TestCase):
         u.set_password('cat')
         self.assertFalse(u.check_password('dog'))
         self.assertTrue(u.check_password('cat'))
+    
+    def test_post(self):
+        # add code
+
+    
 
 
 
