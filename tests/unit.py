@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from app import create_app, db
 from app.config import TestConfig
-from app.models import User, Post, Image, Address
+from app.models import User, Post, Address
 from app.controllers import get_posts
 from datetime import datetime
 #import time
@@ -85,31 +85,6 @@ class BasicTests(TestCase):
 
         self.assertEqual(u.requested, 0)
         self.assertFalse(u.requested == a.requested)
-        
-
-    def dummy2(self):
-        pass
-
-    def dummy3(self):
-        pass
-
-    def dummy4(self):
-        pass
-
-    def dummy5(self):
-        pass
-
-    def dummy6(self):
-        pass
-
-    def dummy7(self):
-        pass
-
-    def dummy8(self):
-        pass
-
-    def dummy9(self):
-        pass
 
     def test_get_posts(self):
         """
