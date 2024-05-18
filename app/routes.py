@@ -13,8 +13,8 @@ import sqlalchemy as sa
 from app import db
 from app.blueprints import main
 from werkzeug.utils import secure_filename
-from app.models import User, Post, Image, Address
-from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm
+from app.models import User, Post, Image, Address, Reply
+from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm, ReplyForm
 from app.controllers import get_posts, calc_time_ago
 
 @main.route('/', methods=['GET'])
