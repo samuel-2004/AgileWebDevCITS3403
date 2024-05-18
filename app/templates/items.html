@@ -4,8 +4,8 @@
 <head>
     <style>
         .small-post {
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             padding: 10px;
         }
         .item-information {
@@ -21,6 +21,11 @@
         }
         .reply-item p {
             margin: 5px 0;
+        }
+        .reply {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
         }
     </style>
     <script>
@@ -76,7 +81,7 @@
                 <p><strong>User: {{ reply.author.username }}</strong></p>
                 <p><strong>Commented:</strong></p>
                 <p>{{ reply.text }}</p>
-                <p><strong>At:</strong> {{ reply.timestamp }}</p>
+                <p><strong>Time:</strong> {{ calcTimeAgo(reply.timestamp) }}</p>
                 <hr>
             </div>
         {% endfor %}

@@ -87,7 +87,7 @@ def post(post_id):
         db.session.add(reply)
         db.session.commit()
         return redirect(url_for('main.post', post_id=post_id))
-    return render_template('items.html', post=post, replies=replies, form=form)
+    return render_template('items.html', post=post, replies=replies, form=form, calcTimeAgo=calc_time_ago)
 
 @main.route('/login', methods=['GET', 'POST'])
 def login_page():
