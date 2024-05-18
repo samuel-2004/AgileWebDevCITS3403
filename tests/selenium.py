@@ -44,18 +44,17 @@ class SeleniumTests(selenium.TestCase):
 
     def test_login_page(self):
         time.sleep(1)
-        loginElement = self.driver.find_element(By.username, "username")
+        loginElement = self.driver.find_element(By.ID, "username")
         loginElement.send_keys("jimmy")
 
-        loginElement = self.driver.find_element(By.username, "password")
+        loginElement = self.driver.find_element(By.ID, "password")
         loginElement.send_keys("123456")
 
-        submitElement = self.driver.find_element(By.username, "submit")
+        submitElement = self.driver.find_element(By.ID, "submit")
         submitElement.click()
 
         errorMessage = self.driver.find_element(By.TAG_NAME, "message")
         self.assertEqual(self.driver.current_url, localHost = "login_page")
-        self.assertEqual(message[0:].text, f"Write yours here")
 
 
     def test_signup_page(self):
