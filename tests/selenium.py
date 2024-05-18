@@ -20,6 +20,8 @@ class SeleniumTests(TestCase):
         self.testApp = create_app(TestConfig)
         self.app_context = self.testApp.app_context()
         self.app_context.push()
+        db.session.remove()
+        db.drop_all()
         db.create_all()
         self.insert_dummy_data(db)
 
@@ -120,6 +122,31 @@ class SeleniumTests(TestCase):
         self.assertEqual(len(messages), 1, f"Expected there to be a single confirmation message")
         self.assertEqual(messages[0].text, "Congratulations! Welcome to NewHome!")
         self.assertEqual(self.driver.current_url,f"http://localhost:5000/login", "Should've been redirected to login")
+        
+    def test_user_already_exists(self):
+        self.driver.get("http://localhost:5000/signup")
+        signupElement = self.driver.find_element(By.ID, "username")
+        signupElement.send_keys("matt")
+        signupElement = self.driver.find_element(By.ID, "email")
+        signupElement.send_keys("john.smith@test.com")
+        signupElement = self.driver.find_element(By.ID, "password")
+        signupElement.send_keys("password")
+        signupElement = self.driver.find_element(By.ID, "confirmed_password")
+        signupElement.send_keys("password")
+        signupElement = self.driver.find_element(By.ID, "address_line1")
+        signupElement.send_keys("35 Stirling Highway")
+        signupElement = self.driver.find_element(By.ID, "suburb")
+        signupElement.send_keys("Crawley")
+        signupElement = self.driver.find_element(By.ID, "postcode")
+        signupElement.send_keys("6009")
+        signupElement = Select(self.driver.find_element(By.ID,'state'))
+        signupElement.select_by_value("WA")
+        signupElement = self.driver.find_element(By.ID, "city")
+        signupElement.send_keys("Perth")
+        submitElement = self.driver.find_element(By.ID, "submit")
+        submitElement.click()
+        errors = self.driver.find_elements('xpath','.//span')
+        self.assertEqual(errors[1].text,"[Please use a different username]")
         
 
 """     def test_login_page(self):
