@@ -4,7 +4,7 @@ from unittest import TestCase
 from app import create_app, db
 from app.config import TestConfig
 from app.models import User, Post, Image, Address
-from datetime import datetime
+from app.controllers import get_posts
 #import time
 #import multiprocessing
 
@@ -111,9 +111,29 @@ class BasicTests(TestCase):
         pass
 
     def test_get_posts(self):
-        a = Address()
-        u = User(username='susan', email='susan@example.com')
-        pass
+        """
+        This function tests the get_posts method in controllers.py
+        """
+        addr = Address(address_line1="35 wolfram st",address_line2="",suburb="Crawley", \
+            city="Perth", postcode="6009",state="WA",country="Australia", \
+            latitude="32",longitude="-100")
+        u = User(username='susan', email='susan@example.com',address=addr)
+        db.session.add(addr)
+        db.session.add(u)
+        
+        posts = [
+            Post(post_type="OFFER", item_name="Test Item", \
+                desc="Look at my really cool 1st test item", author=u),
+            Post(post_type="OFFER", item_name="Test Item", \
+                desc="Look at my really cool 2nd test item", author=u),
+            Post(post_type="OFFER", item_name="Test Item", \
+                desc="Look at my really cool 3rd test item", author=u)
+        ]
+        for p in posts:
+            db.session.add(p)
+        
+        get_posts_result = get_posts()
+        num_posts_found = len(list(get_posts_result))
+        self.assertEqual(3, num_posts_found)
+        #print(get_posts_result)
 
-
-    
