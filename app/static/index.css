@@ -241,3 +241,39 @@ body {
     font-weight: bold;
 }
 
+.small-post {
+    width: 250px;
+    height: 250px;
+    padding: 10px;
+    cursor: zoom-in;
+}
+.item-information {
+    float: right;
+    margin: 20px;
+    padding: 20px;
+    width: 30%;
+    height: auto;
+    word-wrap: break-word;
+    border-width: 8px;
+    border-style: groove;
+    border-color: #3498db;
+}
+.replies-box {
+    margin-top: 20px;
+}
+.reply-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.reply-item p {
+    margin: 5px 0;
+}
+.reply {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word
+}

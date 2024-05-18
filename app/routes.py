@@ -14,7 +14,7 @@ from app import db
 from app.blueprints import main
 from werkzeug.utils import secure_filename
 from app.models import User, Post, Image, Address, Reply
-from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm
+from app.forms import LoginForm, UploadForm, ContactForm, SearchForm, SignupForm, ReplyForm
 from app.controllers import get_posts, calc_time_ago
 
 @main.route('/', methods=['GET'])
@@ -68,14 +68,26 @@ def contact():
     else:
         return render_template('contact.html', form=form)
 
-@main.route('/post/<int:post_id>')
+@main.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post(post_id):
     """
     A page for each post
     """
     # Fetch the post with the given postID
     post = Post.query.get(post_id)
-    return render_template('items.html', post=post)
+    # Fetch replies with given postID and order them by timestamp in descending order
+    replies = Reply.query.filter_by(post_id=post_id).order_by(Reply.timestamp.asc()).all()
+    form = ReplyForm()
+    if form.validate_on_submit():
+        reply = Reply(
+            text=form.message.data,
+            author=current_user,
+            post_id=post_id
+        )
+        db.session.add(reply)
+        db.session.commit()
+        return redirect(url_for('main.post', post_id=post_id))
+    return render_template('items.html', post=post, replies=replies, form=form, calcTimeAgo=calc_time_ago)
 
 @main.route('/login', methods=['GET', 'POST'])
 def login_page():
