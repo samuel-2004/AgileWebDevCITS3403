@@ -2,14 +2,32 @@
 {% block title %}Item Information - New Home{% endblock %}
 {% block content %}
 <head>
+    <script src="/static/reply.js"></script>
     <style>
         .small-post {
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
             padding: 10px;
         }
         .item-information {
             float: right;
+            margin: 20px;
+            padding: 20px;
+            width: 30%;
+            height: auto;
+            border-top-width: 2px;
+            border-right-width: 4px;
+            border-bottom-width: 6px;
+            border-left-width: 8px;
+            border-top-style: solid;
+            border-right-style: dotted;
+            border-bottom-style: dashed;
+            border-left-style: groove;
+            border-top-color: #006100;
+            border-right-color: #050116;
+            border-bottom-color: #2ecc71;
+            border-left-color: #3498db;
+            word-wrap: break-word
         }
         .replies-box {
             margin-top: 20px;
@@ -26,12 +44,15 @@
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            word-wrap: break-word
         }
     </style>
     <script>
         // Enlarges the post when clicked
         function enlargepost(img) {
-            img.style.width = "40%";
+            img.style.width = "50%";
             img.style.height = "auto";
             img.style.transition = "width 0.5s ease";
         }
