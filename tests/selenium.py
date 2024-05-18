@@ -9,7 +9,7 @@ from unittest import TestCase
 from app import create_app, db
 from app.config import TestConfig
 #from app.controllers import GroupCreationError, create_group
-from app.models import User, Post, Image
+from app.models import User, Address, Post
 
 localHost = "http://localhost:5000"
 class SeleniumTests(TestCase):
@@ -18,6 +18,7 @@ class SeleniumTests(TestCase):
         self.app_context = self.testApp.app_context()
         self.app_context.push()
         db.create_all()
+        self.insert_dummy_data(db)
 
         self.server_thread = multiprocessing.Process(target = self.testApp.run)
         self.server_thread.start()
@@ -36,6 +37,17 @@ class SeleniumTests(TestCase):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
+
+    def insert_dummy_data(self, db):
+        # Address
+        addr = Address(suburb="Crawley", city="Perth", \
+                    postcode="6009", state="WA", country="Australia")
+        db.session.add(addr)
+
+        # User
+        user = User(username='matt', email='matt@example.com', address = addr)
+        user.set_password('123456')
+        db.session.add(user)
 
     def test_go_to_login_page(self):
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
