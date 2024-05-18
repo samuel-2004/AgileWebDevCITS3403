@@ -18,10 +18,12 @@ function validateReply() {
     if (input.value.length > 256) {
         alert('Max description length is 256 characters');
         input.value = '';
+        print("Hello")
      }
+     print("Hi")
 }
 
 window.onload = () => {
     let reply_input = document.getElementById("message")
-    desc_input.addEventListener('change',validateReply,false)
+    reply_input.addEventListener('change',validateReply,false)
 }
