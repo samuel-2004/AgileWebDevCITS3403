@@ -3,7 +3,8 @@ from unittest import TestCase
 
 from app import create_app, db
 from app.config import TestConfig
-from app.models import User, Post, Image
+from app.models import User, Post, Image, Address
+import datetime
 #import time
 #import multiprocessing
 
@@ -28,7 +29,7 @@ class BasicTests(TestCase):
         self.assertTrue(True)
     
     def test_post(self):
-        p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = "12:00", user_id = 1234, author: "author1")
+        p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = "12:00", user_id = 1235, author = "author1")
         db.session.add(p)
         self.assertTrue(p.id==1234)
         self.assertFalse(p.id==1235)
@@ -39,14 +40,17 @@ class BasicTests(TestCase):
         self.assertTrue(p.item_name=="test1")
         self.assertFalse(p.item_name=="test2")
 
-        self.assertTrue(p.)
-        self.assertFalse(p.)
+        self.assertTrue(p.desc == "test description")
+        self.assertFalse(p.desc == "not test description")
 
-        self.assertTrue(p.)
-        self.assertFalse(p.)
+        self.assertTrue(p.timestamp == "12:00")
+        self.assertFalse(p.timestamp == "13:00")
 
-        self.assertTrue(p.)
-        self.assertFalse(p.)
+        self.assertTrue(p.user_id == 1235)
+        self.assertFalse(p.user_id == 1237)
+
+        self.assertTrue(p.author == "author1")
+        self.assertFalse(p.author == "notauthor")
         # add code
         pass
 
@@ -77,7 +81,9 @@ class BasicTests(TestCase):
     def dummy9(self):
         pass
 
-    def dummy10(self):
+    def test_get_posts(self):
+        a = Address()
+        u = User(username='susan', email='susan@example.com')
         pass
 
 
