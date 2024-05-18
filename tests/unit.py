@@ -3,7 +3,7 @@ from unittest import TestCase
 
 from app import create_app, db
 from app.config import TestConfig
-from app.models import User, Post, Image, Address
+from app.models import User, Post, Address
 from app.controllers import get_posts
 from datetime import datetime
 #import time
@@ -85,36 +85,17 @@ class BasicTests(TestCase):
 
         self.assertEqual(u.requested, 0)
         self.assertFalse(u.requested == a.requested)
-        
-
-    def dummy2(self):
-        pass
-
-    def dummy3(self):
-        pass
-
-    def dummy4(self):
-        pass
-
-    def dummy5(self):
-        pass
-
-    def dummy6(self):
-        pass
-
-    def dummy7(self):
-        pass
-
-    def dummy8(self):
-        pass
-
-    def dummy9(self):
-        pass
 
     def test_get_posts(self):
         """
         This function tests the get_posts method in controllers.py
         """
+        import warnings
+
+        # Mute the DeprecationWarning
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+        # Initialise a user
         addr = Address(address_line1="35 wolfram st",address_line2="",suburb="Crawley", \
             city="Perth", postcode="6009",state="WA",country="Australia", \
             latitude="32",longitude="-100")
@@ -122,19 +103,48 @@ class BasicTests(TestCase):
         db.session.add(addr)
         db.session.add(u)
         
+        ### Testing basic functionality
+        # No posts added, should be 0
+        self.assertEqual(0, len(list(get_posts())))
+
         posts = [
             Post(post_type="OFFER", item_name="Test Item", \
-                desc="Look at my really cool 1st test item", author=u),
+                desc="oldest", author=u, \
+                timestamp = datetime(year=2022, month = 1, day = 1)),
             Post(post_type="OFFER", item_name="Test Item", \
-                desc="Look at my really cool 2nd test item", author=u),
+                desc="middle", author=u, \
+                timestamp = datetime(year=2023, month = 1, day = 1)),
             Post(post_type="OFFER", item_name="Test Item", \
-                desc="Look at my really cool 3rd test item", author=u)
+                desc="newest", author=u, \
+                timestamp = datetime(year=2024, month = 1, day = 1))
         ]
         for p in posts:
             db.session.add(p)
         
-        get_posts_result = get_posts()
-        num_posts_found = len(list(get_posts_result))
-        self.assertEqual(3, num_posts_found)
-        #print(get_posts_result)
+        # Three posts added, should be 3
+        self.assertEqual(3, len(list(get_posts())))
+        
+        #get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
+        
+        ### Testing limit
+        # Three posts added, limit set to 1, should be 1
+        self.assertEqual(1, len(list(get_posts(lim=1))))
+
+        ### Testing distance parameters
+        # Three posts added, should be 3
+        self.assertEqual(3, len(list(get_posts(lat=10,lng=1))))
+
+        # Three posts added, add max distance
+        self.assertEqual(0, len(list(get_posts(md=10,lat=10,lng=1))))
+
+        ### Testing the sort function
+        # Oldest
+        f = list(get_posts(order="old"))[0]
+        self.assertEqual(f.desc, 'oldest', f)
+
+        # Newest
+        f = list(get_posts(order="new"))[0]
+        self.assertEqual(f.desc, 'newest', f)
+
+        del warnings
 
