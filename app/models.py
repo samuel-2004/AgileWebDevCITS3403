@@ -95,9 +95,9 @@ class Post(db.Model):
     user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id), index=True)
 
     author: so.Mapped[User] = so.relationship(back_populates='posts')
-    images: so.Mapped['Image'] = so.relationship(back_populates='post')
+    images: so.Mapped['Image'] = so.relationship(back_populates='post',passive_deletes=True, cascade="all,delete")
     replies: so.WriteOnlyMapped['Reply'] = so.relationship(
-        foreign_keys = "Reply.post_id",back_populates='post')
+        foreign_keys = "Reply.post_id",back_populates='post',passive_deletes=True, cascade="all,delete")
 
     def __repr__(self) -> str:
         return f'<Post {self.id} {self.item_name} {self.desc} {self.timestamp}>'
