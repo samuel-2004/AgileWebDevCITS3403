@@ -14,6 +14,10 @@ Student Number | Student Name | GitHub Username
 # Summary
 Here will be a brief summary of the architecture of the application.
 
+# Dependencies
+Python and pip are required to install and run the server
+Running tests requires that Chrome is installed
+
 # How to launch
 To launch the application, perform the following steps:
 1. Download the application `https://github.com/samuel-2004/AgileWebDevCITS3403/archive/refs/heads/main.zip`
@@ -28,7 +32,7 @@ To launch the application, perform the following steps:
 Here will be instructions for how to run the tests for the application.
 
 For Unit Tests:
-Run: `python -m unittest tests.py`
+Run: `python -m unittest tests/unit.py`
 
 For Selenium Tests:
-Run: `<insert commandlet here>`
+Run: `python -m unittest tests/selenium.py`
