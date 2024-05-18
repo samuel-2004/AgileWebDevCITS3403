@@ -16,19 +16,10 @@
             padding: 20px;
             width: 30%;
             height: auto;
-            border-top-width: 2px;
-            border-right-width: 4px;
-            border-bottom-width: 6px;
-            border-left-width: 8px;
-            border-top-style: solid;
-            border-right-style: dotted;
-            border-bottom-style: dashed;
-            border-left-style: groove;
-            border-top-color: #006100;
-            border-right-color: #050116;
-            border-bottom-color: #2ecc71;
-            border-left-color: #3498db;
-            word-wrap: break-word
+            word-wrap: break-word;
+            border-width: 8px;
+            border-style: groove;
+            border-color: #3498db;
         }
         .replies-box {
             margin-top: 20px;
@@ -67,7 +58,7 @@
                 <p><strong>Name:</strong> {{ post.item_name }}</p>
                 <p><strong>Description:</strong> {{ post.desc }}</p>
                 <p><strong>Posted By:</strong> {{ post.author.username }}</p>
-                <p><strong>Item Type:</strong> {{ post_type }}</p>
+                <p><strong>Item Type:</strong> {{ post.post_type }}</p>
                 <!-- Button to request the item -->
                 <button id="requestButton" onclick="requestItem(this)">I want this item!</button>
             </div>
