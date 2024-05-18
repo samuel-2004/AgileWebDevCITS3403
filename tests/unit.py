@@ -29,8 +29,11 @@ class BasicTests(TestCase):
         self.assertTrue(True)
     
     def test_post(self):
-        u = User(username='susan', email='susan@example.com')
-        p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = datetime(year=2024, month = 1, day = 1), user_id = 1235, author = u)
+        u = User(id = 1234, username='susan', email='susan@example.com')
+        a = User(id = 1235, username='Adan', email='adan@example.com')
+        db.session.add(u)
+        db.session.add(a)
+        p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = datetime(year=2024, month = 1, day = 1), user_id = u.id, author = u)
         db.session.add(p)
         self.assertTrue(p.id==1234)
         self.assertFalse(p.id==1235)
@@ -47,12 +50,12 @@ class BasicTests(TestCase):
         self.assertTrue(p.timestamp == datetime(year=2024, month = 1, day = 1))
         self.assertFalse(p.timestamp == datetime(year=2023, month = 3, day = 3))
 
-        self.assertTrue(p.user_id == 1235)
-        self.assertFalse(p.user_id == 1237)
+        self.assertTrue(p.user_id == 1234)
+        self.assertFalse(p.user_id == 1235)
 
         self.assertTrue(p.author == u)
-        a = User(username='Adan', email='adan@example.com')
-        self.assertFalse(p.author == "notauthor")
+        print(p.author)
+        self.assertFalse(p.author == a)
         pass
 
     def dummy1(self):
