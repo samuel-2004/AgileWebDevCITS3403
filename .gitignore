@@ -5,3 +5,4 @@ env/
 *.pyc
 /app/static/data/photos
 
+instance/memory
