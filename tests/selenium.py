@@ -41,6 +41,18 @@ class SeleniumTests(TestCase):
     def test_go_to_login_page(self):
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/login")
+        loginElement = self.driver.find_element(By.ID, "username")
+        loginElement.send_keys("jimmy")
+        
+        loginElement = self.driver.find_element(By.ID, "password")
+        loginElement.send_keys("123456")
+        
+        submitElement = self.driver.find_element(By.ID, "submit")
+        submitElement.click()
+        
+        messages = self.driver.find_elements(By.CLASS_NAME, "message")
+        self.assertEqual(len(messages), 1, "Expected there to be a single error message when trying to login as a non-existent student")
+        self.assertEqual(messages[0].text, "Invalid username or password")
 
 """     def test_login_page(self):
         loginElement = self.driver.find_element(By.ID, "username")
