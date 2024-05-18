@@ -36,26 +36,26 @@ class BasicTests(TestCase):
         db.session.add(a)
         p = Post(id=1234, post_type="OFFER", item_name="test1", desc = "test description 1", timestamp = datetime(year=2024, month = 1, day = 1), user_id = u.id, author = u)
         db.session.add(p)
-        self.assertTrue(p.id==1234)
-        self.assertFalse(p.id==1235)
+        self.assertTrue(p.id, 1234)
+        self.assertNotEqual(p.id, 1235)
 
-        self.assertTrue(p.post_type=="OFFER")
-        self.assertFalse(p.post_type=="REQUEST")
+        self.assertEqual(p.post_type, "OFFER")
+        self.assertNotEqual(p.post_type, "REQUEST")
 
-        self.assertTrue(p.item_name=="test1")
-        self.assertFalse(p.item_name=="test2")
+        self.assertEqual(p.item_name, "test1")
+        self.assertNotEqual(p.item_name, "test2")
 
-        self.assertTrue(p.desc == "test description 1")
-        self.assertFalse(p.desc == "not test description")
+        self.assertEqual(p.desc, "test description 1")
+        self.assertNotEqual(p.desc, "not test description")
 
-        self.assertTrue(p.timestamp == datetime(year=2024, month = 1, day = 1))
-        self.assertFalse(p.timestamp == datetime(year=2023, month = 3, day = 3))
+        self.assertEqual(p.timestamp, datetime(year=2024, month = 1, day = 1))
+        self.assertNotEqual(p.timestamp, datetime(year=2023, month = 3, day = 3))
 
-        self.assertTrue(p.user_id == 1234)
-        self.assertFalse(p.user_id == 1235)
+        self.assertEqual(p.user_id, 1234)
+        self.assertNotEqual(p.user_id, 1235)
 
-        self.assertTrue(p.author == u)
-        self.assertFalse(p.author == a)
+        self.assertEqual(p.author, u)
+        self.assertNotEqual(p.author, a)
 
     def test_user(self):
         u = User(id = 1234, username = "testU", email = "testU@test.com", time_created = datetime(year=2024, month = 1, day = 1), bio = "testU bio", points = 0, given = 0, requested = 0)
@@ -63,28 +63,28 @@ class BasicTests(TestCase):
         db.session.add(u)
         
         self.assertEqual(u.id, 1234)
-        self.assertFalse(u.id == a.id)
+        self.assertNotEqual(u.id, a.id)
 
         self.assertEqual(u.username, "testU")
-        self.assertFalse(u.username == a.username)
+        self.assertNotEqual(u.username, a.username)
 
         self.assertEqual(u.email, "testU@test.com")
-        self.assertFalse(u.email == a.email)
+        self.assertNotEqual(u.email, a.email)
 
         self.assertEqual(u.time_created, datetime(year=2024, month = 1, day = 1))
-        self.assertFalse(u.time_created == a.time_created)
+        self.assertNotEqual(u.time_created, a.time_created)
 
         self.assertEqual(u.bio, "testU bio")
-        self.assertFalse(u.bio == a.bio)
+        self.assertNotEqual(u.bio, a.bio)
 
         self.assertEqual(u.points, 0)
-        self.assertFalse(u.points == a.points)
+        self.assertNotEqual(u.points, a.points)
 
         self.assertEqual(u.given, 0)
-        self.assertFalse(u.given == a.given)
+        self.assertNotEqual(u.given, a.given)
 
         self.assertEqual(u.requested, 0)
-        self.assertFalse(u.requested == a.requested)
+        self.assertNotEqual(u.requested, a.requested)
 
     def test_get_posts(self):
         """
