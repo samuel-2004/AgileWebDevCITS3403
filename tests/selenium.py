@@ -49,9 +49,10 @@ class SeleniumTests(TestCase):
         user.set_password('123456')
         db.session.add(user)
 
-    def test_go_to_login_page(self):
+    def test_incorrect_login_page(self):
+
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
-        self.assertEqual(self.driver.current_url,"http://localhost:5000/login")
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/login", "Should be on login page")
         loginElement = self.driver.find_element(By.ID, "username")
         loginElement.send_keys("jimmy")
         
@@ -62,8 +63,17 @@ class SeleniumTests(TestCase):
         submitElement.click()
         
         messages = self.driver.find_elements(By.CLASS_NAME, "message")
-        self.assertEqual(len(messages), 1, "Expected there to be a single error message when trying to login as a non-existent student")
+        self.assertEqual(len(messages), 1, "Expected there to be a single error message when trying to login as a non-existent user")
         self.assertEqual(messages[0].text, "Invalid username or password")
+    
+    def test_logged_out_redirects(self):
+        pages = ["upload", "user"]
+        for page in pages:
+            self.driver.get(f"http://localhost:5000/{page}")
+            messages = self.driver.find_elements(By.CLASS_NAME, "message")
+            self.assertEqual(len(messages), 1, f"Expected there to be a single error message when redirected from {page}")
+            self.assertEqual(messages[0].text, "Please log in to access this page.")
+            self.assertEqual(self.driver.current_url,f"http://localhost:5000/login?next=%2F{page}", "Should've been redirected to login")
 
 """     def test_login_page(self):
         loginElement = self.driver.find_element(By.ID, "username")
