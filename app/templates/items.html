@@ -66,14 +66,15 @@
     {% endif %}
 
 <!-- Replies Box below image -->
-<div class="replies-box" id="repliesBox" style="display: none;">
+<div class="replies-box" id="repliesBox">
     <h2>Replies</h2>
     <div class="reply">
         <!-- Display replies -->
         {% for reply in replies %}
             <div class="reply-item">
                 <hr>
-                <p><strong>User: {{ reply.author.username }} commented:</strong></p>
+                <p><strong>User: {{ reply.author.username }}</strong></p>
+                <p><strong>Commented:</strong></p>
                 <p>{{ reply.text }}</p>
                 <p><strong>At:</strong> {{ reply.timestamp }}</p>
                 <hr>
