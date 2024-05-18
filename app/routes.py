@@ -208,6 +208,9 @@ def user():
 
 @main.route('/delete_post/<int:post_id>')
 def delete_post(post_id):
+    """
+    Deletes the post via the id if the user is the author
+    """
     post = db.session.get(Post,post_id)
     if post.author == current_user:
         current_user.points -= 1
