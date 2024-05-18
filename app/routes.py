@@ -26,21 +26,6 @@ def index():
     posts = get_posts()
     return render_template('index.html', page="index", posts=posts, calcTimeAgo=calc_time_ago)
 
-@main.route('/advancedsearch')
-def advanced_search():
-    """
-    A search page
-    """
-    form = SearchForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        title = request.form["q"]
-        max_distance = request.form["md"]
-        orderby = request.form["order"]
-        print({'title': title, 'max_distance': max_distance, 'orderby': orderby})
-        return redirect(url_for('main.search', q=title, md=max_distance, order=orderby))
-    else:
-        return render_template('advancedsearch.html', form=form)
-
 @main.route('/search')
 def search():
     """
@@ -55,7 +40,6 @@ def search():
 
     posts = get_posts(query, max_distance, orderby, lat, lng)
     return render_template('search.html', page="search", posts=posts, form=SearchForm(), calcTimeAgo=calc_time_ago)
-
 
 @main.route('/about')
 def about():
