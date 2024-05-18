@@ -124,7 +124,7 @@ class SeleniumTests(TestCase):
         self.assertEqual(messages[0].text, "Congratulations! Welcome to NewHome!")
         self.assertEqual(self.driver.current_url,f"http://localhost:5000/login", "Should've been redirected to login")
         
-    def test_user_already_exists(self):
+    def test_unsuccessful_signup(self):
         self.driver.get("http://localhost:5000/signup")
         signupElement = self.driver.find_element(By.ID, "username")
         signupElement.send_keys("matt")
@@ -133,7 +133,7 @@ class SeleniumTests(TestCase):
         signupElement = self.driver.find_element(By.ID, "password")
         signupElement.send_keys("password")
         signupElement = self.driver.find_element(By.ID, "confirmed_password")
-        signupElement.send_keys("password")
+        signupElement.send_keys("pasword")
         signupElement = self.driver.find_element(By.ID, "address_line1")
         signupElement.send_keys("35 Stirling Highway")
         signupElement = self.driver.find_element(By.ID, "suburb")
@@ -149,6 +149,7 @@ class SeleniumTests(TestCase):
         errors = self.driver.find_elements('xpath','.//span')
         self.assertEqual(errors[1].text,"[Please use a different username]")
         self.assertEqual(errors[2].text,"[Please use a different email address]")
+        self.assertEqual(errors[3].text,"[Passwords must match]")
         
 
 """     def test_login_page(self):
