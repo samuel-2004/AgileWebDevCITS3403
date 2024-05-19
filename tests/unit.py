@@ -14,6 +14,8 @@ class BasicTests(TestCase):
         testApp = create_app(TestConfig)
         self.app_context = testApp.app_context()
         self.app_context.push()
+        db.session.remove()
+        db.drop_all()
         db.create_all()
 
     def tearDown(self):
@@ -105,7 +107,7 @@ class BasicTests(TestCase):
         
         ### Testing basic functionality
         # No posts added, should be 0
-        self.assertEqual(0, len(list(get_posts())))
+        self.assertEqual(0, len(list(get_posts()[1])))
 
         posts = [
             Post(post_type="OFFER", item_name="Test Item", \
@@ -122,28 +124,28 @@ class BasicTests(TestCase):
             db.session.add(p)
         
         # Three posts added, should be 3
-        self.assertEqual(3, len(list(get_posts())))
+        self.assertEqual(3, len(list(get_posts()[1])))
         
         #get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
         
         ### Testing limit
         # Three posts added, limit set to 1, should be 1
-        self.assertEqual(1, len(list(get_posts(lim=1))))
+        self.assertEqual(1, len(list(get_posts(lim=1)[1])))
 
         ### Testing distance parameters
         # Three posts added, should be 3
-        self.assertEqual(3, len(list(get_posts(lat=10,lng=1))))
+        self.assertEqual(3, len(list(get_posts(lat=10,lng=1)[1])))
 
         # Three posts added, add max distance
-        self.assertEqual(0, len(list(get_posts(md=10,lat=10,lng=1))))
+        self.assertEqual(0, len(list(get_posts(md=10,lat=10,lng=1)[1])))
 
         ### Testing the sort function
         # Oldest
-        f = list(get_posts(order="old"))[0]
+        f = list(get_posts(order="old")[1])[0]
         self.assertEqual(f.desc, 'oldest', f)
 
         # Newest
-        f = list(get_posts(order="new"))[0]
+        f = list(get_posts(order="new")[1])[0]
         self.assertEqual(f.desc, 'newest', f)
 
         del warnings
