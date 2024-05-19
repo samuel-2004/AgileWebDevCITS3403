@@ -7,7 +7,7 @@ function validateImage() {
     if (!allowedTypes.includes(file.type)) {
         alert('Invalid file type. Please upload a JPEG, PNG, or SVG file.');
         input.value = '';
-     }
+    }
 }
 
 function validateName() {
@@ -15,7 +15,7 @@ function validateName() {
     if (input.value.length > 32) {
         alert('Max item name length is 32 characters');
         input.value = '';
-     }
+    }
 }
 
 function validateDesc() {
@@ -23,7 +23,7 @@ function validateDesc() {
     if (input.value.length > 256) {
         alert('Max description length is 256 characters');
         input.value = '';
-     }
+    }
 }
 
 window.onload = () => {
