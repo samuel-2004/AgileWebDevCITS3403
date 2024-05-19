@@ -57,7 +57,7 @@ class SeleniumTests(TestCase):
         db.session.add(user)
         db.session.commit()
 
-    """ def test_incorrect_login_page(self):
+    def test_incorrect_login_page(self):
 
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/login", "Should be on login page")
@@ -150,7 +150,7 @@ class SeleniumTests(TestCase):
         errors = self.driver.find_elements('xpath','.//span')
         self.assertEqual(errors[1].text,"[Please use a different username]")
         self.assertEqual(errors[2].text,"[Please use a different email address]")
-        self.assertEqual(errors[3].text,"[Passwords must match]") """
+        self.assertEqual(errors[3].text,"[Passwords must match]")
     
     def test_make_and_delete_post(self):
         self.driver.get("http://localhost:5000/login")
