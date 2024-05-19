@@ -105,6 +105,7 @@ class SeleniumTests(TestCase):
         self.driver.get("http://localhost:5000/login")
         self.driver.find_element(By.LINK_TEXT, 'here').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/signup", "Should be on signup page")
+        
         signupElement = self.driver.find_element(By.ID, "username")
         signupElement.send_keys("johnsmith")
         signupElement = self.driver.find_element(By.ID, "email")
@@ -123,9 +124,12 @@ class SeleniumTests(TestCase):
         signupElement.select_by_value("WA")
         signupElement = self.driver.find_element(By.ID, "city")
         signupElement.send_keys("Perth")
+        
         submitElement = self.driver.find_element(By.ID, "submit")
         submitElement.click()
+        
         self.driver.implicitly_wait(5) # To allow for signup
+        
         messages = self.driver.find_elements(By.CLASS_NAME, "message")
         self.assertEqual(len(messages), 1, f"Expected there to be a single confirmation message")
         self.assertEqual(messages[0].text, "Congratulations! Welcome to NewHome!")
@@ -154,8 +158,10 @@ class SeleniumTests(TestCase):
         signupElement.select_by_value("WA")
         signupElement = self.driver.find_element(By.ID, "city")
         signupElement.send_keys("Perth")
+        
         submitElement = self.driver.find_element(By.ID, "submit")
         submitElement.click()
+        
         errors = self.driver.find_elements('xpath','.//span')
         self.assertEqual(errors[1].text,"[Please use a different username]")
         self.assertEqual(errors[2].text,"[Please use a different email address]")
