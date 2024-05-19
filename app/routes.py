@@ -23,10 +23,7 @@ def index():
     """
     The home page for the website
     """
-    print('hwlloe world')
     nonzeroposts, posts = get_posts()
-    print('dsfkjsadf world')
-    print('nzp',nonzeroposts)
 
     return render_template('index.html', page="index", nonzeroposts=nonzeroposts, posts=posts, calcTimeAgo=calc_time_ago)
 
