@@ -87,7 +87,7 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
             desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
             query = query.filter(sa.or_(*name_conditions, * desc_conditions))
     
-    if int(md) < 100 and md is not None and lat is not None and lng is not None:
+    if  md is not None and int(md) < 100 and lat is not None and lng is not None:
         # convert inputs to floats
         md, lng, lat = map(float, [md, lng, lat])
         query = query.filter(sa.func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
