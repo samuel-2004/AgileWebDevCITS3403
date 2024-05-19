@@ -53,7 +53,9 @@ class SeleniumTests(TestCase):
         db.session.commit()
 
     def test_incorrect_login(self):
-
+        """
+        This function tests logging in when user doesn't exist
+        """
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/login", "Should be on login page")
         loginElement = self.driver.find_element(By.ID, "username")
@@ -70,6 +72,9 @@ class SeleniumTests(TestCase):
         self.assertEqual(messages[0].text, "Invalid username or password")
     
     def test_logged_out_redirects(self):
+        """
+        This function tests redirects when logged out
+        """
         pages = ["upload", "user"]
         for page in pages:
             self.driver.get(f"http://localhost:5000/{page}")
@@ -79,6 +84,9 @@ class SeleniumTests(TestCase):
             self.assertEqual(self.driver.current_url,f"http://localhost:5000/login?next=%2F{page}", "Should've been redirected to login")
 
     def test_successful_login(self):
+        """
+        This function tests a successful login for an existing user
+        """
         self.driver.get("http://localhost:5000/login")
         
         loginElement = self.driver.find_element(By.ID, "username")
@@ -91,6 +99,9 @@ class SeleniumTests(TestCase):
         self.assertEqual(self.driver.current_url,"http://localhost:5000/index")
         
     def test_successful_signup(self):
+        """
+        This function tests a successful signup
+        """
         self.driver.get("http://localhost:5000/login")
         self.driver.find_element(By.LINK_TEXT, 'here').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/signup", "Should be on signup page")
@@ -121,6 +132,9 @@ class SeleniumTests(TestCase):
         self.assertEqual(self.driver.current_url,f"http://localhost:5000/login", "Should've been redirected to login")
         
     def test_unsuccessful_signup(self):
+        """
+        This function tests an unsuccessful signup, with various errors
+        """
         self.driver.get("http://localhost:5000/signup")
         signupElement = self.driver.find_element(By.ID, "username")
         signupElement.send_keys("matt")
@@ -148,6 +162,9 @@ class SeleniumTests(TestCase):
         self.assertEqual(errors[3].text,"[Passwords must match]")
     
     def test_make_and_delete_post(self):
+        """
+        This function tests making and then deleting a post
+        """
         self.driver.get("http://localhost:5000/login")
         
         loginElement = self.driver.find_element(By.ID, "username")
