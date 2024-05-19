@@ -186,6 +186,14 @@ class SeleniumTests(TestCase):
         
         self.assertEqual(self.driver.current_url,"http://localhost:5000/post/1", "Should be on the post page")
         
+        
+        postElement = self.driver.find_element(By.ID, "delete")
+        postElement.click()
+        
+        Alert(self.driver).dismiss()
+        
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/post/1", "Should still be on the post page")
+        
         postElement = self.driver.find_element(By.ID, "delete")
         postElement.click()
         
@@ -196,6 +204,11 @@ class SeleniumTests(TestCase):
         self.assertEqual(messages[0].text, "Post I'd like a pen please! deleted")
         self.assertEqual(self.driver.current_url,f"http://localhost:5000/index", "Should've been redirected to index")
         
+        self.driver.get("http://localhost:5000/post/1")
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/post/1", "Should be on the post page")
+        
+        headings = self.driver.find_elements('xpath','.//h3')
+        self.assertEqual(headings[0].text,"Error in loading item")
 
 
 """     def test_login_page(self):

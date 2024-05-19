@@ -32,9 +32,10 @@
         </div>
     {% else %}
     <h3>Error in loading item</h3>
-    <p>No item information available for item ID: {{ itemID }}</p>
+    <p>No item information available for item ID {{ itemID }}</p>
     {% endif %}
 
+{% if post %}
 <!-- Replies Box below image -->
 <div class="replies-box" id="repliesBox">
     <h2>Replies</h2>
@@ -54,7 +55,7 @@
 </div>
 
 <!-- Reply Form -->
-{% if current_user.is_authenticated %}
+{% if current_user.is_authenticated%}
 <div class="reply-form">
     <form method="POST" action="{{ url_for('main.post', post_id=post.id) }}">
         {{ form.hidden_tag() }}
@@ -71,5 +72,6 @@
 <div class="alert alert-warning" role="alert">
     You must be logged in to reply to this post.
 </div>
+{% endif %}
 {% endif %}
 {% endblock %}
