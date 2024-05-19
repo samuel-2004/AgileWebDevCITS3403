@@ -1,19 +1,14 @@
 import multiprocessing
 import time
-#import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.alert import Alert
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-from selenium.webdriver.common.keys import Keys
 from unittest import TestCase
 
 from app import create_app, db
 from app.config import TestConfig
-#from app.controllers import GroupCreationError, create_group
-from app.models import User, Address, Post
+from app.models import User, Address
 
 localHost = "http://localhost:5000"
 class SeleniumTests(TestCase):
@@ -57,7 +52,7 @@ class SeleniumTests(TestCase):
         db.session.add(user)
         db.session.commit()
 
-    def test_incorrect_login_page(self):
+    def test_incorrect_login(self):
 
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/login", "Should be on login page")
@@ -119,7 +114,7 @@ class SeleniumTests(TestCase):
         signupElement.send_keys("Perth")
         submitElement = self.driver.find_element(By.ID, "submit")
         submitElement.click()
-        self.driver.implicitly_wait(2) # To allow for signup
+        self.driver.implicitly_wait(5) # To allow for signup
         messages = self.driver.find_elements(By.CLASS_NAME, "message")
         self.assertEqual(len(messages), 1, f"Expected there to be a single confirmation message")
         self.assertEqual(messages[0].text, "Congratulations! Welcome to NewHome!")
@@ -209,45 +204,3 @@ class SeleniumTests(TestCase):
         
         headings = self.driver.find_elements('xpath','.//h3')
         self.assertEqual(headings[0].text,"Error in loading item")
-
-
-"""     def test_login_page(self):
-        loginElement = self.driver.find_element(By.ID, "username")
-        loginElement.send_keys("jimmy")
-
-        loginElement = self.driver.find_element(By.ID, "password")
-        loginElement.send_keys("123456")
-
-        submitElement = self.driver.find_element(By.ID, "submit")
-        submitElement.click()
-
-        errorMessage = self.driver.find_element(By.TAG_NAME, "message")
-        self.assertEqual(self.driver.current_url, localHost = "login_page")
-        self.assertEqual(errorMessage[0:].text, f"Write yours here")
-
-
-    def test_signup_page(self):
-        loginElement = self.driver.find_element(By.ID, "username")
-        loginElement.send_keys("Add username")
-
-        loginElement = self.driver.find_element(By.ID, "password")
-        loginElement.send_keys("Add password")
-
-        # continue with other parameters
-
-    def test_upload_page(self):
-        # continue with other parameters
-        pass
-
-    def test_search_page(self):
-        # continue with other parameters
-        pass
-
-    def test_about_page(self):
-        # continue with other parameters
-        pass
-
-    def test_displayitems_page(self):
-        # continue with other parameters
-        pass
-     """
