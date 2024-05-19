@@ -18,7 +18,7 @@
             <div class="description-border"></div>
                 <h2>{{ post.post_type }}: {{ post.item_name }}</h2>
                 <p><strong>Description:</strong> {{ post.desc }}</p>
-                <p><strong>Posted By:</strong> <a href="/user?username={{ post.author.username }}" >{{ post.author.username }}</a></p>
+                <p><strong>Posted By:</strong> <a href="{{ url_for('main.user', username=post.author.username) }}" >{{ post.author.username }}</a></p>
                 <p><strong>Location:</strong> {{post.author.address.suburb}} </p>
                 {% if post.author == current_user %}
                 <!--Delete button adapted from https://stackoverflow.com/a/10462878-->
@@ -42,7 +42,7 @@
         {% for reply in replies %}
             <div class="reply-item">
                 <hr>
-                <p><strong>User: <a href="/user?username={{ reply.author.username }}" >{{ reply.author.username }}</a></strong></p>
+                <p><strong>User: <a href="{{ url_for('main.user', username=reply.author.username) }}" >{{ reply.author.username }}</a></strong></p>
                 <p><strong>Commented:</strong></p>
                 <p>{{ reply.text }}</p>
                 <p><strong>Time:</strong> {{ calcTimeAgo(reply.timestamp) }}</p>
