@@ -17,9 +17,10 @@
         <div class="item-information" id="item-info">
             <div class="description-border"></div>
                 <h2>Item Information</h2>
-                <p><strong>Name:</strong> {{ post.item_name }}</p>
+                <p><strong>Name:</strong> </p>
                 <p><strong>Description:</strong> {{ post.desc }}</p>
                 <p><strong>Posted By:</strong> <a href="/user?username={{ post.author.username }}" >{{ post.author.username }}</a></p>
+                <p><strong>Location:</strong> {{post.author.address.suburb}} </p>
                 <p><strong>Item Type:</strong> {{ post.post_type }}</p>
                 {% if post.author == current_user %}
                 <!--Delete button adapted from https://stackoverflow.com/a/10462878-->
