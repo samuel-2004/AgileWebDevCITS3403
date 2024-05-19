@@ -1,7 +1,10 @@
 # NewHome
-This is a web application for a "buy nothing" page. 
-Users can submit items they wish to give away to others.
-They can also see what items others have posted to the website and make a request for them.
+- This is a web application for a "buy nothing" page. 
+- Users can sign-up and login securely, view their profile page and logout.
+- Users can submit items they wish to give away to others, or request items that they would like.
+- Authors can then delete their own posts
+- They can also see what items others have posted to the website and reply to them.
+- Posts can be searched for by content, recency and distance
 
 # Team Members
 Student Number | Student Name | GitHub Username
@@ -11,12 +14,9 @@ Student Number | Student Name | GitHub Username
 23403302 | Johnson Che | Johnny-2003
 23409801 | Joel Brooker | j-brkr
 
-# Summary
-Here will be a brief summary of the architecture of the application.
-
 # Dependencies
-Python and pip are required to install and run the server
-Running tests requires that Chrome is installed
+- Python and pip are required to install and run the server
+- Running selenium tests requires that Chrome is installed, and it is run in WSL
 
 # How to launch
 To launch the application, perform the following steps:
@@ -29,7 +29,6 @@ To launch the application, perform the following steps:
 7. Run the following command `flask run`
 
 # Testing Instructions
-Here will be instructions for how to run the tests for the application.
 
 For Unit Tests:
 Run: `python -m unittest tests/unit.py`
