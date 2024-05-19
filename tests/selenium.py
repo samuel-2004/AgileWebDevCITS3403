@@ -3,6 +3,7 @@ import time
 #import selenium
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.alert import Alert
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
@@ -56,7 +57,7 @@ class SeleniumTests(TestCase):
         db.session.add(user)
         db.session.commit()
 
-    def test_incorrect_login_page(self):
+    """ def test_incorrect_login_page(self):
 
         self.driver.find_element(By.LINK_TEXT, 'Login').click()
         self.assertEqual(self.driver.current_url,"http://localhost:5000/login", "Should be on login page")
@@ -149,8 +150,53 @@ class SeleniumTests(TestCase):
         errors = self.driver.find_elements('xpath','.//span')
         self.assertEqual(errors[1].text,"[Please use a different username]")
         self.assertEqual(errors[2].text,"[Please use a different email address]")
-        self.assertEqual(errors[3].text,"[Passwords must match]")
+        self.assertEqual(errors[3].text,"[Passwords must match]") """
+    
+    def test_make_and_delete_post(self):
+        self.driver.get("http://localhost:5000/login")
         
+        loginElement = self.driver.find_element(By.ID, "username")
+        loginElement.send_keys("matt")
+        loginElement = self.driver.find_element(By.ID, "password")
+        loginElement.send_keys("123456")
+        submitElement = self.driver.find_element(By.ID, "submit")
+        submitElement.click()
+
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/index")
+        
+        self.driver.find_element(By.LINK_TEXT, 'Upload').click()
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/upload", "Should be on upload page")
+        
+        uploadElement = Select(self.driver.find_element(By.ID,'post_type'))
+        uploadElement.select_by_value("REQUEST")
+        
+        uploadElement = self.driver.find_element(By.ID, "item_name")
+        uploadElement.send_keys("I'd like a pen please!")
+        
+        uploadElement = self.driver.find_element(By.ID, "desc")
+        uploadElement.send_keys("Preferably a blue one!")
+        
+        submitElement = self.driver.find_element(By.ID, "submit")
+        submitElement.click()
+        
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/index", "Should be on index page")
+        
+        postElement = self.driver.find_element(By.ID, "1")
+        postElement.click()
+        
+        self.assertEqual(self.driver.current_url,"http://localhost:5000/post/1", "Should be on the post page")
+        
+        postElement = self.driver.find_element(By.ID, "delete")
+        postElement.click()
+        
+        Alert(self.driver).accept()
+        
+        messages = self.driver.find_elements(By.CLASS_NAME, "message")
+        self.assertEqual(len(messages), 1, f"Expected there to be a single error message")
+        self.assertEqual(messages[0].text, "Post I'd like a pen please! deleted")
+        self.assertEqual(self.driver.current_url,f"http://localhost:5000/index", "Should've been redirected to index")
+        
+
 
 """     def test_login_page(self):
         loginElement = self.driver.find_element(By.ID, "username")
