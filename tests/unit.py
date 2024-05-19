@@ -14,6 +14,8 @@ class BasicTests(TestCase):
         testApp = create_app(TestConfig)
         self.app_context = testApp.app_context()
         self.app_context.push()
+        db.session.remove()
+        db.drop_all()
         db.create_all()
 
     def tearDown(self):
@@ -22,6 +24,9 @@ class BasicTests(TestCase):
         self.app_context.pop()
 
     def test_password_hashing(self):
+        """
+        This function tests password hashing
+        """
         u = User(username='susan', email='susan@example.com')
         db.session.add(u)
         u.set_password('cat')
@@ -30,6 +35,9 @@ class BasicTests(TestCase):
         self.assertTrue(True)
     
     def test_post(self):
+        """
+        This function tests the adding of posts
+        """
         u = User(id = 1234, username='susan', email='susan@example.com')
         a = User(id = 1235, username='Adan', email='adan@example.com')
         db.session.add(u)
@@ -58,6 +66,9 @@ class BasicTests(TestCase):
         self.assertNotEqual(p.author, a)
 
     def test_user(self):
+        """
+        This function tests the adding of users
+        """
         u = User(id = 1234, username = "testU", email = "testU@test.com", time_created = datetime(year=2024, month = 1, day = 1), bio = "testU bio", points = 0, given = 0, requested = 0)
         a = User(id = 1235, username = "testA", email = "testA@test.com", time_created = datetime(year=2023, month = 3, day = 3), bio = "testA bio", points = 3, given = 3, requested = 3)
         db.session.add(u)
@@ -105,7 +116,7 @@ class BasicTests(TestCase):
         
         ### Testing basic functionality
         # No posts added, should be 0
-        self.assertEqual(0, len(list(get_posts())))
+        self.assertEqual(0, len(list(get_posts()[1])))
 
         posts = [
             Post(post_type="OFFER", item_name="Test Item", \
@@ -122,28 +133,26 @@ class BasicTests(TestCase):
             db.session.add(p)
         
         # Three posts added, should be 3
-        self.assertEqual(3, len(list(get_posts())))
-        
-        #get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
+        self.assertEqual(3, len(list(get_posts()[1])))
         
         ### Testing limit
         # Three posts added, limit set to 1, should be 1
-        self.assertEqual(1, len(list(get_posts(lim=1))))
+        self.assertEqual(1, len(list(get_posts(lim=1)[1])))
 
         ### Testing distance parameters
         # Three posts added, should be 3
-        self.assertEqual(3, len(list(get_posts(lat=10,lng=1))))
+        self.assertEqual(3, len(list(get_posts(lat=10,lng=1)[1])))
 
         # Three posts added, add max distance
-        self.assertEqual(0, len(list(get_posts(md=10,lat=10,lng=1))))
+        self.assertEqual(0, len(list(get_posts(md=10,lat=10,lng=1)[1])))
 
         ### Testing the sort function
         # Oldest
-        f = list(get_posts(order="old"))[0]
+        f = list(get_posts(order="old")[1])[0]
         self.assertEqual(f.desc, 'oldest', f)
 
         # Newest
-        f = list(get_posts(order="new"))[0]
+        f = list(get_posts(order="new")[1])[0]
         self.assertEqual(f.desc, 'newest', f)
 
         del warnings
