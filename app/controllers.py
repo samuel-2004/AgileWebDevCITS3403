@@ -87,7 +87,7 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
             desc_conditions = [Post.desc.like('%{}%'.format(word)) for word in q]
             query = query.filter(sa.or_(*name_conditions, * desc_conditions))
     
-    if md is not None and lat is not None and lng is not None:
+    if int(md) < 100 and md is not None and lat is not None and lng is not None:
         # convert inputs to floats
         md, lng, lat = map(float, [md, lng, lat])
         query = query.filter(sa.func.is_within_max_distance(md,lat,lng,Address.latitude,Address.longitude))
@@ -100,7 +100,7 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
         query = query.order_by(User.points)
     elif md is not None and lat is not None and lng is not None:
         if order == "close":
-            query = query.order_by(sa.func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
+            query = query.order_by(sa.func.haversine_distance(float(lat),float(lng),Address.latitude,Address.longitude))
     query = query.limit(lim)
     posts = db.session.scalars(query)
     post = db.session.scalar(query)

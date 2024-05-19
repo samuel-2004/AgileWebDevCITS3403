@@ -82,8 +82,8 @@
         {% for error in form.city.errors %}
             <span style="color: red;">[{{ error }}]</span>
         {% endfor %}
-        {{ form.lat(id="latitude") }}
-        {{ form.lng(id="longitude") }}
+        {{ form.lat(id="latitude", value="0") }}
+        {{ form.lng(id="longitude", value="0") }}
         {{ form.submit() }}
     </form>
 </div>
