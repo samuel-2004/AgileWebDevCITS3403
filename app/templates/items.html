@@ -16,12 +16,10 @@
         <!-- Display item information -->
         <div class="item-information" id="item-info">
             <div class="description-border"></div>
-                <h2>Item Information</h2>
-                <p><strong>Name:</strong> </p>
+                <h2>{{ post.post_type }}: {{ post.item_name }}</h2>
                 <p><strong>Description:</strong> {{ post.desc }}</p>
                 <p><strong>Posted By:</strong> <a href="/user?username={{ post.author.username }}" >{{ post.author.username }}</a></p>
                 <p><strong>Location:</strong> {{post.author.address.suburb}} </p>
-                <p><strong>Item Type:</strong> {{ post.post_type }}</p>
                 {% if post.author == current_user %}
                 <!--Delete button adapted from https://stackoverflow.com/a/10462878-->
                 <a href="{{ url_for('main.delete_post', post_id=post.id) }}"><i id = "delete" class="bi bi-trash" onclick="return confirm('Do you want to delete this post?')"></i></a>
