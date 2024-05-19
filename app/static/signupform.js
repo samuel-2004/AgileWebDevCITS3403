@@ -40,7 +40,7 @@ function validateAddress_line1() {
         alert('Max address length is 64 characters');
         input.value = '';
     }
-    if (input.value.length < 6) {
+    if (input.value.length < 2) {
         alert('Min address length is 2 characters');
         input.value = '';
     }
