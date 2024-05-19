@@ -100,7 +100,7 @@ def get_posts(q="", md=None, order="new", lat=None, lng=None, lim=100):
         query = query.order_by(User.points)
     elif md is not None and lat is not None and lng is not None:
         if order == "close":
-            query = query.order_by(sa.func.haversine_distance(lat,lng,Address.latitude,Address.longitude))
+            query = query.order_by(sa.func.haversine_distance(float(lat),float(lng),Address.latitude,Address.longitude))
     query = query.limit(lim)
     posts = db.session.scalars(query)
     post = db.session.scalar(query)
