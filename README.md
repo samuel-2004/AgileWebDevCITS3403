@@ -16,7 +16,7 @@ Student Number | Student Name | GitHub Username
 
 # Dependencies
 - Python and pip are required to install and run the server
-- Running tests requires that Chrome is installed
+- Running selenium tests requires that Chrome is installed, and it is run in WSL
 
 # How to launch
 To launch the application, perform the following steps:
